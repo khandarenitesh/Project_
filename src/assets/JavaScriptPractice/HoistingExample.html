@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>var function level block</title>
+</head>
+<body>
+<script>
+  // SomeVarBloackFun = () =>{
+  //   //defined locally
+  //   //its scope ends where the fun
+  //   if(true){
+  //   var localVar =1000;
+  //   console.log('local var',localVar);
+  //   }
+  //   console.log(localVar);
+
+  //   NestedFun =()=>{
+  //     console.log(localVar);
+  //   }
+  //   NestedFun();
+  // }
+  // SomeVarBloackFun();
+  // console.log(localVar);
+
+  SomeLetExample =() =>{
+    if(true){
+      //defined locally
+      //its scope ends where curly braces ends
+      let localVar = 10;
+      console.log(localVar);
+    }
+    console.log('outside block1 - ',localVar);
+
+    SomeLetChildExample=()=>{
+      console.log('inside nested fun - ',localVar);
+    }
+    SomeLetChildExample();
+  }
+  SomeLetExample();
+  console.log('outside the fun ',localVar);
+
+</script>
+</body>
+</html>

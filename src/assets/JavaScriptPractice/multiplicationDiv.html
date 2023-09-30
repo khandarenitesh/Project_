@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Javascript program to calculate multiplication and division of two number  </title>
+    <style type="text/css">
+        body{
+            margin: 30px !important;
+            cursor: pointer !important;
+            text-align: center !important;
+        }
+        input{
+            margin-right: 20px !important;
+            padding: 5px !important;
+            margin: 20px;
+        }
+    </style>
+    </head>
+    <body>
+        <form>
+          <input type="text" id="FirstName"/>
+          <input type="text" id="SecondName" >
+          <button type="button" onClick="Mutiple()">Mutiply</button>
+          <button type="button" onClick="Divide()"> Divide</button>
+
+        </form>
+        <p>The Result is : <br>
+          <span id = "result"></span>
+          </p>
+        <script>
+          function Mutiple() {
+            var n1 = document.getElementById("FirstName").value;
+            var n2 = document.getElementById("SecondName").value;
+            document.getElementById("result").innerHTML = n1 * n2;
+
+          }
+
+          function Divide() {
+            var n1 = document.getElementById("FirstName").value;
+            var n2 = document.getElementById("SecondName").value;
+            document.getElementById("result").innerHTML =n1	/n2;
+          }
+
+
+        </script>
+
+
+    </body>
+
+</html>

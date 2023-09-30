@@ -1,0 +1,148 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ Title }} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="stockTransferForm" (ngSubmit)="SaveStockTransfer()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> Stock Transfer Invoice No. <span class="text-danger"> * </span> </mat-label>
+                        <input matInput type="text" placeholder="Stock Transfer Invoice No." name="stockTransferInvNo"
+                               maxlength="15" formControlName="stockTransferInvNo" (focusout)="onStockTransferInvNo()"
+                               (keypress)="numberValidation($event)" />
+                        <mat-error *ngIf="submitted && f.stockTransferInvNo.errors" class="invalid-feedback">
+                            <mat-error *ngIf="f.stockTransferInvNo.errors.required"> Stock Transfer Invoice No. is
+                                required </mat-error>
+                        </mat-error>
+                        <mat-error
+                            *ngIf="submitted === false && f.stockTransferInvNo.touched && f.stockTransferInvNo.invalid"
+                            class="invalid-feedback">
+                            Stock Transfer Invoice No. is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Invoice Date </mat-label>
+                        <input matInput [matDatepicker]="picker" name="InvDate" formControlName="InvDate"
+                            [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.InvDate.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.InvDate.errors.required"> Invoice Date is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.InvDate.touched && f.InvDate.invalid"
+                        class="invalid-feedback">
+                        Invoice Date is required
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Send To <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="SendTo" matInput name="SendTo" (focusout)="SendToValidation()"
+                            formControlName="SendTo" [matAutocomplete]="autoSendTo">
+                        <mat-autocomplete #autoSendTo="matAutocomplete" [displayWith]="displayFnSendTo"
+                            [panelWidth]="250">
+                            <mat-option *ngFor="let option of SendToArray | async" [value]="option">
+                                {{ option.CNFName }} ({{ option.CNFCode }})
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.SendTo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.SendTo.errors.required"> Please select Send To </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidSendTo" class="invalid-feedback">
+                        Please select valid Send To
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button color="primary" type="submit" title="{{ pageState }}"> {{ pageState }}
+                    </button> &nbsp;&nbsp;
+                    <button mat-raised-button type="button" (click)="onCancel()" title="{{ btnCancelText }}"> {{
+                        btnCancelText }} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+&nbsp;&nbsp;
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-10">
+                <h2> {{ ListTitle }} </h2>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                    <td mat-cell *matCellDef="let row;let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="InvNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stock Transfer
+                        Invoice No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.InvNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="InvCreatedDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Date </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.InvCreatedDate | date : 'dd/MM/yyyy' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CNFName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Send To </th>
+                    <td mat-cell *matCellDef="let row">
+
+                        <span *ngIf="row.CNFName !== null && row.CNFName !== undefined && row.CNFName !== '' || 
+                                     row.CNFCode !== null && row.CNFCode !== undefined && row.CNFCode !== ''">
+                            {{ row.CNFName }} ({{ row.CNFCode }})
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                    <td mat-cell *matCellDef="let row">
+                        <a (click)="EditData(row)" style="cursor: pointer;" title="Edit"><i class="fa fa-edit"></i></a>
+                        <a (click)="DeleteRecord(row)" style="cursor: pointer;" title="Change Status"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="importStockTransferDetails"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: importStockTransferDetails;"></tr>
+            </table>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                strokeWidth="5"></mat-progress-spinner>
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+        </div>
+    </div>
+</div>

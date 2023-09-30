@@ -1,0 +1,405 @@
+<!-- PickList -->
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="All Picklist" (click)="ShowPickList('All')">
+                    <h4>{{ AllPickList }}</h4>
+                </a>
+                <span>All Picklists</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Rejected By Operator" (click)="ShowPickList('RejectbyOperator')">
+                    <h4>{{ RejectbyOperator }}</h4>
+                </a>
+                <span>Rejected By Operator</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Not Alloted & Rejected By Picker"
+                    (click)="ShowPickList('PendingForAllot')">
+                    <h4>{{ PendingForAllot }}</h4>
+                </a>
+                <span>Pending For Allot</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Alloted & Realloted" (click)="ShowPickList('AllotedPicklists')">
+                    <h4>{{ AllotedPicklist }}</h4>
+                </a>
+                <span>Alloted Picklists</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Accepted" (click)="ShowPickList('AcceptedPickList')">
+                    <h4>{{ AcceptedPickList }}</h4>
+                </a>
+                <span>Accepted Picklists</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Picker Concern & Verifier Concern"
+                    (click)="ShowPickList('ConcernRaised')">
+                    <h4>{{ ConcernRaised }}</h4>
+                </a>
+                <!-- <span>Concern Raised</span> -->
+                <span>Picker Concern</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Completed" (click)="ShowPickList('CompletedPicklists')">
+                    <h4>{{ CompletedPicklists }}</h4>
+                </a>
+                <span>Completed Picklists</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Completed & Verified" (click)="ShowPickList('CompletedVerified')">
+                    <h4>{{ CompletedVerified }}</h4>
+                </a>
+                <span>Completed & Verified</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-5">
+                    <h2> List View </h2>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field class="searchField" style="margin-right: 2%;">
+                        <span class="GlobalSearch" matPrefix>
+                            <mat-icon>search</mat-icon> &nbsp;
+                        </span>
+                        <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                            placeholder="Search">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-0" *ngIf="permissions.PicklistAdd">
+                <button mat-raised-button color="primary" type="submit"
+                    (click)="AddPicklist(AddEditPopup, 'row', 'Save')"> Add </button>
+            </div>
+        </div>
+        <div class="Scroll">
+            <table class="multiTable" mat-table multiTemplateDataRows [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr.No. </th>
+                    <td mat-cell *matCellDef="let row; let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="PicklistNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Picklist No. </th>
+                    <td mat-cell *matCellDef="let row" class="alignAtStart">
+                        <mat-icon class="btn-link" style="vertical-align: middle; cursor: pointer;">
+                            {{ expandedElement !== row ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+                        </mat-icon>
+                        {{ row.PicklistNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="PicklistDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Date </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.PicklistDate | date: 'dd/MM/yyyy' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="FromInv">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> From Invoice No.
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.FromInv }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ToInv">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> To Invoice No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ToInv }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StatusText">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.StatusText }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="RejectReason">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Reject Reason </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.StatusText =='Rejected'">
+                            {{ row.RejectReason }}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="IsStockTransfer">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Is Stock Transfer
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.IsStockTransfer == 1"> Y </span>
+                        <span *ngIf="row.IsStockTransfer == 0"> N </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                    <td mat-cell *matCellDef="let row">
+                        <!-- <span *ngIf="row.PicklistStatus === 0"> -->
+                        <span *ngIf="permissions.PicklistAdd && row.PicklistStatus === 0">
+                            <a (click)="AddPicklist(AddEditPopup, row, 'Edit')" title="Edit"><i
+                                    class="fa fa-edit"></i></a>&nbsp;
+                            <a (click)="ChangeStatus(row)"><i class="fa fa-trash" title="Delete">
+                                </i></a>
+                        </span>
+                        <!-- <span *ngIf="row.PicklistStatus === 0"> -->
+                        <span *ngIf="permissions.PicklistAdd && row.PicklistStatus === 0">
+                            <a (click)="Verify(row)">
+                                Verify
+                            </a>
+                        </span>&nbsp;
+                        <!-- <span *ngIf="row.PicklistStatus === 0"> -->
+                        <span *ngIf="permissions.PicklistAdd && row.PicklistStatus === 0">
+                            <a (click)="onClickRejectModel(ModalRejectData, row)">
+                                Reject
+                            </a>
+                        </span>
+                        <!-- <span *ngIf="row.PicklistStatus === 1"> -->
+                        <span *ngIf="permissions.PicklistAllot && row.PicklistStatus === 1">
+                            <a (click)="AllotPopup(row, ModalUserData)">
+                                Allot
+                            </a>
+                        </span>
+                        <!-- <span
+                        *ngIf="row.PicklistStatus === 3 || row.PicklistStatus === 5 || row.PicklistStatus === 6 || row.PicklistStatus === 7">
+                        <a class="btn btn-info py-2 px-3" (click)="AllotPopup(row, ModalUserData, 'Reallot')"
+                            style="cursor: pointer;">
+                            Reallot
+                        </a>
+                    </span> -->
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumnsForApi.length">
+                        <div class="example-element-detail"
+                            [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
+                            <table id="{{row.Picklistid}}" class="AreaTable Pickertable">
+                                <thead class="Pthead">
+                                    <tr class="Ptr">
+                                        <th class="col-SrNo">Sr. No.</th>
+                                        <th class="col-PickerName">Picker Name</th>
+                                        <th class="col-Status">Status</th>
+                                        <th class="col-ConcernReason"> Concern Reason</th>
+                                        <th class="col-ConcernRemark"> Concern Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let picker of row.PickListByPicker; let i = index;">
+                                        <td>{{i + 1}}</td>
+                                        <td>{{picker.PickerName}}</td>
+                                        <td>{{picker.AllotmentStatusText}}</td>
+                                        <td>
+                                            <p *ngIf="picker.pickerconcernText">{{ picker.pickerconcernText }}</p>
+                                            <p *ngIf="picker.VerifiedConcernText">{{ picker.VerifiedConcernText }}</p>
+                                        </td>
+                                        <td>
+                                            <p *ngIf="picker.PickerConcernRemark">{{ picker.PickerConcernRemark }}</p>
+                                            <p *ngIf="picker.VerifiedConcernRemark">{{ picker.VerifiedConcernRemark }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"
+                    (click)="expandCollapse(row)" [ngClass]="{'highlightCancel': row.OnPriority === 1 }"></tr>
+                <tr mat-row class="tblRow" *matRowDef="let row; columns: ['expandedDetail']"
+                    [class.example-expanded-row]="expandedElement === row" class="example-detail-row ptblRow"
+                    id="Expand{{row.Picklistid}}"></tr>
+            </table>
+        </div>
+        <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+            strokeWidth="5"></mat-progress-spinner>
+        <div *ngIf="!DataSource.data.length && !isLoading">
+            <h6 class="noRecordData"> No Record Found </h6>
+        </div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10,20,30,40,100]"></mat-paginator>
+    </div>
+</div>
+<!-- Reject - Popup Code -->
+<ng-template id="RejectModal" #ModalRejectData let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title"> Reject Reason </h4>
+        <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">
+                <i class="fa fa-times SBModalclose"></i>
+            </span>
+        </a>
+    </div>
+    <div class="modal-body cons-info">
+        <div class="row">
+            <!-- Reject Reason -->
+            <div class="col">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Reject Reason </mat-label>
+                    <textarea matInput type="text" placeholder="Reject Reason" name="RejectReason"
+                        [(ngModel)]="RejectReason" #RejReason="ngModel" [ngModelOptions]="{standalone: true}"
+                        required></textarea>
+                    <mat-error *ngIf="RejReason.errors?.required && RejReason.touched">
+                        Reject reason is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button mat-raised-button class="cancel-buttton" color="primary" type="submit" (click)="onClickReject()"
+            title="Submit"> Submit </button>
+        <button mat-raised-button class="cancel-buttton" type="submit" (click)="d('Cross click')" title="Cancel"> Cancel
+        </button>
+    </div>
+</ng-template>
+
+<!-- Allot - Popup Code -->
+<ng-template id="UserModal" #ModalUserData let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Picker List</h4>
+        <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">
+                <i class="fa fa-times SBModalclose"></i>
+            </span>
+        </a>
+    </div>
+    <div class="modal-body cons-info">
+        <div class="col-md-12 col-lg-12">
+            <table mat-table [dataSource]="UserData" #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Action </th>
+                    <td mat-cell *matCellDef="let row;">
+                        <input mat-checkbox type="checkbox" (click)="AddString(row)">
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.EmpName }} ({{row.EmpNo}})
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ContactNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Contact Number </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.EmpMobNo}}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="ColumnsForUser"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: ColumnsForUser;"></tr>
+            </table>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                strokeWidth="5"></mat-progress-spinner>
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button mat-raised-button class="cancel-buttton" color="primary" (click)="Allot()">Allot</button>
+        <!-- <button mat-raised-button class="cancel-buttton" color="primary" (click)="ReAllot()"
+            *ngIf="!AllotFlag">Reallot</button> -->
+        <button mat-raised-button class="cancel-buttton" (click)="d('Cross click')">Cancel</button>
+    </div>
+</ng-template>
+
+<!-- Add PickList Popup -->
+<ng-template id="PickListModel" #AddEditPopup let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ PickListTitle }}</h4>
+        <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">
+                <i class="fa fa-times SBModalclose"></i>
+            </span>
+        </a>
+    </div>
+    <div class="modal-body cons-info">
+        <div class="card-body">
+            <form class="vForm" [formGroup]="picklistAddForm" autocomplete="off">
+                <div class="row">
+
+                    <!-- Picklist No. -->
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label> Picklist No. </mat-label>
+                            <input matInput type="text" placeholder="Picklist No." name="PicklistNo"
+                                formControlName="PicklistNo" />
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="col">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Date <span class="text-danger">*</span></mat-label>
+                            <input matInput [matDatepicker]="picker" name="Date" formControlName="Date" [min]="minDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.Date.errors" class="invalid-feedback">
+                            <mat-error *ngIf="f.Date.errors.required"> Date is required </mat-error>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.Date.touched && f.Date.invalid"
+                            class="invalid-feedback">
+                            Date is required
+                        </mat-error>
+                    </div>
+
+                    <!-- From Invoice No. -->
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label> From Invoice No. </mat-label>
+                            <input matInput type="text" placeholder="From Invoice No." name="FromInvoiceNo"
+                                formControlName="FromInvoiceNo" maxlength="15" (keypress)="InvNoValidation($event)" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <!-- To Invoice No. -->
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label> To Invoice No. </mat-label>
+                            <input matInput type="text" placeholder="To Invoice No." name="ToInvoiceNo"
+                                formControlName="ToInvoiceNo" maxlength="15" (keypress)="InvNoValidation($event)" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col">
+                        <button mat-raised-button class="cancel-buttton" (click)="ClearForm()" type="button"
+                            title="Cancel">Cancel</button>
+                        <button mat-raised-button class="cancel-buttton" color="primary" type="submit"
+                            (click)="d('Cross click')" title="{{ picklistpageState }}" (click)="SavePicklist()"> {{
+                            picklistpageState }} </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</ng-template>

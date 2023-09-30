@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //Program to check leap year
+    function checktoleapyear(year) {
+      //three conditions to find leap year
+      if ((0 === year % 4) && (0 != year % 100) || (0 == year % 400)) {
+        console.log(year + " is leap year");
+      }
+      else {
+        console.log(year + " is not leap year");
+      }
+
+    }
+    // take input from user
+    const year = prompt('Enter year:');
+    checktoleapyear(year);
+  </script>
+</body>
+
+</html>

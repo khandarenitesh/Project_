@@ -1,0 +1,185 @@
+<ng-container *ngIf="title$ | async as title">
+  <ng-container *ngIf="showTitle">
+    <h2 class="d-flex align-items-center text-dark my-1 fs-3">
+      {{ title }}
+    </h2>
+    <!-- <a *ngIf="title ==='Dashboard'" style="margin-left: 134vh;" class="fw-bolder cursor-pointer"
+      data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+      <span class="material-icons" [matBadge]="TotalExpiry" matBadgeColor="warn"
+        (click)="OpenModalModalForFilterCount(ModalForNotificationId)"
+        matTooltip="DL and Food Expiry Notification">notifications</span>
+    </a> -->
+  </ng-container>
+
+  <ng-container *ngIf="showBC">
+    <ng-container *ngIf="bc$ | async as _bc">
+      <ng-container *ngIf="_bc.length > 0">
+        <!-- <ng-container *ngIf="pageTitleDirection === 'row'">
+                    <span class="h-20px border-gray-200 border-start mx-4"></span>
+                </ng-container> -->
+        <ul class="breadcrumb breadcrumb-separatorless fs-7 my-1">
+          <!-- <li *ngFor="let bc of _bc" class="breadcrumb-item"
+                        [ngClass]="!bc.isSeparator && bc.isActive ? 'text-dark' : ''"
+                        [ngClass]="!bc.isSeparator && !bc.isActive ? 'text-muted' : ''"> -->
+          <li *ngFor="let bc of _bc" class="breadcrumb-item">
+            <ng-container *ngIf="!bc.isSeparator">
+              <a style="text-decoration: underline; color: blue; font-size: 14px;" [routerLink]="bc.path">
+                {{ bc.title }}
+              </a>
+            </ng-container>
+            <ng-container *ngIf="bc.isSeparator">
+              <!-- <span class="bullet bg-gray-200 w-5px h-2px"></span> -->
+              <span>>></span>
+            </ng-container>
+          </li>
+          <li class="breadcrumb-item text-dark" style="font-size: 14px;">{{ title }} </li>
+        </ul>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template id="ModalForNotificationId" class="modal-content1" #ModalForNotificationId>
+  <html>
+
+  <head>
+    <style>
+      .scrollable-content1 {
+        height: 600px;
+        overflow: auto;
+      }
+
+      p:hover {
+        background-color: rgb(201, 211, 214);
+      }
+
+      .Positionmodal {
+        position: absolute;
+        margin-left: 100%;
+        margin-top: 115px;
+      }
+
+      .subject {
+        text-align: center;
+        padding: 10px;
+        border: 1px;
+        background-color: lightblue;
+        /* position: sticky; */
+        top: 1px;
+      }
+
+      .container1 {
+        border: 1px solid #d8d8d8;
+        width: 405px;
+        margin-left: 50px;
+      }
+
+      .content1 {
+        font-size: 14px;
+        padding: 20px 3px 35px 74px;
+      }
+
+      .time1 {
+        color: #979797;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+
+      .icon1 {
+        margin: 19px 0 0 16px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 2px solid #818181;
+      }
+
+      .txt1 {
+        color: #818181;
+        margin: 6px;
+      }
+
+      .triangle1 {
+        width: 0;
+        height: 0;
+        color: #fff;
+        border-style: solid;
+        border-width: 0 25px 25px 25px;
+        border: 1px solid #d8d8d8;
+      }
+
+
+      ::ng-deep .modal-content1 {
+        margin-left: 510px;
+        display: flex;
+        height: auto;
+        flex-direction: column;
+        border: 0 solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.475rem;
+        margin-top: 108px;
+        width: 450px;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+      }
+
+      .div1 {
+        border: 1px solid gray;
+        padding: 8px;
+        font-family: "Roboto", sans-serif !important;
+        font-weight: 500;
+      }
+
+      .h11 {
+        text-align: center;
+        text-transform: uppercase;
+        color: #4CAF50;
+      }
+
+      .p1 {
+        text-indent: 50px !important;
+        text-align: justify !important;
+        letter-spacing: 3px !important;
+        border-radius: 2px !important;
+      }
+
+      .a1 {
+        text-decoration: none;
+        color: #388ca8;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="scrollable-content1 div1">
+      <div class="subject">
+        View All Notifications
+      </div>
+
+      <div *ngFor="let n of NewArray;">
+        <p (click)="redirect();ClosePopup();">
+          Stockist No : {{ n.StockistNo}},
+          Stockist Name : {{n.StockistName}},
+          DLNo : {{n.DLNo}},
+          DLExpDate : {{n.DLExpDate }},
+          FoodLicNo : {{n.FoodLicNo}},
+          FoodLicExpDate : {{n.FoodLicExpDate}}
+          <a target="_blank" style="cursor: pointer; color: rgb(86, 86, 236);"><br>
+            Stockist List<br></a>
+        </p>
+      </div>
+    </div>
+  </body>
+
+  </html>
+
+</ng-template>

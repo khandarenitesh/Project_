@@ -1,0 +1,280 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ Title }}</h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="ExpInvForm" (ngSubmit)="SaveExpInv()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Invoice No <span class="text-danger"> * </span> </mat-label>
+                        <input matInput type="text" name="InvNo" formControlName="InvNo">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.InvNo.errors" class="invalid-feedback">
+                        <span *ngIf="f.InvNo.errors.required"> Invoice No is required </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.InvNo.touched && f.InvNo.invalid"
+                        class="invalid-feedback">
+                        Invoice No is required
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Invoice Date <span class="text-danger">*</span></mat-label>
+                        <input matInput [matDatepicker]="picker" name="InvDate" formControlName="InvDate"
+                            [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.InvDate.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.InvDate.errors.required"> Date is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.InvDate.touched && f.InvDate.invalid"
+                        class="invalid-feedback">
+                        Date is required
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> Invoice Type <span class="text-danger"> * </span> </mat-label>
+                        <mat-select name="InvType" formControlName="InvType" (selectionChange)="onTypeChange()">
+                            <mat-option [value]=1>Transporter</mat-option>
+                            <mat-option [value]=2>Vendor</mat-option>
+                            <mat-option [value]=3>Courier</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.InvType.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.InvType.errors.required"> Please select Invoice Type </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.InvType.touched && f.InvType.invalid"
+                        class="invalid-feedback">
+                        Please select Invoice Type
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" *ngIf="InvType == 1">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Transport Name <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Transport Name" matInput name="TransName"
+                            (ngModelChange)="SetTransGST($event)" formControlName="TransName"
+                            [matAutocomplete]="autoTransName" (focusout)="TransporterValidation()">
+                        <mat-autocomplete #autoTransName="matAutocomplete" [displayWith]="DisplayTransporterName">
+                            <mat-option *ngFor="let trans of FilteredTransporter | async" [value]="trans">
+                                {{ trans.ParentTranspName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.TransName.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.TransName.errors.required"> Transporter name is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidTrans" class="invalid-feedback">
+                        Please select valid transporter name
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="InvType == 2">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Vendor Name<span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Vendor Name" matInput name="VendorName"
+                            (ngModelChange)="SetVenGST($event)" formControlName="VendorName"
+                            [matAutocomplete]="autoCity" (focusout)="VendorValidation($event)">
+                        <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displayFnCity">
+                            <mat-option *ngFor="let option of VendorfilteredList | async" [value]="option">
+                                {{ option.VendorName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.VendorName.errors" class="invalid-feedback">
+                        <span *ngIf="f.VendorName.errors.required"> Please select Vendor </span>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidVendor" class="invalid-feedback">
+                        Please select valid Vendor
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="InvType == 3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Courier Name <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Courier Name" matInput name="Courier" formControlName="Courier"
+                            (ngModelChange)="SetCourGST($event)" [matAutocomplete]="autoCourier"
+                            (focusout)="CourierValidation()">
+                        <mat-autocomplete #autoCourier="matAutocomplete" [displayWith]="DisplayCourierName">
+                            <mat-option *ngFor="let courier of FilteredCourier | async" [value]="courier">
+                                {{ courier.ParentCourierName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Courier.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Courier.errors.required"> Courier name is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidCourier" class="invalid-feedback">
+                        Please select valid Courier name
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Company <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="company" matInput name="Company" formControlName="Company"
+                            [matAutocomplete]="autoCompanyName" (focusout)="companyValidation()">
+                        <mat-autocomplete #autoCompanyName="matAutocomplete" [displayWith]="displayFnCompanyName">
+                            <mat-option *ngFor="let campny of Companyfilterlist | async" [value]="campny">
+                                {{ campny.CompanyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Company.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Company.errors.required"> Please select company </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+                        Please select valid Company
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Expense Head<span class="text-danger"> * </span> </mat-label>
+                        <input placeholder="Expense Head" matInput name="ExpHead" formControlName="ExpHead"
+                            [matAutocomplete]="autoCity" (focusout)="HeadValidation()">
+                        <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="DisplayHead">
+                            <mat-option *ngFor="let head of FilteredHead | async" [value]="head">
+                                {{ head.HeadName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ExpHead.errors" class="invalid-feedback">
+                        <span *ngIf="f.ExpHead.errors.required"> Please select Expense Head </span>
+                    </mat-error>
+                    <mat-error *ngIf="InValidHead" class="invalid-feedback">
+                        Please select valid Expense Head
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" *ngIf="InvType !== 2">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> No. Of Box </mat-label>
+                        <input matInput type="number" placeholder="No Of Box" name="NoOfBox" formControlName="NoOfBox"
+                            (keypress)="numberValidation($event)">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted === false && f.NoOfBox.touched && f.NoOfBox.invalid"
+                        class="invalid-feedback">
+                        No. of Boxes are required
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>From Date <span *ngIf="InvType !== 2" class="text-danger"> * </span></mat-label>
+                        <input matInput [matDatepicker]="fd" name="FromDate" formControlName="FromDate" [max]="maxDate"
+                            (dateChange)="mindateval()">
+                        <mat-datepicker-toggle matSuffix [for]="fd"></mat-datepicker-toggle>
+                        <mat-datepicker #fd></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.FromDate.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.FromDate.errors.required"> Date is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.FromDate.touched && f.FromDate.invalid"
+                        class="invalid-feedback">
+                        Date is required
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>To Date <span *ngIf="InvType !== 2" class="text-danger"> * </span></mat-label>
+                        <input matInput [matDatepicker]="td" name="ToDate" formControlName="ToDate" [max]="maxDate"
+                            [min]="minDate">
+                        <mat-datepicker-toggle matSuffix [for]="td"></mat-datepicker-toggle>
+                        <mat-datepicker #td></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ToDate.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.ToDate.errors.required"> Date is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.ToDate.touched && f.ToDate.invalid"
+                        class="invalid-feedback">
+                        Date is required
+                    </mat-error>
+                </div>
+
+                <div class="col" *ngIf="InvType == 2"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-checkbox color="primary" name="IsGST" formControlName="IsGST" (change)="SelectGST($event)">Is
+                        GST
+                    </mat-checkbox>
+                </div>
+                <div class="col" *ngIf="IsGSTFlag ===true">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> GST Type <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder=" GSTType" matInput name="GSTType" formControlName="GSTType"
+                            [matAutocomplete]="autoGSTType" (focusout)="GSTTypeValidation()"
+                            (ngModelChange)="SetGSTValue($event)">
+                        <mat-autocomplete #autoGSTType="matAutocomplete" [displayWith]="displayFnGSTTypeName">
+                            <mat-option *ngFor="let option of GSTTypeNameArray | async" [value]="option">
+                                {{ option.GSTType }}({{option.CGST}},{{option.SGST}})
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.GSTType.errors" class="invalid-feedback">
+                        <span *ngIf="f.GSTType.errors.required"> Please select GST Type </span>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidGSTType" class="invalid-feedback">
+                        Please select valid GST Type
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Taxable Amt <span class="text-danger"> * </span> </mat-label>
+                        <input matInput placeholder="TaxableAmt" name="TaxableAmt" formControlName="TaxableAmt"
+                            (focusout)="TaxCal()" (keypress)="numberValidation($event)" maxlength="15">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.TaxableAmt.errors" class="invalid-feedback">
+                        <span *ngIf="f.TaxableAmt.errors.required"> Taxable Amount is Required </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.TaxableAmt.touched && f.TaxableAmt.invalid"
+                        class="invalid-feedback">
+                        Taxable Amount is required
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="IsGSTFlag ===false"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> CGST {{CGSTper}}% </mat-label>
+                        <input matInput name="CGST" formControlName="CGST">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> SGST {{SGSTper}}% </mat-label>
+                        <input matInput name="SGST" formControlName="SGST">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Total Amt </mat-label>
+                        <input matInput placeholder="Total Amt" name="TotAmt" formControlName="TotAmt">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-checkbox color="primary" name="IsReimb" formControlName="IsReimb">Is Reimbursable
+                        </mat-checkbox>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" (click)="redirect()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+
+<div class="row">
+  <!-- <div class="col-lg-6">
+      <h2>Bubble Chart</h2>
+      <canvas id="bubchart"></canvas>
+  </div>
+  <div class="col-lg-6">
+      <h2>Scatter Chart</h2>
+      <canvas id="scchart"></canvas>
+  </div> -->
+  <div style="display: block; width: 700px;" *ngIf="DashBoardOrderDispatch === 1">
+    <canvas id="barchart" height="250" (mouseover)="SendDatatoParent()"></canvas>
+</div>
+
+<!-- <div style="display: block; width: 700px;" *ngIf="DashBoradChequeAcc === 2">
+  <canvas id="piechart" height="250" (mouseover)="SendDatatoParentPie()"></canvas>
+</div> -->
+
+<!-- check accounting -->
+<!-- <div style="display: block; width: 700px;">
+    <canvas id="barchart1" height="250" (mouseover)="SendDatatoParent()"> </canvas>
+</div> -->
+
+  <!-- <div class="col-lg-6">
+      <h2>Doughnut Chart</h2>
+      <canvas id="dochart"></canvas>
+  </div>
+  <div class="col-lg-6">
+      <h2>polarArea Chart</h2>
+      <canvas id="pochart"></canvas>
+  </div>
+
+  <div class="col-lg-6">
+      <h2>Radar Chart</h2>
+      <canvas id="rochart"></canvas>
+  </div> -->
+
+</div>

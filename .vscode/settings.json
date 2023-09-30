@@ -1,0 +1,5 @@
+{
+    "liveServer.settings.port": 5501,
+    "vscode.tsc.compiler.alertTSConfigChanges": "never",
+    "livePreview.defaultPreviewPath": "/src/assets/JavaScriptPractice/2CharSeparateOut.html"
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Arrays </title>
+</head>
+<body>
+  <script>
+    const books = ["Nitesh","Khandare","Pune","Baner","Education"];
+    books.length = 2;
+    console.log(books.length);
+    console.log(books);
+
+    books.forEach(book=>{
+      console.log(book);
+    })
+    console.log(books);
+
+    let arr = [1,2,3];
+    console.log(Array.isArray(arr)); //true
+
+    arr = new Array(5);
+    console.log(Array.isArray(arr)); //true
+
+    let obj ={};
+    console.log(Array.isArray(obj)); //false
+
+    //Typed Arrays are not arrays.they are objects
+
+    let int16arr = new Int16Array(2);
+    console.log(Array.isArray(int16arr)); //false
+
+const arr1 = [1, 2, 3, 4, 5];
+console.log(arr1.at(1))  //2     Value at index 1
+console.log(arr1.at(-1))  //5    Val
+  </script>
+</body>
+</html>

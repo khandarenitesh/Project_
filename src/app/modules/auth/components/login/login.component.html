@@ -1,0 +1,319 @@
+<!--begin::Form-->
+<form class="form w-100" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+  (ngSubmit)="submit()">
+  <!--begin::Heading-->
+  <!-- <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
+    <a routerLink="/" class="mb-12"
+      ><img alt="Logo" src="./assets/media/logo.png" class="h-45px"
+    />Sign In</a>
+  </div> -->
+  <div class="text-center mb-10">
+    <!-- <img alt="Logo" src="./assets/media/logo.png" class="h-45px"/> -->
+    <h1 class="text-dark mb-3">Sign In</h1>
+    <!-- <div class="text-gray-400 fw-bold fs-4">
+            New Here?
+            <a routerLink="/auth/registration" id="kt_login_signup" class="link-primary fw-bolder">{{ "AUTH.GENERAL.SIGNUP_BUTTON" | translate }}</a>
+        </div> -->
+  </div>
+  <!--end::Heading-->
+
+  <!-- begin::Alert info-->
+  <!-- <ng-container *ngIf="!hasError">
+    <div class="mb-10 bg-light-info p-8 rounded">
+      <div class="text-info">
+        Use account <strong>{{ defaultAuth.email }}</strong> and password
+        <strong>{{ defaultAuth.password }}</strong> to continue.
+      </div>
+    </div>
+  </ng-container> -->
+  <!-- end::Alert info-->
+
+  <!-- begin::Alert error-->
+  <ng-container *ngIf="hasError">
+    <div class="mb-lg-15 alert alert-danger">
+      <div class="alert-text font-weight-bold">
+        The login details are incorrect
+      </div>
+    </div>
+  </ng-container>
+  <!-- end::Alert error-->
+
+  <!-- begin::Alert error-->
+  <ng-container *ngIf="isDeactivate">
+    <div class="mb-lg-15 alert alert-danger">
+      <div class="alert-text font-weight-bold">
+        The User is Deactivated!
+      </div>
+    </div>
+  </ng-container>
+  <!-- end::Alert error-->
+
+  <!--begin::Form group-->
+  <div class="fv-row mb-10">
+    <label class="form-label fs-6 fw-bolder text-dark">Select Role</label>
+    <mat-select class="form-control form-control-lg form-control-solid" name="Role" (selectionChange)="onchangeRole()"
+      formControlName="Role">
+      <mat-option *ngFor="let roles of FilteredRoleList" [value]="roles.RoleId">
+        {{ roles.RoleName }}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <div class="fv-row mb-10" *ngIf="!IsAccountant">
+    <div class="d-flex justify-content-between mt-n5">
+      <label class="form-label fw-bolder text-dark fs-6 mb-0">Select Company</label>
+    </div>
+    <mat-select class="form-control form-control-lg form-control-solid" name="Company" formControlName="Company">
+      <mat-option *ngFor="let companies of CompanyList" [value]="companies.CompanyId">
+        {{ companies.CompanyName }}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <div class="fv-row mb-10" *ngIf="IsAccountant">
+    <div class="d-flex justify-content-between mt-n5">
+      <label class="form-label fw-bolder text-dark fs-6 mb-0">Select Branch</label>
+    </div>
+    <mat-select class="form-control form-control-lg form-control-solid" name="Branch" formControlName="Branch">
+      <mat-option *ngFor="let Branch of BranchList" [value]="Branch.BranchId">
+        {{ Branch.BranchName }}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <div class="fv-row mb-10">
+    <div class="d-flex justify-content-between mt-n5">
+      <label class="form-label fs-6 fw-bolder text-dark">User Name</label>
+    </div>
+    <input class="form-control form-control-lg form-control-solid" type="email" name="email" formControlName="email"
+      autocomplete="off" [ngClass]="{
+        'is-invalid': loginForm.controls['email'].invalid,
+        'is-valid': loginForm.controls['email'].valid
+      }" />
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'User Name is required',
+        control: loginForm.controls['email']
+      }"></ng-container>
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'email',
+        message: 'User Name is invalid',
+        control: loginForm.controls['email']
+      }"></ng-container>
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'minLength',
+        message: 'User Name should have at least 3 symbols',
+        control: loginForm.controls['email']
+      }"></ng-container>
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'maxLength',
+        message: 'User Name should have maximum 360 symbols',
+        control: loginForm.controls['email']
+      }"></ng-container>
+  </div>
+  <!--end::Form group-->
+
+  <!--begin::Form group-->
+  <div class="fv-row mb-10">
+    <div class="d-flex justify-content-between mt-n5">
+      <div class="d-flex flex-stack mb-2">
+        <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
+        <!-- <a
+          routerLink="/auth/forgot-password"
+          class="link-primary fs-6 fw-bolder"
+          id="kt_login_forgot"
+          [style.margin-left]="'5px'"
+        >
+          Forgot Password ?
+        </a> -->
+      </div>
+    </div>
+
+
+    <!-- New Code Of Password -->
+    <div class="form-group inner-addon right-addon">
+      <div class="input-group col-6 mx-auto">
+        <input name="password"
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control pwd-control"  
+            id="password-field" placeholder="Password" class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" formControlName="password"
+            [ngClass]="{
+              'is-invalid': loginForm.controls['password'].invalid,
+              'is-valid': loginForm.controls['password'].valid
+            }" />
+        <div>
+          <i alt="show" class="far fa-eye eye-show"  style="padding: 18px 45px 0px 0px;"
+          (click)="showPassword = !showPassword"
+          [class.hide]="showPassword"></i>
+          <i alt="hide" class="far fa-eye-slash eye-hide " style="padding: 18px 45px 0px 0px;"
+          (click)="showPassword = !showPassword"
+          [class.hide]="!showPassword"></i>
+        </div>
+      </div>
+    </div>
+   <!-- End Code Of Password -->
+
+
+   <!-- Old Code of Input of Password -->
+    <!-- <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off"
+      formControlName="password" [ngClass]="{
+        'is-invalid': loginForm.controls['password'].invalid,
+        'is-valid': loginForm.controls['password'].valid
+      }" /> -->
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'Password is required',
+        control: loginForm.controls['password']
+      }"></ng-container>
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'minlength',
+        message: 'Password should have at least 8 Characters',
+        control: loginForm.controls['password']
+      }"></ng-container>
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'maxLength',
+        message: 'Password should have maximum 100 symbols',
+        control: loginForm.controls['password']
+      }"></ng-container>
+  </div>
+  <!--end::Form group-->
+
+  <!--begin::Action-->
+  <div class="text-center">
+    <!-- <button
+      type="submit"
+      id="kt_sign_in_submit"
+      class="btn btn-lg btn-primary w-100 mb-5"
+      [disabled]="loginForm.invalid"
+    > -->
+    <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5"
+      [disabled]="!loginForm.valid">
+      <ng-container *ngIf="isLoading">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!isLoading">
+        <span class="indicator-label">Sign In</span>
+      </ng-container>
+    </button>
+    <!-- <a
+          routerLink="/auth/forgot-password"
+          class="link-primary fs-6 fw-bolder"
+          id="kt_login_forgot"
+        [style.margin-right]="'280px'"
+        >
+          Forgot Password ?
+    </a> -->
+
+    <!-- begin::Separator  -->
+    <!-- <div class="text-center text-muted text-uppercase fw-bolder mb-5">or</div> -->
+    <!-- end::Separator  -->
+
+    <!-- <a
+      class="
+        btn btn-flex
+        flex-center
+        btn-light btn-lg
+        w-100
+        mb-5
+        cursor-pointer
+      "
+    >
+      <img
+        class="h-20px me-3"
+        src="./assets/media/svg/brand-logos/google-icon.svg"
+      />
+
+      Continue with Google
+    </a> -->
+  </div>
+  <div class="d-flex flex-stack mb-2">
+    <a routerLink="/auth/forgot-password" class="link-primary fs-6 fw-bolder" id="kt_login_forgot"
+      [style.margin-left]="'5px'">
+      Forgot Password ?
+    </a>
+  </div>
+  <!--end::Action-->
+</form>
+<!--end::Form-->
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <span role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template id="changepassword" #changepassword let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ Title }}</h4>
+    <!-- <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a> -->
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <form class="form w-100" [formGroup]="changepassForm" novalidate="novalidate" id="kt_login_signin_form"
+        (ngSubmit)="changePassword()">
+        <div class="row">
+          <div class="col-6">
+            <!-- <div class="fv-row"> -->
+              <div class="d-flex justify-content-between mt-n5">
+                <label class="form-label fs-6 fw-bolder text-dark">New Password</label>
+              </div>
+              <input class="form-control form-control-lg form-control-solid" name="NewPassword" type="password"
+                formControlName="NewPassword" autocomplete="off" [ngClass]="{
+                  'is-invalid': changepassForm.controls['NewPassword'].invalid,
+                  'is-valid': changepassForm.controls['NewPassword'].valid
+                }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Password is required',
+                control: changepassForm.controls['NewPassword']
+              }"></ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'minLength',
+                message: 'Password should have at least 8 symbols',
+                control: changepassForm.controls['NewPassword']
+              }"></ng-container>
+            <!-- </div> -->
+          </div>
+
+          <div class="col-6">
+            <!-- <div class="fv-row"> -->
+              <div class="d-flex justify-content-between mt-n5">
+                <label class="form-label fs-6 fw-bolder text-dark">Confirm Password</label>
+              </div>
+              <input class="form-control form-control-lg form-control-solid" name="ConfmPassword" type="password"
+                formControlName="ConfmPassword" autocomplete="off" [ngClass]="{
+                  'is-invalid': changepassForm.controls['ConfmPassword'].invalid,
+                  'is-valid': changepassForm.controls['ConfmPassword'].valid
+                }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Confirm Password is required',
+                control: changepassForm.controls['ConfmPassword']
+              }"></ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'minLength',
+                message: 'Password should have at least 8 symbols',
+                control: changepassForm.controls['ConfmPassword']
+              }"></ng-container>
+            </div>
+          <!-- </div> -->
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button class="btn btn-primary" type="submit" (click)="changePassword()">Submit</button>
+    <!-- <button mat-raised-button class="cancel-buttton" (click)="d('Cross click')">Cancel</button> -->
+  </div>
+</ng-template>

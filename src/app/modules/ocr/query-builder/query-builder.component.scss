@@ -1,0 +1,175 @@
+// *,
+// *::before,
+// *::after {
+//   box-sizing: border-box;
+// }
+
+// .container,
+// .backdrop,
+// textarea {
+//   width: 460px;
+//   height: 180px;
+// }
+
+.highlights,
+textarea {
+  padding: 10px;
+  font:
+    20px/28px "Open Sans",
+    sans-serif;
+  letter-spacing: 1px;
+}
+
+.container {
+  display: block;
+  margin: 0 auto;
+  transform: translateZ(0);
+  -webkit-text-size-adjust: none;
+}
+
+.backdrop {
+  position: absolute;
+  z-index: 1;
+  border: 2px solid #685972;
+  background-color: #fff;
+  overflow: auto;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.highlights {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+}
+
+textarea {
+  //   display: block;
+  //   position: absolute;
+  //   z-index: 2;
+  //   margin: 0;
+  border: 2px solid #74637f;
+  border-radius: 0;
+  color: #444;
+  background-color: transparent;
+  overflow: auto;
+  resize: both;
+  transition: transform 1s;
+  min-width: 45vw;
+  max-width: 73vw;
+  max-height: 40vh;
+  min-height: 20vh;
+}
+
+mark {
+  border-radius: 3px;
+  color: transparent;
+  background-color: #b1d5e5;
+}
+
+.perspective textarea {
+  transform: perspective(1500px) translateX(155px) rotateY(45deg) scale(1.1);
+}
+
+textarea:focus,
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #c6aada;
+}
+
+.cancel-buttton {
+  margin-right: 5% !important;
+  margin-top: 35px !important;
+}
+.card .card-header1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
+  min-height: 50px;
+  padding: 0 1.25rem;
+  background-color: transparent;
+  border-bottom: 1px solid #eff2f5;
+}
+.highlight-keyword {
+  color: blue !important;
+  font-weight: bold !important;
+}
+
+.highlighted-output {
+  margin-top: 20px !important;
+  border: 1px solid #ccc !important;
+  padding: 10px !important;
+  white-space: pre-line !important;
+}
+
+.editable-div {
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 100px;
+  white-space: pre-wrap;
+}
+
+/* Apply styles to the header cells */
+.mat-header-cell {
+  font-weight: bold;
+  text-align: left;
+  padding: 8px 16px;
+}
+
+/* Apply styles to the data cells */
+.mat-cell {
+  padding: 8px 16px;
+}
+
+/* Add scrollbar to the table body */
+.mat-table {
+  display: block;
+  max-height: 400px; /* Adjust the max-height as needed */
+  overflow-y: auto;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+i {
+  margin-right: 15%;
+}
+
+.green-color {
+  color: green;
+  margin: 0% 5% 0% 0%;
+}
+
+.table-container {
+  max-height: 400px; /* Adjust the height as needed */
+  overflow-y: auto;
+  position: relative;
+}
+
+.mat-header-row.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff; /* Customize the background color */
+}
+
+tr.mat-header-row {
+  height: 22px;
+}
+
+th{
+    font:"Helvetica Neue", sans-serif;
+    color: #181C32;
+}

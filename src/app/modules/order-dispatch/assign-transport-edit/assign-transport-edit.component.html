@@ -1,0 +1,519 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <h4 style="cursor: pointer;" title="Today's With Old Open Invoices">
+                    <h4>{{ TodaysWithOldOpen }}</h4>
+                </h4>
+                <span>All Invoices</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ PendingInvCtn }}</h4>
+                <span>Pending Invoices</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ PackerConcern }}</h4>
+                <span>Packer Concern</span>
+            </div>
+            <!-- <div class="col text-center">
+                <h4>{{ OnPriorityCtn }}</h4>
+                <span>Priority</span>
+            </div> -->
+            <div class="col text-center">
+                <h4>{{ StkPrint }}</h4>
+                <span>Sticker Print</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ GatpassGenCtn }}</h4>
+                <span>Gatpass Gen</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ PendingLR }}</h4>
+                <span>Pending LR</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ CancelInvCtn }}</h4>
+                <span>Cancel Invoices</span>
+            </div>
+            <!-- <div class="col text-center">
+                <h4>{{ IsStockTransferCtn }}</h4>
+                <span>Stock Transfer</span>
+            </div> -->
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="LocalMode" (click)="ShowPickList('LocalMode')">
+                    <h4>{{ LocalMode }}</h4>
+                </a>
+                <span>Local Mode</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="OtherCity" (click)="ShowPickList('OtherCity')">
+                    <h4>{{ OtherCity }}</h4>
+                </a>
+                <span>Other City</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="ByHand" (click)="ShowPickList('ByHand')">
+                    <h4>{{ ByHand }}</h4>
+                </a>
+                <span>By Hand</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assigned Transport  List -->
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ Title }}</h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Search -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+        <div class="col-md-12">
+            <div class="Scroll">
+                <!--  Table  -->
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+                    <!-- Sr.No -->
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr.No. </th>
+                        <td mat-cell *matCellDef="let row;let SrNo = index;">
+                            {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Invoice Id -->
+                    <ng-container matColumnDef="InvNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvNo1 }}
+                        </td>
+                    </ng-container>
+                    <!-- Inv Created Date -->
+                    <ng-container matColumnDef="InvCreatedDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Date
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvCreatedDate | date: 'dd/MM/yyyy' }}
+                        </td>
+                    </ng-container>
+                    <!-- Stockist No.-->
+                    <ng-container matColumnDef="StockistNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist No.
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistNo }}
+                        </td>
+                    </ng-container>
+                    <!-- Stockist Name -->
+                    <ng-container matColumnDef="StockistName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistName }}
+                        </td>
+                    </ng-container>
+                    <!-- Sold To City -->
+                    <ng-container matColumnDef="SoldTo_City">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sold To City
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.CityName }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Transporter Name -->
+                    <ng-container matColumnDef="TransporterName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">
+                            Transporter/Courier
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <label *ngIf="row.TransporterName">{{ row.TransporterName }}</label>
+                            <label *ngIf="row.CourierName">{{ row.CourierName }}</label>
+                        </td>
+                    </ng-container>
+
+                    <!-- Person Name -->
+                    <ng-container matColumnDef="PersonName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Person
+                            Name/Mob.No.
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <!-- {{ row.PersonName ? row.PersonName: '-' }}({{row.PersonMobileNo}}) -->
+                            <span
+                                *ngIf="(row.PersonName === null) || (row.PersonMobileNo === null || row.PersonMobileNo === undefined || row.PersonMobileNo === '')">
+                                {{ row.PersonName ? row.PersonName: '-' }}
+                            </span>
+                            <span *ngIf="row.PersonName && row.PersonMobileNo">
+                                {{ row.PersonName }} ({{row.PersonMobileNo}})
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <!-- Transport Mode Name -->
+                    <ng-container matColumnDef="TransportModeId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Transport Mode
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <label *ngIf="row.TransportModeId === 1"> Local </label>
+                            <label *ngIf="row.TransportModeId === 2"> Other City </label>
+                            <label *ngIf="row.TransportModeId === 3"> By Hand </label>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="IsStockTransfer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Is Stock Transfer
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <label *ngIf="row.IsStockTransfer === 1"> Y </label>
+                            <label *ngIf="row.IsStockTransfer === 0"> N </label>
+                        </td>
+                    </ng-container>
+                    <!-- Actions -->
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                        <td mat-cell *matCellDef="let row">
+                            <a (click)="EditAssignedTransport(EditAssignTransportPopup,row)" style="cursor: pointer;"
+                                title="Edit"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="DisplayAssignTransportData"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: DisplayAssignTransportData;"
+                        [ngClass]="{'highlightPriority': row.OnPriority === 1 }"></tr>
+                </table>
+            </div>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+            <!-- List End -->
+        </div>
+    </div>
+</div>
+
+<!-- Edit Assign transport mode Popup -->
+<ng-template id="EditAssignTransportPopup" #EditAssignTransportPopup let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ TitleState }}</h4>
+        <a class="" style="float: right; cursor: pointer; margin-right:0%;" aria-label="Close"
+            (click)="d('Cross click')">
+            <span aria-hidden="true">
+                <i class="fa fa-times SBModalclose"></i>
+            </span>
+        </a>
+    </div>
+    <div class="modal-body cons-info">
+        <div class="card-body">
+            <form class="vForm" [formGroup]="AssignTransportForm" autocomplete="off">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label> No Of Boxes </mat-label>
+                            <input matInput placeholder="No Of Boxes" name="NoOfBox" formControlName="NoOfBox" [errorStateMatcher]="customErrorStateMatcherType">
+                        </mat-form-field>
+                        <mat-error *ngIf="getFormControl('NoOfBox').hasError('pattern')" [innerHTML]="getErrorMessage('NoOfBox','pattern')"> </mat-error>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label> Weight (in Kg) </mat-label>
+                            <input matInput placeholder="Inv Weight" name="InvWeight" formControlName="InvWeight">
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="isFlag !== 'By Hand'">
+                        <mat-label>Is Courier</mat-label>
+                        <input type="checkbox" name="IsCourier" [checked]="IsCourierChecked !== 0"
+                               formControlName="IsCourier" (ngModelChange)="onchangeIsCourier($event)">
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </form>
+        </div>
+        <div class="card-body">
+            <!-- Form Start -->
+            <form class="vForm" [formGroup]="AssignTransportForm" autocomplete="off">
+
+                <!-- 1st row Transport Mode-->
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Transport Mode <span class="text-danger"> * </span> </mat-label>
+                            <mat-select name="TransportModeId" formControlName="TransportModeId"
+                                (selectionChange)="onTransportMode($event)">
+                                <mat-option [value]=1>
+                                    Local
+                                </mat-option>
+                                <mat-option [value]=2>
+                                    Other City
+                                </mat-option>
+                                <mat-option [value]=3>
+                                    By Hand
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.TransportModeId.errors" class="invalid-feedback">
+                            <span *ngIf="f.TransportModeId.errors.required"> Please select transport mode </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.TransportModeId.touched && f.TransportModeId.invalid"
+                            class="invalid-feedback">
+                            Please select transport mode
+                        </mat-error>
+                    </div>
+                </div>
+
+                <!-- 2nd row Local-->
+                <div class="row" *ngIf="isFlag === 'Local'">
+                    <div class="col" *ngIf="isCourFlag !== 'Is Courier'">
+                        <!-- Assign Transport -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Assign Transport <span class="text-danger"> * </span> </mat-label>
+                            <mat-select name="AssignTransport" formControlName="AssignTransport" (selectionChange)="onChangeAssignTransport()">
+                                <mat-option *ngFor="let AssTransport of AssignTransportList"
+                                    [value]="AssTransport.TransporterId">
+                                    {{AssTransport.TransporterName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.AssignTransport.errors" class="invalid-feedback">
+                            <span *ngIf="f.AssignTransport.errors.required"> Please select transport </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.AssignTransport.touched && f.AssignTransport.invalid"
+                            class="invalid-feedback">
+                            Please select transport
+                        </mat-error>
+                        <mat-error *ngIf="IsTransportValid === true" class="invalid-feedback">
+                            Please select transport
+                        </mat-error>
+                    </div>
+                    <div class="col" *ngIf="isCourFlag === 'Is Courier'">
+                        <!-- Assign Courier -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Assign Courier <span class="text-danger"> * </span> </mat-label>
+                            <mat-select name="AssignCourier" formControlName="AssignCourier" (selectionChange)="onChangeAssignCourier()">
+                                <mat-option *ngFor="let Courier of AssignCourierList" [value]="Courier.CourierId">
+                                    {{Courier.CourierName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.AssignCourier.errors" class="invalid-feedback">
+                            <span *ngIf="f.AssignCourier.errors.required"> Please select courier </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.AssignCourier.touched && f.AssignCourier.invalid"
+                            class="invalid-feedback">
+                            Please select courier
+                        </mat-error>
+                        <mat-error *ngIf="IsCourierValid === true" class="invalid-feedback">
+                            Please select courier
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <!-- Delivery Remark -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Delivery Remark </mat-label>
+                            <input matInput placeholder="Delivery Remark" name="DeliveryRemark"
+                                formControlName="DeliveryRemark">
+                        </mat-form-field>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                </div>
+
+                <!-- 3rd row Other City-->
+                <div class="row" *ngIf="isFlag === 'Other City'">
+                    <!-- <div class="col" *ngIf="!isCourier || !events"> -->
+                    <div class="col" *ngIf="isCourFlag !== 'Is Courier'">
+                        <!-- Assign Transport -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Assign Transport <span class="text-danger"> * </span> </mat-label>
+                            <mat-select name="AssignedTransport" formControlName="AssignedTransport" (selectionChange)="onChangeAssignTransport()">
+                                <mat-option *ngFor="let Transport of AssignTransportLst"
+                                    [value]="Transport.TransporterId">
+                                    {{Transport.TransporterName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.AssignedTransport.errors" class="invalid-feedback">
+                            <span *ngIf="f.AssignedTransport.errors.required"> Please select transport </span>
+                        </mat-error>
+                        <mat-error
+                            *ngIf="submitted === false && f.AssignedTransport.touched && f.AssignedTransport.invalid"
+                            class="invalid-feedback">
+                            Please select transport
+                        </mat-error>
+                        <mat-error *ngIf="IsTransportValid === true" class="invalid-feedback">
+                            Please select transport
+                        </mat-error>
+                    </div>
+                    <!-- <div class="col" *ngIf="isCourier && events"> -->
+                    <div class="col" *ngIf="isCourFlag === 'Is Courier'">
+                        <!-- Assign Courier -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Assign Courier <span class="text-danger"> * </span> </mat-label>
+                            <mat-select name="AssignCourier" formControlName="AssignCourier" (selectionChange)="onChangeAssignCourier()">
+                                <mat-option *ngFor="let Courier of AssignCourierList" [value]="Courier.CourierId">
+                                    {{Courier.CourierName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.AssignCourier.errors" class="invalid-feedback">
+                            <span *ngIf="f.AssignCourier.errors.required"> Please select courier </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.AssignCourier.touched && f.AssignCourier.invalid"
+                            class="invalid-feedback">
+                            Please select courier
+                        </mat-error>
+                        <mat-error *ngIf="IsCourierValid === true" class="invalid-feedback">
+                            Please select courier
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <!-- Other Details -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Other Details </mat-label>
+                            <input matInput placeholder="Other Details" name="OtherDetails"
+                                formControlName="OtherDetails">
+                        </mat-form-field>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                </div>
+
+                <!-- 4th row By Hand -->
+                <div class="row" *ngIf="isFlag === 'By Hand'">
+                    <div class="col">
+                        <!-- Person Name -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Person Name <span class="text-danger"> * </span></mat-label>
+                            <input matInput placeholder="Person Name" name="PersonName" formControlName="PersonName">
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.PersonName.errors" class="invalid-feedback">
+                            <span *ngIf="f.PersonName.errors.required"> Person name is required </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.PersonName.touched && f.PersonName.invalid"
+                            class="invalid-feedback">
+                            Please enter person name
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <!-- Person Address  -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Person Address <span class="text-danger"> * </span></mat-label>
+                            <input matInput placeholder="Person Address" name="PersonAddress"
+                                formControlName="PersonAddress">
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.PersonAddress.errors" class="invalid-feedback">
+                            <span *ngIf="f.PersonAddress.errors.required"> Person address is required </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.PersonAddress.touched && f.PersonAddress.invalid"
+                            class="invalid-feedback">
+                            Please enter person address
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <!-- Person Mobile No -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Person Mobile No. <span class="text-danger"> * </span></mat-label>
+                            <input matInput placeholder="Person Mobile No" name="PersonMobileNo"
+                                formControlName="PersonMobileNo" (keypress)="ValidationMobile($event)" (focusout)="CopyPasteMblNotSpelcharAllow()" maxlength="10">
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.PersonMobileNo.errors" class="invalid-feedback">
+                            <span *ngIf="f.PersonMobileNo.errors.required"> Mobile number is required </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.PersonMobileNo.touched && f.PersonMobileNo.invalid && IsInvalidMobile==false"
+                            class="invalid-feedback">
+                            Pease enter mobile number
+                        </mat-error>
+                        <mat-error *ngIf="IsInvalidMobile === true">
+                          Please enter valid contact number!
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <!-- Other Details -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Other Details </mat-label>
+                            <input matInput placeholder="Other Details" name="OtherDetails"
+                                formControlName="OtherDetails">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- 5th row Other City Is Stock Transfer-->
+                <div class="row" *ngIf="isFlag === 'Other CNF'">
+                    <div class="col">
+                        <!-- Assign Transport -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Assign Transport <span class="text-danger"> * </span> </mat-label>
+                            <mat-select name="AssignedTransport" formControlName="AssignedTransport">
+                                <mat-option *ngFor="let Transport of AssignTransportLst"
+                                    [value]="Transport.TransporterId">
+                                    {{Transport.TransporterName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.AssignedTransport.errors" class="invalid-feedback">
+                            <span *ngIf="f.AssignedTransport.errors.required"> Please select transport </span>
+                        </mat-error>
+                        <mat-error
+                            *ngIf="submitted === false && f.AssignedTransport.touched && f.AssignedTransport.invalid"
+                            class="invalid-feedback">
+                            Please select transport
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> CNF City <span class="text-danger"> * </span> </mat-label>
+                            <input type="text" placeholder="CNF City" matInput name="CNFCity" formControlName="CNFCity"
+                                [matAutocomplete]="autoCity" (focusout)="CityValidation()">
+                            <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displayFnCity">
+                                <mat-option *ngFor="let option of filteredOptCity | async" [value]="option">
+                                    {{ option.CityName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.CNFCity.errors" class="invalid-feedback">
+                            <span *ngIf="f.CNFCity.errors.required"> Please select city </span>
+                        </mat-error>
+                        <mat-error *ngIf="InvalidCity" class="invalid-feedback">
+                            Please select valid City
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <!-- Other Details -->
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Other Details </mat-label>
+                            <input matInput placeholder="Other Details" name="OtherDetails"
+                                formControlName="OtherDetails">
+                        </mat-form-field>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                &nbsp;&nbsp;
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col">
+                        <button mat-raised-button class="cancel-buttton" type="button" (click)="ClearForm()"
+                            title="Cancel"> Cancel </button>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!AssignTransportForm.valid"
+                            (click)="UpdateAssignTransport()"> Update </button>
+                    </div>
+                </div>
+            </form>
+            <!-- Form End -->
+        </div>
+    </div>
+</ng-template>

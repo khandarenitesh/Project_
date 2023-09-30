@@ -1,0 +1,104 @@
+::ng-deep {
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 9999 !important;
+    }
+}
+.Scroll {
+    overflow-x: auto;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095e8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+
+}
+
+.mat-column-Action {
+    flex: 0px 0px 2% !important;
+    width: 10%;
+}
+
+.mat-column-SalesDocNo {
+    flex: 0px 0px 8% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-LRNo {
+    flex: 0px 0px 7% !important;
+    width: 8%;
+    padding-right: 8px;
+}
+
+.mat-column-StockistNo {
+    flex: 0px 0px 7% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 7% !important;
+    width: 17%;
+    padding-right: 12px;
+}
+
+.mat-column-DelayReason {
+    flex: 0px 0px 7% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+a {
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    color: blue !important;
+}
+
+a:hover {
+    color: hotpink !important;
+}
+
+.rmargin {
+    margin-right: 12%;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

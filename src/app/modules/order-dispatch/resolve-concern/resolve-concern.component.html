@@ -1,0 +1,205 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <h4>{{ AllPickList }}</h4>
+                <span>All Picklists</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ RejectbyOperator }}</h4>
+                <span>Rejected By Operator</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ PendingForAllot }}</h4>
+                <span>Pending For Allot</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ AllotedPicklist }}</h4>
+                <span>Alloted Picklists</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ AcceptedPickList }}</h4>
+                <span>Accepted Picklists</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ ConcernRaised }}</h4>
+                <!-- <span>Concern Raised</span> -->
+                <span>Picker Concern</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ CompletedPicklists }}</h4>
+                <span>Completed Picklists</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ CompletedVerified }}</h4>
+                <span>Completed & Verified</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-7">
+                    <h2> Resolve Concern </h2>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field class="searchField" style="margin-right: 2%;">
+                        <span class="GlobalSearch" matPrefix>
+                            <mat-icon>search</mat-icon> &nbsp;
+                        </span>
+                        <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                            placeholder="Search">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="Scroll">
+            <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr.No. </th>
+                    <td mat-cell *matCellDef="let row; let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="PickerName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Picker Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.PickerName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="PicklistNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Picklist No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.PicklistNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="PicklistDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Picklist Date </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.PicklistDate | date: 'dd/MM/yyyy' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="PicklistStatus">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Picklist Status </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.AllotmentStatusText }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ConcernReason">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Concern Reason</th>
+                    <td mat-cell *matCellDef="let row">
+                        <label *ngIf="row.pickerconcernText">{{ row.pickerconcernText }}</label>
+                        <label *ngIf="row.VerifiedConcernText">{{ row.VerifiedConcernText }}</label>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ConcernRemark">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Concern Remark </th>
+                    <td mat-cell *matCellDef="let row">
+                        <label *ngIf="row.PickerConcernRemark">{{ row.PickerConcernRemark }}</label>
+                        <label *ngIf="row.VerifiedConcernRemark">{{ row.VerifiedConcernRemark }}</label>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="FromToInv">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> From-To Invoice No.
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.FromInv }} - {{ row.ToInv }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="IsStockTransfer">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Is Stock Transfer.
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row.IsStockTransfer == 1">Y</span>
+                    <span *ngIf="row.IsStockTransfer == 0">N</span>
+                  </td>
+              </ng-container>
+
+                <!-- <ng-container matColumnDef="ToInv">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> To Invoice No. </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.ToInv }}
+                </td>
+            </ng-container> -->
+
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                    <td style="padding: inherit;" mat-cell *matCellDef="let row">
+                        <span>
+                            <a (click)="ResolveConernPopup(row,ResolveConcernPopup)" class="rmargin">
+                                Resolve Concern
+                            </a>
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-template id="AddEditPopup" #ResolveConcernPopup let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> Resolve Concern</h4>
+                        <a class="" style="float: right; cursor: pointer;" aria-label="Close"
+                            (click)="d('Cross click')">
+                            <span aria-hidden="true">
+                                <i class="fa fa-times SBModalclose"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="modal-body cons-info">
+                        <div class="card-body">
+                            <form #ConcernForm="ngForm" (ngSubmit)="ResolveConernSave()">
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-form-field class="example-full-width" style="width: 300px;">
+                                            <mat-label  for="exampleFormControlTextarea1"> Resolve Concern </mat-label>
+                                            <textarea matInput class="form-control" placeholder="Resolve Concern"
+                                                required [(ngModel)]="ResolveRemark" name="ResolveRemark"
+                                                #Resolve="ngModel" cols="10" rows="2"></textarea>
+                                        </mat-form-field>
+                                        <div *ngIf="!Resolve?.valid && (Resolve?.dirty || Resolve?.touched)">
+                                            <div *ngIf="Resolve.errors?.required">
+                                                <span style="color: red">
+                                                    Resolve Concern is required
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col">
+                                        <button mat-raised-button color="primary" type="submit"
+                                            [disabled]="!ConcernForm.valid">{{ pageState
+                                            }}</button>
+                                        <button mat-raised-button class="cancel-buttton" class="m-4" type="button"
+                                            (click)="d('Cross click');">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"
+                    [ngClass]="{'highlightCancel': row.OnPriority === 1}"></tr>
+            </table>
+        </div>
+        <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+            strokeWidth="5"></mat-progress-spinner>
+        <div *ngIf="!DataSource.data.length && !isLoading">
+            <h6 class="noRecordData"> No Record Found </h6>
+        </div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10,20,30,40,100]"></mat-paginator>
+    </div>
+</div>

@@ -1,0 +1,189 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095e8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 2% !important;
+    width: 7%;
+    padding-right: 12px;
+}
+
+.mat-column-LRNo {
+    flex: 0px 0px 8% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-LRDate {
+    flex: 0px 0px 8% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-VehicleNo {
+    flex: 0px 0px 10% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-DriverName {
+    flex: 0px 0px 11% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-ActualNoOfCasesQty {
+    flex: 0px 0px 7% !important;
+    width: 7%;
+    padding-right: 12px;
+    text-align: center;
+}
+
+.mat-column-TransporterNo {
+    flex: 0px 0px 7% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-TransporterName {
+    flex: 0px 0px 7% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-IsClaim {
+    flex: 0px 0px 10% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-IsSAN {
+    flex: 0px 0px 10% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+
+.mat-column-Actions {
+    flex: 0px 0px 6% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.green-color {
+    color: green;
+}
+
+
+.fa-duotone {
+    color: navy;
+    text-align: justify !important;
+    height: 10px;
+
+}
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+a {
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    color: blue !important;
+}
+a:hover {
+    color: hotpink !important;
+}
+
+.rmargin {
+    margin-right: 9%;
+}
+
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}
+
+.modal-header1 {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.75rem;
+    border-bottom: 1px solid #eff2f5;
+    border-top-left-radius: 0.475rem;
+    border-top-right-radius: 0.475rem;
+  }
+.horizontal-bar {
+    height: 6px;
+}
+
+.textcenter {
+    text-align: center !important;
+    margin-top: 8px !important;
+}
+
+.modal-title1 {
+    margin-left: 25px;
+    font-family: "Roboto", sans-serif !important;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+img {
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
+    width: 93%;
+    border-radius: 1%;
+    --s: 200px;
+    /* the size of the image */
+    --b: 4px;
+    /* the border thickness*/
+    --g: 7px;
+    /* the gap */
+    --c: #4ecdc4;
+    /* the color */
+    aspect-ratio: 2;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+img:hover {
+    outline: var(--b) solid var(--c);
+    outline-offset: var(--g);
+}
+
+.NoImagesFound {
+    text-align: center;
+    font-family: "Roboto", sans-serif !important;
+    font-weight: 500;
+    font-size: 16px;
+}

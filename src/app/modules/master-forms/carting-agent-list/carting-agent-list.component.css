@@ -1,0 +1,86 @@
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 6%;
+}
+
+.mat-column-CAName {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+}
+
+.mat-column-CAMobNo {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-CAPan {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-GSTNo {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-CAEmail {
+  flex: 0px 0px 10% !important;
+  width: 12%;
+}
+
+.mat-column-StateName {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-DistrictName {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-CityName {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.mat-column-IsActive {
+  flex: 0px 0px 8% !important;
+  width: 6%;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 10% !important;
+  width: 6%;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+i {
+  margin-right: 15%;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}/*# sourceMappingURL=carting-agent-list.component.css.map */

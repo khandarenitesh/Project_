@@ -1,0 +1,176 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <a title="Today's Imported LR" (click)="ShowLRList('TodaysImportLR')">
+                    <h4>{{ TodayLRCnt }}</h4>
+                </a>
+                <span> Today's Imported LR </span>
+            </div>
+            <div class="col text-center">
+                <a title="Today's Vehicle Mapped" (click)="ShowLRList('VehicleMapped')">
+                    <h4>{{ TodayVehicleMappedCnt }}</h4>
+                </a>
+                <span> Today's Vehicle Mapped</span>
+            </div>
+            <div class="col text-center">
+                <a title="Today's Checklist Done" (click)="ShowLRList('ChecklistDone')">
+                    <h4>{{TodayChklistDoneCnt}}</h4>
+                </a>
+                <span>Today's Checklist Done </span>
+            </div>
+            <div class="col text-center">
+                <h4>{{TodayConcernRaisedCnt}}</h4>
+                <span> Concern Raised </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+
+    <div class="card-header">
+        <h2> {{ Title }} </h2>
+        <button title="Download Template file" mat-raised-button (click)="downloadTemplate()">
+            <i class="fa fa-2px fa-download green-color"></i> Download Template
+        </button>
+    </div>
+
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xl-12 col-lg-4">
+                    <mat-label> Select File <span class="text-danger">*</span></mat-label> &nbsp;&nbsp;
+                    <input #fileInput type="file" (change)="onChange()"
+                        accept="xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                    <mat-hint> Accepts only xls or .xlsx </mat-hint>
+                    <button class="matbutton" mat-raised-button color="primary" type="submit"
+                        (click)="onUpload()">Upload</button>
+                    <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+                        <mat-progress-spinner color="primary" mode="indeterminate" diameter="40" strokeWidth="5">
+                        </mat-progress-spinner>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+&nbsp;&nbsp;
+
+<!-- Transit table List -->
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ ListTitle }}</h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Serach -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- <button title="Export to Excel" mat-raised-button (click)="exportAsExcel()">
+            <i class="fa fa-2x fa-file-excel green-color"></i> Export
+        </button> -->
+
+        <button title="Export to Excel" mat-raised-button
+            (click)="exporter.exportTable('xlsx', {fileName:'ImportTransitReportTemplate', sheet: 'sheet1'})">
+            <i class="fa fa-2x fa-file-excel green-color"></i> Export
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12"> <!-- #TABLE-->
+            <div class="Scroll">
+                <table matTableExporter mat-table [dataSource]="DataSource" #Sort="matSort" matSort
+                    #exporter="matTableExporter">
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                        <td mat-cell *matCellDef="let row; let SrNo = index;">
+                            {{ (SrNo + 1) + (paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="InvoiceNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvoiceNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="InvoiceDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Date
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvoiceDate | date: 'dd/MM/yyyy'}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DeliveryNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Delivery No.
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.DeliveryNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Quantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Quantity </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.Quantity }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LrNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.LrNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LrDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR Date </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.LrDate | date: 'dd/MM/yyyy' }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TransporterNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Transporter No.
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.TransporterNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TransporterName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Transporter Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.TransporterName | titlecase }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="VehicleNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Vehicle No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.VehicleNo }}
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="importTransitDetails"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: importTransitDetails;"></tr>
+                </table>
+            </div>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+        </div>
+    </div>
+</div>

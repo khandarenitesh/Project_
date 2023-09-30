@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proto Type Example!</title>
+</head>
+
+<body>
+  <script>
+    //Object literals
+    const person = {
+      alive: true
+    }
+
+    const musician = {
+      plays: true
+    }
+
+    musician.__proto__ = person;
+    console.log(musician.plays);
+    console.log(musician.alive);
+    console.log(musician);
+
+    //JS now has getPrototypeOf and setPrototypeOf instead of using __proto__
+
+  </script>
+</body>
+
+</html>

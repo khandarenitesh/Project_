@@ -1,0 +1,180 @@
+.cancel-buttton {
+  margin-right: 5%;
+}
+
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.mat-column-SrNo {
+  display: none;
+  flex: 0px 0px 10% !important;
+  width: 5% !important;
+}
+
+.mat-column-PicklistNo {
+  flex: 0px 0px 10% !important;
+  width: 8% !important;
+}
+
+.mat-column-PicklistDate {
+  flex: 0px 0px 10% !important;
+  width: 9% !important;
+}
+
+.mat-column-FromInv {
+  flex: 0px 0px 10% !important;
+  width: 9% !important;
+}
+
+.mat-column-ToInv {
+  flex: 0px 0px 10% !important;
+  width: 9% !important;
+}
+
+.mat-column-StatusText {
+  flex: 0px 0px 8% !important;
+  width: 8% !important;
+}
+
+.mat-column-RejectReason {
+  flex: 0px 0px 8% !important;
+  width: 8% !important;
+}
+
+.mat-column-PickListAddFlag {
+  flex: 0px 0px 8% !important;
+  width: 8% !important;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 10% !important;
+  width: 11% !important;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+i {
+  margin-right: 15%;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: underline !important;
+  color: #3f51b5 !important;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mat-column-Action {
+  flex: 0px 0px 10% !important;
+  width: 15%;
+}
+
+.mat-column-Name {
+  flex: 0px 0px 10% !important;
+  width: 30%;
+}
+
+.mat-column-ContactNumber {
+  flex: 0px 0px 10% !important;
+  width: 30%;
+}
+
+i {
+  margin-right: 5%;
+}
+
+::ng-deep .cdk-global-overlay-wrapper,
+::ng-deep .cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+.pickertable thead .alignAtStart,
+.pickertable tbody tr .alignAtStart {
+  text-align: initial !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.AreaTable th,
+.AreaTable td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.AreaTable tr:not(:last-child),
+.AreaTable thead {
+  border-bottom: 1px solid #dddddd !important;
+}
+
+.ptblRow {
+  width: 100%;
+  background: aliceblue;
+}
+
+.is-blue {
+  background: #e2e4f7 !important;
+}
+
+.AreaTable th {
+  font-weight: 500;
+  text-align: center;
+}
+
+.AreaTable td {
+  text-align: center;
+}
+
+.mat-column-expandedDetail {
+  max-width: 100% !important;
+}
+
+.example-detail-row {
+  padding: 0px !important;
+  border: none;
+  height: 0px;
+}
+
+.highlightCancel td {
+  color: rgb(215, 82, 150);
+}
+
+table.AreaTable {
+  display: none;
+}
+
+.col-SrNo {
+  width: 2%;
+}
+
+.col-PickerName {
+  width: 10%;
+}
+
+.col-Status {
+  width: 10%;
+}
+
+.col-ConcernReason {
+  width: 20%;
+}
+
+.col-ConcernRemark {
+  width: 20%;
+}/*# sourceMappingURL=picklist-verify.component.css.map */

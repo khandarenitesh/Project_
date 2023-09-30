@@ -1,0 +1,88 @@
+<!-- Branch Master List -->
+<div class="card">
+  <div class="card-header">
+    <h2>Company List</h2>
+    <!-- <button mat-raised-button color="primary">Add Company</button> -->
+  </div>
+  <div class="card-body">
+    <div class="col-md-12">
+      <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+        <ng-container matColumnDef="SrNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sr.No. </th>
+          <td mat-cell *matCellDef="let row;let SrNo = index;">
+            {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="CompanyCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Company Code </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.CompanyCode }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="CompanyName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Company Name </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.CompanyName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Email </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.CompanyEmail }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ContactNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Contact No. </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.ContactNo }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PAN">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> PAN </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.CompanyPAN }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="GST">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> GST </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.GSTNo }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="City">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.CityName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PinCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Pin Code </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.Pin }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+        <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+      </table>
+
+      <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+
+      <div *ngIf="!DataSource.data.length && !isLoading">
+        <h6 class="noRecordData"> No Record Found </h6>
+      </div>
+
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+    </div>
+  </div>
+</div>

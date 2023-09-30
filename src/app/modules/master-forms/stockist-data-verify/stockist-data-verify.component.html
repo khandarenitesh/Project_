@@ -1,0 +1,310 @@
+<div class="card">
+    <div class="card-header1">
+        <div class="row">
+            <div class="col-md-4">
+                <h2> {{ verifystockistDatatitle }} </h2>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <button mat-raised-button color="primary" type="submit" (click)="GetStockistDataForVerifyList()"> Verfiy
+                    Imported Stockist Data
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="stockistVerifyDataForm"
+            (ngSubmit)="GetStockistDataBranchCompanyForVerifyList()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Branch <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Branch" matInput name="Branch" (focusout)="branchValidation()"
+                            formControlName="Branch" [matAutocomplete]="autoBranchName">
+                        <mat-autocomplete #autoBranchName="matAutocomplete" [displayWith]="displayFnBranchName">
+                            <mat-option *ngFor="let option of BranchNameArray | async" [value]="option">
+                                {{ option.BranchName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Branch.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Branch.errors.required"> Please select Branch </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidBranch" class="invalid-feedback">
+                        Please select valid Branch
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Company <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="company" matInput name="Company" formControlName="Company"
+                            [matAutocomplete]="autoCompanyName" (focusout)="companyValidation()">
+                        <mat-autocomplete #autoCompanyName="matAutocomplete" [displayWith]="displayFnCompanyName">
+                            <mat-option *ngFor="let campny of CompanyNameArray | async" [value]="campny">
+                                {{ campny.CompanyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Company.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Company.errors.required"> Please select company </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+                        Please select valid Company
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <div class="col">
+                        <button mat-raised-button color="primary" type="submit"> Verfiy Branch Company Mapping Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card" *ngIf="DataSourceInvalidStockistData.data.length > 0">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2> Invalid Stockist Data List View </h2>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel1" [(ngModel)]="searchModel1" (keyup)="applyFilterStockistData()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <table style="display: block !important" mat-table [dataSource]="DataSourceInvalidStockistData" customPaginator #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                    <td mat-cell *matCellDef="let row;let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.StockistName === null || row.StockistName === ''"
+                            class="isColoRed">Invalid</span>
+                        {{ row.StockistName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Code </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.StockistNo === null || row.StockistNo === ''" class="isColoRed">Invalid</span>
+                        {{ row.StockistNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CityName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.CityName === null || row.CityName === ''" class="isColoRed">Invalid</span>
+                        {{ row.CityName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistPAN">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist PAN </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.StockistPAN === null || row.StockistPAN === ''" class="isColoRed"> Invalid
+                        </span>
+                        {{ row.StockistPAN }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="DLExpDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Dl Expiry Date </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="(row.DLExpDate === '0001-01-01T00:00:00') || (row.DLExpDate ==='1900-01-01 00:00:00.000') ||
+                        (row.DLExpDate === '1900-01-01T00:00:00')" class="isColoRed">Invalid</span>
+                        <span *ngIf="(row.DLExpDate !== '0001-01-01T00:00:00') && (row.DLExpDate !=='1900-01-01 00:00:00.000') &&
+                    (row.DLExpDate !== '1900-01-01T00:00:00')">
+                            {{ row.DLExpDate | date: 'dd/MM/yyyy'}}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="FoodLicExpDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Food Lic Exp Date
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="(row.FoodLicExpDate === '0001-01-01T00:00:00') || (row.FoodLicExpDate ==='1900-01-01 00:00:00.000') ||
+                (row.FoodLicExpDate === '1900-01-01T00:00:00')" class="isColoRed"> Invalid</span>
+                        <span *ngIf="(row.FoodLicExpDate !== '0001-01-01T00:00:00') && (row.FoodLicExpDate !=='1900-01-01 00:00:00.000') &&
+                  (row.FoodLicExpDate !== '1900-01-01T00:00:00')">
+                            {{ row.FoodLicExpDate | date: 'dd/MM/yyyy'}}
+                        </span>
+
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="FoodLicNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Food Lic No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.FoodLicNo === null || row.FoodLicNo === ''" class="isColoRed"> Invalid </span>
+                        {{ row.FoodLicNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="GSTNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> GST No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.GSTNo === null || row.GSTNo === ''" class="isColoRed"> Invalid</span>
+                        {{ row.GSTNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="MobNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Mobile No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.MobNo === null || row.MobNo === ''" class="isColoRed"> Invalid</span>
+                        {{ row.MobNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Emailid">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Email </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.Emailid === null || row.Emailid === ''" class="isColoRed">Invalid</span>
+                        {{ row.Emailid }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="BankAccountNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Account No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.BankAccountNo === null || row.BankAccountNo === ''" class="isColoRed">
+                            Invalid</span>
+                        {{ row.BankAccountNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Pincode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Pincode </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.Pincode }}
+                    </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="StockistAddress">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Address </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.StockistAddress }}
+                    </td>
+                </ng-container> -->
+
+
+                <tr mat-header-row *matHeaderRowDef="ColumnDataDisplay"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: ColumnDataDisplay;"></tr>
+            </table>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                strokeWidth="5"></mat-progress-spinner>
+            <div *ngIf="!DataSourceInvalidStockistData.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <!-- <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator> -->
+            <mat-paginator #paginator customPaginator (paginatorLoaded)="DataSourceInvalidStockistData.paginator=$event"
+                class="mt-3" [pageSize]="10" [pageSizeOptions]="[15,30,50,100]" showFirstLastButtons> </mat-paginator>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="DataSourceCompBrnchInvldMapping.data.length > 0">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Invalid Stockist Branch and Company Relation Mapping </h2>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel"
+                        (keyup)="applyFilterCompBrnchInvldMapping()" placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <table mat-table [dataSource]="DataSourceCompBrnchInvldMapping" customPaginator #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                    <td mat-cell *matCellDef="let row;let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator1.pageIndex * paginator1.pageSize ) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Code </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.StockistNo === null || row.StockistNo === ''" class="isColoRed"> Invalid</span>
+                        {{ row.StockistNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistName1">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.StockistName === null || row.StockistName === ''" class="isColoRed">
+                            Invalid</span>
+                        {{ row.StockistName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistPAN">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist PAN </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.StockistPAN === null || row.StockistPAN === ''" class="isColoRed">  Invalid</span>
+                        {{ row.StockistPAN }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="MobNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Mobile No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.MobNo === null || row.MobNo === ''" class="isColoRed">Invalid</span>
+                        {{ row.MobNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.BRCRNotMap ===1"
+                            class="isColoRed"> Both Mapping Pending
+                        </span>
+                        <span *ngIf="row.MappedWithBR === 1" class="isColoRed">Company Mapping Pending </span>
+                        <span *ngIf="row.MappedWithCMp === 1" class="isColoRed">Branch Mapping Pending </span>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="ColumnDataDisplay1"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: ColumnDataDisplay1;"></tr>
+            </table>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                strokeWidth="5"></mat-progress-spinner>
+            <div *ngIf="!DataSourceCompBrnchInvldMapping.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator1 customPaginator
+                (paginatorLoaded)="DataSourceCompBrnchInvldMapping.paginator=$event" class="mt-3" [pageSize]="10"
+                [pageSizeOptions]="[15,30,50,100]" showFirstLastButtons> </mat-paginator>
+        </div>
+    </div>
+</div>

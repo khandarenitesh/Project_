@@ -1,0 +1,203 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <h4 style="cursor: pointer;" title="Today's With Old Open Invoices">
+                    <h4>{{ TodaysWithOldOpen }}</h4>
+                </h4>
+                <span>All Invoices</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Pending Invoices">
+                    <h4>{{ PendingInvCtn }}</h4>
+                </a>
+                <span>Pending Invoices</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Picker Concern">
+                    <h4>{{ PackerConcern }}</h4>
+                </a>
+                <span>Packer Concern</span>
+            </div>
+            <!-- <div class="col text-center">
+                <a style="cursor: pointer;" title="Priority">
+                    <h4>{{ OnPriorityCtn }}</h4>
+                </a>
+                <span> Priority </span>
+            </div> -->
+            <div class="col text-center">
+                <h4>{{ StkPrint }}</h4>
+                <span>Sticker Print</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ GatpassGenCtn }}</h4>
+                <span>Gatpass Gen</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="PendingLR">
+                    <h4>{{ PendingLR }}</h4>
+                </a>
+                <span> Pending LR </span>
+            </div>
+
+            <div class="col text-center">
+                <h4>{{ CancelInvCtn }}</h4>
+                <span>Cancel Invoices</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Stock Transfer">
+                    <h4>{{ IsStockTransferCtn }}</h4>
+                </a>
+                <span>Stock Transfer</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ LocalMode }}</h4>
+                <span> Local Mode</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ OtherCity }}</h4>
+                <span> Other City</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ ByHand }}</h4>
+                <span> By Hand</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h2> {{Title}} </h2>
+        <button title="Download Template" mat-raised-button (click)="DownloadTemplate()">
+            <i class="fa fa-2px fa-download green-color"></i>Download Template
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xl-12 col-lg-4">
+                    <mat-label> Select File <span class="text-danger">*</span></mat-label> &nbsp;&nbsp;
+                    <input #fileInput type="file" (change)="onChange()"
+                        accept="xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                    <mat-hint> Accepts only xls or .xlsx </mat-hint>
+                    <button mat-raised-button class="matbutton" color="primary" type="submit" (click)="onUpload()"><i
+                            class="fa fa-upload white-color"></i>Upload</button>
+                    <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+                        <mat-progress-spinner color="primary" mode="indeterminate" diameter="40" strokeWidth="5">
+                        </mat-progress-spinner>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+&nbsp;&nbsp;
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ ListTitle }}</h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Search -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="Scroll">
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                        <td mat-cell *matCellDef="let row;let SrNo = index;">
+                            {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="InvNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="NoOfBox">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Box </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.NoOfBox }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Code
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LRNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.LRNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LRDatestring">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR Date </th>
+                        <td mat-cell *matCellDef="let row">
+                            <label *ngIf="row.LRDate =='0001-01-01T00:00:00'"> </label>
+                            <label *ngIf="row.LRDate !='0001-01-01T00:00:00'">{{ row.LRDate | date:
+                                'dd/MM/yyyy' }} </label>
+                            <!-- {{ row.LRDate | date:'dd/MM/yyyy' }} -->
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LRBox">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR Box </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.LRBox }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IsStockTransfer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Is Stock Transfer
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="row.IsStockTransfer == 1">Y</span>
+                            <span *ngIf="row.IsStockTransfer == 0">N</span>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="importLRDerails"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: importLRDerails;"
+                        [ngClass]="{'highlightPriority': row.OnPriority === 1 }"></tr>
+                </table>
+            </div>
+            <!-- <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner> -->
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+        </div>
+    </div>
+</div>

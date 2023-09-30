@@ -1,0 +1,210 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ Title }}</h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="cartingagentForm" (ngSubmit)="SaveCartingAgent()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <!-- <mat-form-field>
+                        <mat-label> Branch <span class="text-danger"> * </span> </mat-label>
+                        <mat-select name="Branch" formControlName="Branch">
+                            <mat-option *ngFor="let br of BranchList" [value]="br.BranchId">
+                                {{ br.BranchName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+                    <!-- autocomplete code for Branch Start-->
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Branch <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Branch" matInput name="Branch" (focusout)="branchValidation()"
+                            formControlName="Branch" [matAutocomplete]="autoBranchName">
+                        <mat-autocomplete #autoBranchName="matAutocomplete" [displayWith]="displayFnBranchName">
+                            <mat-option *ngFor="let option of BranchNameArray | async" [value]="option">
+                                {{ option.BranchName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <!-- autocomplete Branch End-->
+                    <mat-error *ngIf="submitted && f.Branch.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Branch.errors.required"> Please select Branch </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.Branch.touched && f.Branch.invalid" class="invalid-feedback">
+                        Branch is required
+                    </mat-error> -->
+                    <mat-error *ngIf="InvalidBranch" class="invalid-feedback">
+                        Please select valid Branch
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Carting Agent Name <span class="text-danger"> * </span> </mat-label>
+                        <input matInput type="text" placeholder="Carting Agent Name" name="CAName"
+                            formControlName="CAName" (focusout)="onCarAgentChange()">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.CAName.errors" class="invalid-feedback">
+                        <span *ngIf="f.CAName.errors.required"> Carting agent name is required </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.CAName.touched && f.CAName.invalid"
+                        class="invalid-feedback">
+                        Carting agent name is required
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Telephone Number <span class="text-danger"> * </span> </mat-label>
+                        <input matInput placeholder="Telephone Number" name="CAMobNo" formControlName="CAMobNo"
+                            (keypress)="mobileNoValidation($event)" maxlength="22"
+                            (focusout)="CopyPasteMblNotSpelcharAllow()">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.CAMobNo.errors" class="invalid-feedback">
+                        <span *ngIf="f.CAMobNo.errors.required"> Telephone number is required </span>
+                    </mat-error>
+                    <mat-error
+                        *ngIf="submitted === false && f.CAMobNo.touched && f.CAMobNo.invalid && IsInvalidMobile === false"
+                        class="invalid-feedback">
+                        Telephone number is required
+                    </mat-error>
+                    <mat-error *ngIf="IsInvalidMobile === true">
+                        Please Enter Valid Telephone Number
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> PAN <span class="text-danger"> * </span> </mat-label>
+                        <input matInput placeholder="PAN No" name="CAPan" formControlName="CAPan"
+                            (keypress)="PANNoValidation($event)" maxlength="10" (focusout)="copyPastNumbeAllow()">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.CAPan.errors" class="invalid-feedback">
+                        <span *ngIf="f.CAPan.errors.required"> PAN is required </span>
+                    </mat-error>
+                    <mat-error
+                        *ngIf="submitted === false && f.CAPan.touched && f.CAPan.invalid && IsInvalidPan === false"
+                        class="invalid-feedback">
+                        PAN number is required
+                    </mat-error>
+                    <mat-error *ngIf="IsInvalidPan === true" class="invalid-feedback">
+                        Please Enter Valid Pan Card
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> GST No </mat-label>
+                        <input matInput placeholder="GST No" name="GSTNo" formControlName="GSTNo"
+                            (keypress)="GstValidation($event)" maxlength="15" (focusout)="copyPastGSTNoNumbeAllow()">
+                    </mat-form-field>
+                    <mat-error *ngIf="IsInvalidGSTNo === false">
+                        Please Enter Valid GST No
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Email </mat-label>
+                        <input matInput type="email" placeholder="abc@gmail.com" name="CAEmail"
+                            formControlName="CAEmail" (focusout)="emailValidation()" style="text-transform:lowercase">
+                    </mat-form-field>
+                    <mat-error *ngIf="IsEmailFlag === false"> Email must be a valid email address </mat-error>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <!-- <mat-form-field>
+                        <mat-label> Region </mat-label>
+                        <mat-select name="Region" formControlName="Region">
+                            <mat-option *ngFor="let Region of RegionList" [value]="Region.StateCode">
+                                {{Region.StateName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+                    <!-- autocomplete code -->
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Region </mat-label>
+                        <input type="text" placeholder="Region" matInput name="Region" formControlName="Region"
+                            [matAutocomplete]="autoRegion" (focusout)="RegionValidation()">
+                        <mat-autocomplete #autoRegion="matAutocomplete" [displayWith]="displayFnRegion">
+                            <mat-option *ngFor="let option of filteredOptRegion | async" [value]="option">
+                                {{ option.StateName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="InvalidRegion" class="invalid-feedback">
+                        Please select valid Region
+                    </mat-error>
+
+                </div>
+                <div class="col">
+                    <!-- <mat-form-field>
+                        <mat-label> District </mat-label>
+                        <mat-select name="City" formControlName="District">
+                            <mat-option *ngFor="let district of DistrictList" [value]="district.DistrictCode">
+                                {{district.DistrictName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+                    <!-- autocomplete code start-->
+                    <mat-form-field class="example-full-width">
+                        <mat-label> District </mat-label>
+                        <input type="text" placeholder="District" matInput name="District" formControlName="District"
+                            [matAutocomplete]="autoDistrict" (focusout)="DistrictValidation()">
+                        <mat-autocomplete #autoDistrict="matAutocomplete" [displayWith]="displayFnDistrict">
+                            <mat-option *ngFor="let option of filteredOptDistrict | async" [value]="option">
+                                {{ option.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="InvalidDistrict" class="invalid-feedback">
+                        Please select valid District
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <!-- <mat-form-field>
+      <mat-label> City </mat-label>
+      <mat-select name="City" formControlName="City">
+          <mat-option *ngFor="let City of CityList" [value]="City.CityCode">
+              {{City.CityName}}
+          </mat-option>
+      </mat-select>
+  </mat-form-field> -->
+                    <!-- autocomplete code -->
+                    <mat-form-field class="example-full-width">
+                        <mat-label>City </mat-label>
+                        <input type="text" placeholder="City" matInput name="City" formControlName="City"
+                            [matAutocomplete]="autoCity" (focusout)="CityValidation()">
+                        <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displayFnCity">
+                            <mat-option *ngFor="let option of filteredOptCity | async" [value]="option">
+                                {{ option.CityName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="InvalidCity" class="invalid-feedback">
+                        Please select valid City
+                    </mat-error>
+                </div>
+            </div>
+            <div class="col">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Address </mat-label>
+                    <textarea matInput placeholder="Address" name="Address" formControlName="Address"
+                        [ngClass]="{ 'is-invalid': submitted && f.Address.errors }"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" type="submit" (click)="redirect()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit">{{ pageState }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

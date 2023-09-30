@@ -1,0 +1,228 @@
+<!-- Employee Master List -->
+<div class="card">
+
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h2> List View </h2>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="searchField" style="margin-right: 2%;">
+          <span class="GlobalSearch" matPrefix>
+            <mat-icon>search</mat-icon> &nbsp;
+          </span>
+          <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+        </mat-form-field>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="col-md-12">
+      <div class="Scroll">
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+          <ng-container matColumnDef="SrNo">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+            <td mat-cell *matCellDef="let row;let SrNo = index;">
+              {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="UserName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> User Name </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.UserName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="EmpNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Employee No.
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.EmpNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="EmpName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Employee Name
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.EmpName }}
+            </td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="EmpAddress">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Employee Address </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.EmpAddress }}
+                    </td>
+                </ng-container> -->
+
+          <ng-container matColumnDef="EmpMobNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Mobile No. </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.EmpMobNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="BranchName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Branch </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.BranchName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="BloodGroupName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Blood Group </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.BloodGroupName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="AadharNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Aadhar Card No.
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.AadharNo }}
+            </td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="IsActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.IsActive === "Y" ? "Active" : "Deactive" }}
+                    </td>
+                </ng-container> -->
+
+          <!-- <ng-container matColumnDef="IsUser">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Is User </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.IsUser === "Y" ? "Y" : "N" }}
+                    </td>
+                </ng-container> -->
+
+          <ng-container matColumnDef="UserStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> User Status </th>
+            <td mat-cell *matCellDef="let row">
+              <a (click)="ChangeUser(row, row.UserStatus)" style="cursor: pointer;" title="Change User Status">
+                <i *ngIf="row.UserStatus === 'Y'" class="fa fa-toggle-on"></i>
+                <i *ngIf="row.UserStatus === 'N'" class="fa fa-toggle-off"></i>
+              </a>
+            </td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+            <td mat-cell *matCellDef="let row">
+              <a (click)="AddEditUser(AddEditPopup,row,'Save')" *ngIf="row.IsUser==='N' && row.IsActive ==='Y'"> Create
+                User </a>
+              <a style="cursor: pointer;" (click)="AddEditUser(AddEditPopup,row,'Edit')" *ngIf="row.IsUser==='Y'"
+                title="Edit"><i class="fa fa-edit" title="Edit"></i></a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+          <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+        </table>
+      </div>
+
+      <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+
+      <div *ngIf="!DataSource.data.length && !isLoading">
+        <h6 class="noRecordData commonFontSize"> No Record Found </h6>
+      </div>
+
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+    </div>
+  </div>
+</div>
+<!-- Add Edit User Popup -->
+<ng-template id="AddEditPopup" #AddEditPopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ UserTitle }}</h4>
+    <a class="" style="float: right; cursor: pointer; margin-right:0%;" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a>
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <form class="vForm" [formGroup]="UserForm" autocomplete="off">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field>
+              <mat-label> Role <span class="text-danger"> * </span> </mat-label>
+              <mat-select placeholder="Role" name="Role" formControlName="Role" #select multiple>
+                <mat-option *ngFor="let role of RoleList" [value]="role">
+                  {{ role.RoleName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.Role.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Role.errors.required"> Role is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.Role.touched && f.Role.invalid" class="invalid-feedback">
+              Role is required
+            </mat-error>
+          </div>
+
+          <!-- User Name -->
+          <div class="col-md-4">
+            <mat-form-field class="example-full-width">
+              <mat-label> User Name <span class="text-danger"> * </span> </mat-label>
+              <input matInput placeholder="User Name" name="UserName" formControlName="UserName"
+                autocomplete="new-User-Name" (ngModelChange)="onUserNameChange()" />
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.UserName.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.UserName.errors.required"> Username is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.UserName.touched && f.UserName.invalid" class="invalid-feedback">
+              Username is required
+            </mat-error>
+          </div>
+
+          <!--  Password -->
+          <div class="col-md-4" [style.visibility]="IsHide ? 'visible' : 'hidden'">
+            <mat-form-field class="example-full-width">
+              <mat-label> Password <span class="text-danger"> * </span> </mat-label>
+              <input matInput placeholder="Enter Password" name="Password" autocomplete="new-password"
+                formControlName="Password" />
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Password.errors.minlength"> Password should have at least 8 Characters
+              </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Password.errors.required"> Password is required </mat-error>
+            </mat-error>
+            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: 'Password should have at least 8 Characters',
+                            control: UserForm.controls['Password']
+                          }"></ng-container> -->
+            <mat-error *ngIf="submitted === false && f.Password.touched && f.Password.invalid" class="invalid-feedback">
+              Password is required
+            </mat-error>
+          </div>
+          &nbsp;&nbsp;&nbsp;
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+              <button mat-raised-button class="cancel-buttton" type="button" (click)="ClearForm()"
+                title="Cancel">Cancel</button>
+              <button mat-raised-button class="cancel-buttton" color="primary" type="submit" (click)="SaveUser()"
+                title="{{ UserTitle }}"> {{ PageState }} </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

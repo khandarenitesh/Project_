@@ -1,0 +1,221 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ AddTitle }} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="checkListmasterForm" (ngSubmit)="SaveChecklistMaster()" autocomplete="off">
+            <div class="row">
+                <!-- Start Branch Name -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Branch <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Branch" matInput name="Branch" formControlName="Branch"
+                            [matAutocomplete]="autoBranch" (focusout)="BranchValidation()">
+                        <mat-autocomplete #autoBranch="matAutocomplete" [displayWith]="displayFnBranch">
+                            <mat-option *ngFor="let option of filteredOptBranch | async" [value]="option">
+                                {{ option.BranchName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="InvalidBranch" class="invalid-feedback">
+                        Please select valid Branch Name
+                    </mat-error>
+                </div>
+                <!-- End Branch Name -->
+                <!-- Start Company Name -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Company Name <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Company Name" matInput name="CompanyName"
+                            formControlName="CompanyName" [matAutocomplete]="autoCompany"
+                            (focusout)="CompanyNameValidation()">
+                        <mat-autocomplete #autoCompany="matAutocomplete" [displayWith]="displayFnCompany">
+                            <mat-option *ngFor="let option of filteredCompany | async" [value]="option">
+                                {{ option.CompanyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="Invalidcompany" class="invalid-feedback">
+                        Please select valid Company Name
+                    </mat-error>
+                </div>
+                <!-- End Company Name -->
+
+                <!-- Start Questions Name -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Question <span class="text-danger"> * </span></mat-label>
+                        <textarea matInput placeholder="Question" name="Questions"
+                            formControlName="Questions"></textarea>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Questions.errors" class="invalid-feedback">
+                        <span *ngIf="f.Questions.errors.required"> Questions is required </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.Questions.touched && f.Questions.invalid"
+                        class="invalid-feedback">
+                        Questions is required
+                    </mat-error>
+                </div>
+                <!-- End Questions Name  -->
+            </div>
+            <div class="row">
+
+                <!-- Start Sequence No  -->
+                <div class="col">
+                    <mat-form-field class="example-full-width" autocomplete="off">
+                        <mat-label> Sequence No <span class="text-danger"> * </span> </mat-label>
+                        <input matInput type="text" (keypress)="numberValidation($event)" placeholder="Sequence No"
+                            pattern="\d*" name="SequenceNo" formControlName="SequenceNo"
+                            (focusout)="onSequenceNoChange()" maxlength="15">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.SequenceNo.errors" class="invalid-feedback">
+                        <span *ngIf="f.SequenceNo.errors.required"> Sequence No is required </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.SequenceNo.touched && f.SequenceNo.invalid"
+                        class="invalid-feedback">
+                        Sequence No is required
+                    </mat-error>
+                </div>
+                <!-- End Sequence No  -->
+
+                <!-- Start Control Type  -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Control Type <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Control Type" matInput name="ControlType"
+                            formControlName="ControlType" [matAutocomplete]="autoControlType"
+                            (focusin)="ControlTypeValidation()">
+                        <!-- <mat-autocomple  te #autoControlType="matAutocomplete">
+                          <mat-option value="Check Box">Check Box</mat-option>
+                          <mat-option value="Text Box">Text Box</mat-option>
+                      </mat-autocomple> -->
+                        <mat-autocomplete #autoControlType="matAutocomplete" [displayWith]="displayFnControlType">
+                            <mat-option *ngFor="let option of ControlTypeListArray | async" [value]="option">
+                                {{ option.ControlTypeName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ControlType.errors" class="invalid-feedback">
+                        <span *ngIf="f.ControlType.errors.required"> ControlType is required </span>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidControlType" class="invalid-feedback">
+                        Please select valid Control Type
+                    </mat-error>
+                </div>
+                <!-- End Control Type  -->
+                <div class="col"></div>
+            </div>
+            <div class="col"></div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-button" (click)="ClearForm()" type="button">
+                        Cancel</button>
+                    <button mat-raised-button color="primary" type="submit"> {{ pageState }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+&nbsp;&nbsp;
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ListTitle}} </h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Serach -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="Scroll">
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS">Sr. No. </th>
+                        <td mat-cell *matCellDef="let row; let SrNo = index;">
+                            {{ (SrNo + 1) + (paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BranchName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Branch Name </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.BranchName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="CompanyName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Company Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.CompanyName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Questions">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Questions </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.QuestionName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ControlType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> ControlType </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.ControlType }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="SequenceNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sequence No </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.SeqNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+                        <td mat-cell *matCellDef="let row">
+                            <a (click)="ChangeStatus(row)" style="cursor: pointer;" title="Change Status">
+                                <i *ngIf="row.IsActive === 'Y'" class="fa fa-toggle-on"></i>
+                                <i *ngIf="row.IsActive === 'N'" class="fa fa-toggle-off"></i>
+                            </a>
+                        </td>
+                    </ng-container>
+
+                    <!-- Actions -->
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                        <td mat-cell *matCellDef="let row">
+                            <a (click)="EditData(row)" style="cursor: pointer;" title="Edit"><i
+                                    class="fa fa-edit"></i></a>
+                            <a (click)="DeleteStatus(row)" style="cursor: pointer;" title="Delete"><i
+                                    class="far fa-trash-alt" title="Delete"></i></a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="CheckListMasterDetails"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: CheckListMasterDetails;"></tr>
+
+                </table>
+            </div>
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+        </div>
+    </div>
+</div>

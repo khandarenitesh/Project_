@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A program to find 1st january is being  a Sunday between 2014 and 2050.</title>
+</head>
+<body>
+  <script>
+    console.log('-----------------------------------------------------');
+    for(var year =2014; year<=2050;year++){
+      var d = new Date(year,0,1);
+      if(d.getDay() ===0){
+        console.log('1st january is being a Sunday'+year);
+      }
+    }
+    console.log('----------------------------------------------------');
+
+    function stringcheck(str1){
+     if(str1===null || str1===undefined || str1.substring(0,2)){
+      return;
+     }
+     return 'Py'+str1;
+    }
+    var str2='Python'
+    console.log('Normal value: '+str2);
+    console.log('using function ',stringcheck(str2));
+
+
+
+      function string_check(str1) {
+        if (str1 === null || str1 === undefined || str1.substring(0, 2)==='')
+        {
+          return str1;
+        }
+        return "heeeeeeee"+str1;
+      }
+
+      console.log(string_check("Python"));
+      console.log(string_check("Nitesh"));
+
+  </script>
+</body>
+</html>

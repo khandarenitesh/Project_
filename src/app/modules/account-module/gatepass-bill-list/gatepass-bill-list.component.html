@@ -1,0 +1,253 @@
+<div class="card" *ngIf="Flag != 'Concern'">
+    <div class="card-header">
+        <h2> {{ Title }} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="GatepassBillSummaryForm" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Exp Inv No </mat-label>
+                        <input type="text" placeholder="Exp Inv No" matInput name="ExpInvNo" (focusout)="ExpInvNoValidation()" formControlName="ExpInvNo" [matAutocomplete]="autoExpInvNo">
+                        <mat-autocomplete #autoExpInvNo="matAutocomplete" [displayWith]="displayFnExpInvNo">
+                            <mat-option *ngFor="let option of ExpInvNoNameArray | async" [value]="option">
+                                {{ option.ExpInvNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ExpInvNo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.ExpInvNo.errors.required"> Please select exp invoice no. </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidExpInvNo" class="invalid-feedback">
+                        Please select valid exp invoice no.
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Transporter / Courier Name </mat-label>
+                        <input type="text" placeholder="Transporter / Courier Name" matInput name="Transporter" formControlName="Transporter">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Company <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="company" matInput name="Company" formControlName="Company" [matAutocomplete]="autoCompanyName" (focusout)="companyValidation()">
+                        <mat-autocomplete #autoCompanyName="matAutocomplete" [displayWith]="displayFnCompanyName">
+                            <mat-option *ngFor="let campny of CompanyNameArray | async" [value]="campny">
+                                {{ campny.CompanyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Company.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Company.errors.required"> Please select company </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+                        Please select valid Company
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> From Date </mat-label>
+                        <input matInput [matDatepicker]="picker" [formControl]="FromDate" [max]="FromDate.value">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> To Date </mat-label>
+                        <input matInput [matDatepicker]="picker2" [min]="FromDate.value" [formControl]="ToDate" [max]="ToDate.value">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h2> List View </h2>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- <button title="Export to Excel" mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:'GatepassBillSummary', sheet: 'sheet1'})" style="float:right;">
+            <i class="fa fa-2x fa-file-excel green-color"></i> Export
+        </button> -->
+    </div>
+    <div class="card-body">
+        <div class="Scroll">
+            <table class="multiTable" mat-table multiTemplateDataRows mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr.No. </th>
+                    <td mat-cell *matCellDef="let row;let SrNo = index;">
+                        <!-- {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }} -->
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="GPDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Date </th>
+                    <td mat-cell *matCellDef="let row" class="alignAtStart" (click)="expandCollapse(row)">
+                        <mat-icon class="btn-link" style="vertical-align: middle; cursor: pointer;" (click)="expandCollapse(row)">
+                            {{ expandedElement !== row ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+                        </mat-icon>
+                        {{ row.GPDate | date: 'dd/MM/yyyy' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="GPNoOfInv">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> No.Of Inv.</th>
+                    <td mat-cell *matCellDef="let row" (click)="expandCollapse(row)">
+                        {{ row.GPNoOfInv }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="GPNoOfBox">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> No.Of Box </th>
+                    <td mat-cell *matCellDef="let row" (click)="expandCollapse(row)">
+                        {{ row.GPNoOfBox }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="RatePerBox">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Rate Per Box </th>
+                    <td mat-cell *matCellDef="let row" (click)="expandCollapse(row)">
+                        {{ row.RatePerBox}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="CityName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City </th>
+                    <td mat-cell *matCellDef="let row" (click)="expandCollapse(row)">
+                        {{ row.CityName}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Amount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Amount </th>
+                    <td mat-cell *matCellDef="let row" (click)="expandCollapse(row)">
+                        {{ row.Amount}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                    <td style="padding: inherit;" mat-cell *matCellDef="let row;let j = index;">
+                        <!-- <input type="checkbox" id="" name="Checked" (change)="checkUncheckAll($event,row)">&nbsp;&nbsp; -->
+                        <input type="checkbox" id="{{ 'GBL' + GatepassIdByValue }}" name="{{ 'GBL' + GatepassIdByValue }}" (change)="checkUncheckAll($event, row)">&nbsp;&nbsp;
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let row1" [attr.colspan]="displayedColumnsForApi.length">
+                        <div class="example-element-detail" [@detailExpand]="row1 == expandedElement ? 'expanded' : 'collapsed'">
+                            <table id="{{row1.dtctID}}" class="AreaTable Gatepasstable">
+                                <thead class="Pthead">
+                                    <tr class="Ptr">
+                                        <th class="col-SrNo">Sr.No.</th>
+                                        <th class="col-GPDate">GP Date</th>
+                                        <th class="col-GPNoOfInv">GP No.Of Inv.</th>
+                                        <th class="col-GPNoOfBox"> GP No.Of Box </th>
+                                        <th class="col-RatePerBox"> Rate </th>
+                                        <th class="col-Amount"> Amount</th>
+                                        <th class="col-TranspNoOfBox"> Transp No.Of Box</th>
+                                        <th class="col-DtlsStatus"> Status</th>
+                                        <th class="col-Select"> Select</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let gatepass of row1.GpSummaryById; let i = index;">
+                                        <td>{{i + 1}}</td>
+                                        <td>{{gatepass.GPDate | date: 'dd/MM/yyyy'}}</td>
+                                        <td>{{gatepass.GPNoOfInv}}</td>
+                                        <td>{{ gatepass.GPNoOfBox }}</td>
+                                        <td>{{ gatepass.RatePerBox }}</td>
+                                        <td>{{ gatepass.Amount }}</td>
+                                        <td *ngIf="gatepass.IsRaiseConcern === false">{{ gatepass.TranspNoOfBox }}</td>
+                                        <td *ngIf="gatepass.IsRaiseConcern === true">
+                                            <input type="textbox" matInput name="TranspNoOfBox" class="Border" [(ngModel)]="gatepass.TranspNoOfBox" [ngModelOptions]="{standalone: true}" (focusout)="PushConcernData(gatepass)">
+                                        </td>
+                                        <td>{{ gatepass.DtlsStatusText }}</td>
+                                        <td style="padding: inherit;">
+                                            <!-- <input type="checkbox" id="{{ 'checkbyId' + gatepass.GatepassId }}" (change)="getCheckboxesData(gatepass)" [(ngModel)]="gatepass.Checked" *ngIf="gatepass.DtlsStatus === 0" />&nbsp;&nbsp; -->
+                                            <input type="checkbox" id="{{ 'chkBoxById' + gatepass.gpctId }}" name="{{ 'chkBoxById' + gatepass.GatepassId }}" (change)="getCheckboxesData(gatepass)" [(ngModel)]="gatepass.Checked" *ngIf="gatepass.DtlsStatus === 0" />&nbsp;&nbsp;
+                                            <a (click)="RaiseConcernSave(gatepass)" id="{{ 'checked' + gatepass.gpctId }}" class="rmargin" *ngIf="gatepass.DtlsStatus === 0">
+                                                Raise Concern
+                                            </a>
+                                            <a (click)="ViewPopup(gatepass,ResolveConcern)" class="rmargin" *ngIf="gatepass.DtlsStatus === 1">
+                                                Resolve Concern
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+                <tr mat-row class="tblRow" *matRowDef="let row; columns: ['expandedDetail']" [class.example-expanded-row]="expandedElement === row" class="example-detail-row ptblRow" id="Expand{{row.dtctID}}"></tr>
+            </table>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+        </div>
+        <!-- <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator> -->
+        &nbsp;&nbsp;
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col"></div>
+            <div class="col">
+                <button mat-raised-button color="primary" class="submit-buttton" (click)="VerifyData()" *ngIf="Flag !=='Concern'" [disabled]="VerifyButtonId === false"> Verify </button>
+                <button mat-raised-button class="cancel-buttton" (click)="redirect()">Cancel</button>
+            </div>
+        </div>
+        &nbsp;&nbsp;
+    </div>
+</div>
+
+<!-- Resolve Concern - Popup Code -->
+<ng-template id="ResolveConcern" #ResolveConcern let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title"> Resolve Concern </h4>
+        <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">
+                <i class="fa fa-times SBModalclose"></i>
+            </span>
+        </a>
+    </div>
+    <div class="modal-body cons-info">
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Remark </mat-label>
+                    <textarea matInput type="text" placeholder="Remark" name="ResRemark" [(ngModel)]="ResRemark" #rmrk="ngModel" [ngModelOptions]="{standalone: true}" required></textarea>
+                    <mat-error *ngIf="rmrk.errors?.required && rmrk.touched">
+                        Remark is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button mat-raised-button class="cancel-buttton" color="primary" (click)="ExpInvResolveConcern()"> Save
+        </button>
+        <button mat-raised-button class="cancel-buttton" (click)="ClearPopup()">Cancel</button>
+    </div>
+</ng-template>

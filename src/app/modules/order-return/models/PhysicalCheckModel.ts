@@ -1,0 +1,25 @@
+export class PhysicalCheckModel {
+  BranchId: number = 0;
+  CompId: number = 0;
+  UserId: number = 0;
+  PhyChkId: number = 0;
+  LREntryId: number = 0;
+  GatepassNo: string = '';
+  StockistId: number = 0;
+  StockistNo: string = '';
+  StockistName: string = '';
+  LRNo: string = '';
+  ReturnCatId: number = 0;
+  RetCatName: string = '';
+  ClaimNo: string = '';
+  ClaimDate: string = '';
+  ConcernId: string = '';
+  ConcernText: string = '';
+  ConcernDate: string = '';
+  ConcernBy: number = 0;
+  ConcernByName: string = '';
+  ResolveConcernBy: number = 0;
+  ResolveConcernByName: string = '';
+  ResolveConcernDate: string = '';
+  ResolveRemark: string = '';
+}

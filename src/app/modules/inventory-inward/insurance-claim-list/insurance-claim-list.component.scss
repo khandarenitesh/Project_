@@ -1,0 +1,93 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095e8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 2% !important;
+    width: 7%;
+    padding-right: 12px;
+}
+
+.mat-column-LRNo {
+    flex: 0px 0px 8% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-ClaimNo {
+    flex: 0px 0px 10% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-ClaimSANDate {
+    flex: 0px 0px 11% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-ClaimAmount {
+    flex: 0px 0px 7% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-EmailSendDate {
+    flex: 0px 0px 7% !important;
+    width: 12;
+    padding-right: 12px;
+}
+
+.mat-column-ClaimType {
+    flex: 0px 0px 6% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 6% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+i {
+    margin-right: 15%;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+a {
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    color: blue !important;
+}

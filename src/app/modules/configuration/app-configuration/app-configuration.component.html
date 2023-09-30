@@ -1,0 +1,132 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{appConfTitle}} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="AppConfigForm" (ngSubmit)="SaveConfiguration()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> Key <span class="text-danger"> * </span> </mat-label>
+                        <input matInput placeholder=" Enter Key " name="Key" formControlName="Key" />
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Key.errors" class="invalid-feedback">
+                        <span *ngIf="f.Key.errors.required"> Key is required </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.Key.touched && f.Key.invalid" class="invalid-feedback">
+                        Key is required
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> Value <span class="text-danger"> * </span> </mat-label>
+                        <input matInput placeholder="Enter Value" name="Value" formControlName="Value" />
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Value.errors" class="invalid-feedback">
+                        <span *ngIf="f.Value.errors.required"> Value is required </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.Value.touched && f.Value.invalid"
+                        class="invalid-feedback">
+                        Value is required
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> Description </mat-label>
+                        <input matInput placeholder="Enter Description" name="Info" formControlName="Info" />
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col"></div>
+                    <div class="col">
+                        <button mat-raised-button class="cancel-buttton" (click)="ClearForm()" type="button"
+                            title="Reset">Reset</button>
+                        <button mat-raised-button color="primary" type="submit" title="{{ pageState }}"> {{ pageState }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+&nbsp;&nbsp;
+
+<!-- App configuration List -->
+
+<div class="card-header">
+    <div class="row">
+        <div class="col-md-2">
+            <h2> List View </h2>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field class="searchField">
+                <span class="GlobalSearch" matPrefix>
+                    <mat-icon>search</mat-icon> &nbsp;
+                </span>
+                <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                    placeholder="Search">
+            </mat-form-field>
+        </div>
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="Scroll">
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+            <ng-container matColumnDef="SrNo">
+                <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                <td mat-cell *matCellDef="let row; let SrNo = index;">
+                    {{ ( SrNo + 1) + (paginator.pageIndex * paginator.pageSize) }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Key">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Key </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{ row.Key }}
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Value">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Value </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{ row.Value }}
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Info">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Description</th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{ row.Info }}
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                <td mat-cell *matCellDef="let row">
+                    <span class="text-center">
+                        <a (click)="EditData(row)" style="cursor: pointer;" title="Edit"><i class="fa fa-edit"></i></a>
+                    </span>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+            <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+        </table>
+    </div>
+    <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+    <div *ngIf="!DataSource.data.length && !isLoading">
+        <h6 class="noRecordData"> No Record Found </h6>
+    </div>
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10,20,30,40,50]"></mat-paginator>
+</div>

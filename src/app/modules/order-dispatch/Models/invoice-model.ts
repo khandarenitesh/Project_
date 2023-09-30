@@ -1,0 +1,31 @@
+export class InvoiceModel {
+    InvId:number=0;
+    BranchId: number = 0;
+    CompId: number = 0;
+    InvNo: number = 0;
+    InvPostingDate: Date = new Date();
+    InvCreatedDate: Date = new Date();
+    ItemCategory: string = '';
+    divisonStr: string = '';
+    IsColdStorage: boolean = false;
+    SoldTo_StokistId:number = 0;
+    StockistNo:string='';
+    StockistName:string='';
+    SoldTo_City: string = '';
+    InvAmount: string = '';
+    CityName:string='';
+    SONo: number = 0;
+    StockistId:string='';
+    SODate: Date = new Date();
+    BilingType:string='';
+    InvStatus:number=0;
+    AllottedBy:number=0;
+    AllottedDate:string='';
+    ReAllottedBy:number=0;
+    ReAllotedDate: Date = new Date();
+    Date:Date = new Date();
+    AddedOn: Date = new Date();
+    Addedby: string = '';
+    Action: string = '';
+    IsCourier:string='';
+}

@@ -1,0 +1,151 @@
+::ng-deep {
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 9999!important;
+    }
+}
+.Scroll {
+    overflow-x: auto;
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 6%;
+    padding-right: 13px ;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 10% !important;
+    width: 13%;
+    padding-right: 12px; 
+}
+
+.mat-column-Date {
+    flex: 0px 0px 10% !important;
+    width: 4%;
+    text-align: center;
+    padding-right: 12px; 
+}
+
+.mat-column-BankName {
+    flex: 0px 0px 10% !important;
+    width: 7%;
+    text-align: center;
+    padding-right: 12px; 
+}
+
+.mat-column-City {
+    flex: 0px 0px 10% !important;
+    width: 7%;
+    padding-right: 12px; 
+}
+
+.mat-column-BankAccountNo {
+    flex: 0px 0px 10% !important;
+    width: 12%;
+    padding-right: 12px; 
+}
+
+.mat-column-IFSCCode {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+    padding-right: 12px; 
+}
+
+.mat-column-ChequeNo {
+    flex: 0px 0px 10% !important;
+    width: 7%;
+    padding-right: 12px; 
+}
+    
+.mat-column-ChequeSts {
+    flex: 0px 0px 10% !important;
+    width: 9%;
+    padding-right: 12px; 
+}
+.mat-column-DateDiff {
+    flex: 0px 0px 10% !important;
+    width: 9%;
+    padding-right: 12px; 
+    text-align: center;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 10% !important;
+    width: 20%;
+}
+
+.rmargin {
+    margin-right: 9%;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: underline !important;
+    color: blue !important;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.mat-column-Action {
+    flex: 0px 0px 10% !important;
+    width: 6%;
+}
+
+.mat-column-InvNo {
+    flex: 0px 0px 10% !important;
+    width: 9%;
+}
+
+.mat-column-InvCreatedDate {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+
+.mat-column-IsColdStorage {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 10% !important;
+    width: 13%;
+}
+
+.mat-column-CityName {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+}
+
+.mat-column-InvAmount {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+}
+
+.cancel-buttton {
+    margin-right: 2%;
+}
+
+.text-area {
+    display: block;
+    position: relative;
+    text-align: left;
+}

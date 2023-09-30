@@ -1,0 +1,12 @@
+:host {
+  height: 100%;
+  margin: 0;
+}
+:host .flex-root {
+  height: 100%;
+}
+
+.page-loaded app-layout {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}/*# sourceMappingURL=layout.component.css.map */

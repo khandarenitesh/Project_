@@ -1,0 +1,87 @@
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 5%;
+}
+
+.mat-column-InvNo {
+  flex: 0px 0px 7% !important;
+  width: 6%;
+}
+
+.mat-column-InvCreatedDate {
+  flex: 0px 0px 8% !important;
+  width: 7%;
+}
+
+.mat-column-StockistNo {
+  flex: 0px 0px 8% !important;
+  width: 6%;
+}
+
+.mat-column-StockistName {
+  flex: 0px 0px 10% !important;
+  width: 11%;
+}
+
+.mat-column-SoldTo_City {
+  flex: 0px 0px 8% !important;
+  width: 6%;
+}
+
+.mat-column-TransporterName {
+  flex: 0px 0px 10% !important;
+  width: 9%;
+}
+
+.mat-column-PersonName {
+  flex: 0px 0px 8% !important;
+  width: 9%;
+}
+
+.mat-column-TransportModeId {
+  flex: 0px 0px 8% !important;
+  width: 7%;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 8% !important;
+  width: 7%;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+i {
+  margin-right: 15%;
+}
+
+a {
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  color: blue !important;
+  margin-right: 10%;
+}
+
+.cancel-buttton {
+  margin-right: 5%;
+}
+
+::ng-deep .cdk-global-overlay-wrapper,
+::ng-deep .cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+.highlightPriority td {
+  color: rgb(215, 82, 150);
+}/*# sourceMappingURL=assign-transport-edit.component.css.map */

@@ -1,0 +1,33 @@
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.cancel-buttton {
+  margin-right: 5%;
+}
+
+.mat-column-Action {
+  flex: 0px 0px 10% !important;
+  width: 15%;
+}
+
+.mat-column-Name {
+  flex: 0px 0px 10% !important;
+  width: 30%;
+}
+
+.mat-column-ContactNumber {
+  flex: 0px 0px 10% !important;
+  width: 30%;
+}
+
+a {
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  color: blue !important;
+}
+
+.highlightCancel td {
+  color: rgb(215, 82, 150);
+}/*# sourceMappingURL=re-allot-picker.component.css.map */

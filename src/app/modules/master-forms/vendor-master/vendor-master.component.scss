@@ -1,0 +1,21 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095E8;
+}
+
+.fa-toggle-on {
+    font-size: 20px;
+    color: green;
+}
+
+.fa-toggle-off {
+    font-size: 20px;
+    color: red;
+}

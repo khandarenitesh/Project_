@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Name Pattern </title>
+</head>
+
+<body>
+  <script>
+    // var n=4;
+    // var resultP ="";
+    // for(let i=0;i<=n;i++){
+    //   for(let j=0;j<3;j++){
+    //     if(i===0 || i===2){
+    //       resultP +="*"
+    //     }else{
+    //       if(j==0){
+    //         resultP += "*";
+    //       }else{
+    //         resultP +=" ";
+    //       }
+    //     }
+    //     resultP +=" ";
+    //   }
+    //   resultP +="\n";
+    // }
+    // console.log(resultP);
+
+
+    let i,j
+    var resultP="";
+    for(i=0;i<=6;i++){
+      for(j=0;j<6;j++){
+        if (j == 1 || ((i == 0 || i == 3) && j > 0 && j < 5) || ((j == 5 || j == 1) && (i == 1 || i == 2))){
+          resultP +="*";
+        }else{
+          resultP +=" ";
+        }
+      }
+      resultP +="\n";
+    }
+    console.log(resultP);
+
+  </script>
+</body>
+
+</html>

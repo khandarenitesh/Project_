@@ -1,0 +1,29 @@
+export class AssignTransportModel {
+    BranchId:number = 0;
+    CompId: number = 0;
+    AssignTransMId :number = 0;
+    InvoiceId: string = "";
+    TransportModeId :number = 0;
+    PersonName: string = "";
+    PersonAddress: string = "";
+    PersonMobileNo: string = "";
+    OtherDetails: string = "";
+    TransporterId: string = "";
+    TransporterName:string="";
+    CourierName:string="";
+    Delivery_Remark: string = "";
+    CAId: string = "";
+    CourierId: string = "";
+    isActive: string = "";
+    Action: string = "";
+    Addedby: string = "";
+    AttachedInvId :number =0;
+    CityCode: string = '';
+    CityName: string = '';
+    IsStockTransfer:number=0;
+    OCnfCity:number=0;
+    NoOfBox : number = 0;
+    InvWeight : number = 0;
+    InvNo1 : string="";
+    IsCourier : number = 0;
+}

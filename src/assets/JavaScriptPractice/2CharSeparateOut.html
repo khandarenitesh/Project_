@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function string_chop(str, n) {
+            const storedata = [];
+            for (let i = 0; i < str.length; i += n) {
+                storedata.push(str.slice(i, i + n));
+            }
+            return storedata;
+        }
+
+        document.write('output 1--->  ', string_chop('w3resource'));
+        document.write('output 2---> ', string_chop('w3resource', 2));
+        document.write('output 3---> ', string_chop('w3resource', 3));
+
+        console.log(string_chop('w3resource'));
+        console.log(string_chop('w3resource', 2));
+        console.log(string_chop('w3resource', 3));
+    </script>
+</body>
+
+</html>

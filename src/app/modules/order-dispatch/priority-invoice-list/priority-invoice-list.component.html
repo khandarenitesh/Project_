@@ -1,0 +1,228 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <h4 style="cursor: pointer;" title="Today's With Old Open Invoices">
+                    <h4>{{ TodaysWithOldOpen }}</h4>
+                </h4>
+                <span>All Invoices</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Pending Invoices" (click)="ShowPickList('PendingInvCtn')">
+                    <h4>{{ PendingInvCtn }}</h4>
+                </a>
+                <span>Pending Invoices</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Picker Concern" (click)="ShowPickList('PackerConcern')">
+                    <h4>{{ PackerConcern }}</h4>
+                </a>
+                <span>Packer Concern</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Priority" (click)="ShowPickList('OnPriorityCtn')">
+                    <h4>{{ OnPriorityCtn }}</h4>
+                </a>
+                <span> Priority </span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ StkPrint }}</h4>
+                <span>Sticker Print</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ GatpassGenCtn }}</h4>
+                <span>Gatpass Gen</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ CancelInvCtn }}</h4>
+                <span>Cancel Invoices</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Stock Transfer" (click)="ShowPickList('IsStockTransferCtn')">
+                    <h4>{{ IsStockTransferCtn }}</h4>
+                </a>
+                <span>Stock Transfer</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ LocalMode }}</h4>
+                <span> Local Mode</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ OtherCity }}</h4>
+                <span> Other City</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ ByHand }}</h4>
+                <span> By Hand</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Invoice  List -->
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2> {{Title}} </h2>
+            </div>
+            <!-- Search -->
+            <div class="col-md-4">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="Scroll">
+                <!--  Table  -->
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+                    <!-- SrNo -->
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr.No. </th>
+                        <td mat-cell *matCellDef="let row;let SrNo = index;">
+                            {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+                    <!-- Invoice No -->
+                    <ng-container matColumnDef="InvNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvNo }}
+                        </td>
+                    </ng-container>
+                    <!-- Invoice Create Date-->
+                    <ng-container matColumnDef="InvCreatedDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Create
+                            Date
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvCreatedDate | date: 'dd/MM/yyyy' }}
+                        </td>
+                    </ng-container>
+                    <!-- stockist No -->
+                    <ng-container matColumnDef="StockistNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sold To Code
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistNo }}
+                        </td>
+                    </ng-container>
+                    <!-- stockist Name -->
+                    <ng-container matColumnDef="StockistName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sold To Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistName }}
+                        </td>
+                    </ng-container>
+                    <!-- City -->
+                    <ng-container matColumnDef="CityName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sold To City
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <label *ngIf="row.CityName === null"> - </label>
+                            <label *ngIf="row.CityName !== null"> {{ row.CityName }} </label>
+                        </td>
+                    </ng-container>
+                    <!-- Inv Amount -->
+                    <ng-container matColumnDef="InvAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Amount
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <label *ngIf="row.InvAmount === 0"> - </label>
+                            <label *ngIf="row.InvAmount !== 0"> {{ row.InvAmount }} </label>
+                        </td>
+                    </ng-container>
+                    <!-- Inv Status -->
+                    <ng-container matColumnDef="StatusText">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StatusText }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IsStockTransfer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Is Stock Transfer
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="row.IsStockTransfer == 1"> Y </span>
+                            <span *ngIf="row.IsStockTransfer == 0"> N </span>
+                        </td>
+                    </ng-container>
+                    <!-- Actions -->
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="row.InvStatus != 20 && row.OnPriority !=1">
+                                <a (click)="UpdateFlagPopup(row,UpdateFlag1Popup)" class="rmargin">
+                                    Prioritize
+                                </a>
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-template id="AddEditPopup" #UpdateFlag1Popup let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title"> Prioritize</h4>
+                            <a class="" style="float: right; cursor: pointer;" aria-label="Close"
+                                (click)="d('Cross click')">
+                                <span aria-hidden="true">
+                                    <i class="fa fa-times SBModalclose"></i>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="modal-body cons-info">
+                            <div class="card-body">
+                                <form class="vForm" #RmarkForm="ngForm" (ngSubmit)="UpdatePriorityFlag()">
+                                    <div class="row">
+                                        <div class="col">
+                                            <mat-form-field class="example-full-width">
+                                                <mat-label for="exampleFormControlTextarea1">Prioritize</mat-label>
+                                                <textarea matInput class="form-control" name="Remark" required
+                                                    [(ngModel)]="Remark" cols="10" rows="2" #flag="ngModel"></textarea>
+                                            </mat-form-field>
+                                            <div *ngIf="!flag?.valid && (flag?.dirty || flag?.touched)" class="error">
+                                                <div *ngIf="flag.errors?.required">
+                                                    Prioritize remark required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"> </div>
+                                        <!-- <div class="col"> </div> -->
+                                        <div class="col">
+                                            <button mat-raised-button color="primary" type="submit"
+                                                [disabled]="!RmarkForm.valid">Save</button>
+                                            <button mat-raised-button class="cancel-buttton" class="m-4" type="button"
+                                                (click)="d('Cross click');">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <tr mat-header-row *matHeaderRowDef="DisplayInvoiceData"></tr>
+                    <!-- ngClass used for to change icon or row(red) color after cancel button clicked -->
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: DisplayInvoiceData;"
+                        [ngClass]="{'highlightCancel': row.OnPriority === 1}"></tr>
+                </table>
+            </div>
+
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                strokeWidth="5"></mat-progress-spinner>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+        </div>
+    </div>
+</div>

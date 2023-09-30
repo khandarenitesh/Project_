@@ -1,0 +1,266 @@
+<!-- Reimbursement Add -->
+<div class="card">
+
+  <div class="card-header">
+    <h2> {{ reimbursmentMsg }} </h2>
+  </div>
+
+  <div class="card-body">
+
+    <form class="vForm" [formGroup]="reimbursmentForm" (ngSubmit)="SaveReimbursmentInvoice()" autocomplete="off">
+      <!-- 1st Row -->
+      <div class="row">
+        <!-- Invoice Number -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> Invoice Number </mat-label>
+            <input matInput type="text" placeholder="Invoice Number" name="InvoiceNo" formControlName="InvNo" />
+          </mat-form-field>
+        </div>
+
+        <!-- Invoice Date -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Invoice Date <span class="text-danger">*</span></mat-label>
+            <input matInput [matDatepicker]="picker" name="InvDate" formControlName="InvDate" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.InvDate.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.InvDate.errors.required"> Invoice Date is required </mat-error>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.InvDate.touched && f.InvDate.invalid" class="invalid-feedback">
+            Invoice Date is required
+          </mat-error>
+        </div>
+        <!-- Company Name -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Company Name <span class="text-danger"> * </span> </mat-label>
+            <input type="text" placeholder="Company Name" matInput name="CompanyName" (focusout)="companyValidation()"
+              formControlName="CompanyName" [matAutocomplete]="autoCompanyName" (ngModelChange)="OnChangeCompany()">
+            <mat-autocomplete #autoCompanyName="matAutocomplete" [displayWith]="displayFnCompanyName">
+              <mat-option *ngFor="let option of CompanyNameArray | async" [value]="option">
+                {{ option.CompanyName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.CompanyName.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.CompanyName.errors.required"> Please select company </mat-error>
+          </mat-error>
+          <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+            Please select valid company
+          </mat-error>
+        </div>
+      </div>
+
+      <!-- 2nd Row -->
+      <div class="row">
+        <!-- Expence Head -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Expense Head <span class="text-danger"> * </span> </mat-label>
+            <input type="text" placeholder="Expense Head" matInput name="ExpHead" (focusout)="ExpHeadValidation()"
+              formControlName="ExpHead" [matAutocomplete]="autoExpHead">
+            <mat-autocomplete #autoExpHead="matAutocomplete" [displayWith]="displayFnExpHead">
+              <mat-option *ngFor="let option of ExpHeadArray | async" [value]="option">
+                {{ option.MasterName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.ExpHead.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.ExpHead.errors.required"> Please select expense head </mat-error>
+          </mat-error>
+          <mat-error *ngIf="InvalidExpHead" class="invalid-feedback">
+            Please select valid expense head
+          </mat-error>
+        </div>
+        <!-- TDS Less -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> TDS %</mat-label>
+            <input matInput type="text" placeholder="TDS" name="TDSLess" formControlName="TDSLess"
+              (keypress)="numberOnly($event)" />
+          </mat-form-field>
+          <!-- <mat-error *ngIf="submitted && f.TDSLess.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.TDSLess.errors.required"> Please select TDS </mat-error>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.TDSLess.touched && f.TDSLess.invalid" class="invalid-feedback">
+            Please select TDS
+          </mat-error> -->
+        </div>
+        <div class="col"></div>
+      </div>
+
+      <!-- 3rd Row -->
+      <div class="row">
+        <!--   Vendor Name, Invoice No, Invoice Date, Company Name, No. Of Box, Taxable Amount, Total Amount, Action -->
+        <div class="card-body">
+          <div class="col-md-12"> <!-- #TABLE-->
+            <div class="Scroll">
+              <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                <!-- BillFromName -->
+                <ng-container matColumnDef="BillFromName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Bill From Name </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.BillFromName }}
+                  </td>
+                </ng-container>
+
+                <!-- InvNo -->
+                <ng-container matColumnDef="ExpInvNo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.ExpInvNo }}
+                  </td>
+                </ng-container>
+
+                <!-- InvoiceDate -->
+                <ng-container matColumnDef="InvDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Date </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.InvDate | date: 'dd/MM/yyyy'}}
+                  </td>
+                </ng-container>
+
+                <!-- No. Of Box -->
+                <ng-container matColumnDef="NoOfBox">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> No. Of Box </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.NoOfBox }}
+                  </td>
+                </ng-container>
+
+                <!-- Taxable Amount -->
+                <ng-container matColumnDef="TaxableAmt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Taxable Amount </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.TaxableAmt }}
+                  </td>
+                </ng-container>
+
+                <!-- CGST -->
+                <ng-container matColumnDef="CGST">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> CGST </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.CGST }}
+                  </td>
+                </ng-container>
+
+                <!-- SGST -->
+                <ng-container matColumnDef="SGST">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> SGST </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.SGST }}
+                  </td>
+                </ng-container>
+
+                <!-- Total Amount -->
+                <ng-container matColumnDef="TotalAmt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Total Amount </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.TotalAmt }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="SelectAll">
+                  <th mat-header-cell *matHeaderCellDef="let i = index;" class="commonHeaderCSS">
+                    <input type="checkbox" [(ngModel)]="ChecValueFlag" [indeterminate]="isIndeterminate()"
+                      (change)="AllselectndUnselectCheckBox($event)" [ngModelOptions]="{standalone: true}" /> Select All
+                  </th>
+                  <td mat-cell *matCellDef="let row; let i = index;">
+                    <input type="checkbox" style="cursor: pointer;" id="{{ 'check' + row.ExpInvId }}"
+                      (change)="getCheckboxesData(row, row.ExpInvId)" [checked]="row.ReimId && row.ExpInvId">
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="reimbursmentAddColumns"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: reimbursmentAddColumns;"></tr>
+              </table>
+            </div>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+              strokeWidth="5"></mat-progress-spinner>
+            <div *ngIf="!DataSource.data && !isLoading">
+              <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 4th Row -->
+      <div class="row">
+        <!-- Taxable Amount -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> Taxable Amount <span class="text-danger"> * </span> </mat-label>
+            <input matInput type="text" placeholder="Taxable Amount" name="TaxAmt" formControlName="TaxAmt"
+              (ngModelChange)="onTaxableAmount()" (keypress)="numberOnly($event)" />
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.TaxAmt.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.TaxAmt.errors.required"> Please enter taxable amount </mat-error>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.TaxAmt.touched && f.TaxAmt.invalid" class="invalid-feedback">
+            Please enter taxable amount
+          </mat-error>
+        </div>
+
+        <!-- CGST -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> CGST {{ CGSTValue }} % </mat-label>
+            <input matInput type="text" name="CGST" formControlName="CGST" />
+          </mat-form-field>
+        </div>
+
+        <!-- SGST -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> SGST {{ SGSTValue }} % </mat-label>
+            <input matInput type="text" name="SGST" formControlName="SGST" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- 5th Row -->
+      <div class="row">
+        <!-- Total Amount -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> Total Amount </mat-label>
+            <input matInput type="text" placeholder="Total Amount" name="TotalAmt" formControlName="TotalAmt" />
+          </mat-form-field>
+        </div>
+        <!-- Remark -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label for="exampleFormControlTextarea1"> Remark </mat-label>
+            <textarea matInput class="form-control" placeholder="Remark" name="ReimbursementRemark"
+              [(ngModel)]="ReimbursementRemark" [ngModelOptions]="{standalone: true}" #ReimbursementInvRemark="ngModel"
+              cols="10" rows="2">
+                        </textarea>
+          </mat-form-field>
+        </div>
+        <div class="col"></div>
+      </div>
+
+      <!-- 6th row -->
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button> &nbsp;&nbsp;
+          <button mat-raised-button class="cancel-buttton" type="submit" (click)="redirect()">
+            {{ btnCancelText }}
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+  strokeWidth="5"></mat-progress-spinner>

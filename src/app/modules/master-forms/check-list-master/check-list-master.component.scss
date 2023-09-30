@@ -1,0 +1,70 @@
+.cancel-button {
+    margin-right: 5%;
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+.Scroll {
+    overflow-x: auto;
+}
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+}
+
+.mat-column-CompanyName {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-BranchName {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+
+.mat-column-Questions {
+    flex: 0px 0px 10% !important;
+    width: 18%;
+    padding-right: 12px;
+}
+
+.mat-column-ControlType {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+    padding-right: 12px;
+    
+}
+
+.mat-column-SequenceNo {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 12px;
+    text-align: center;
+}
+
+.mat-column-Status {
+    flex: 0px 0px 10% !important;
+    width: 5%;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+}
+
+.fa-toggle-on {
+    font-size: 20px;
+    color: green;
+}
+
+.fa-toggle-off {
+    font-size: 20px;
+    color: red;
+}
+
+i {
+    margin-right: 15%;
+}

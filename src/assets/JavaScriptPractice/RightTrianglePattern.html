@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Right Triangle Pattern</title>
+</head>
+<body>
+  <script>
+    let i,j,k,num=6;
+    var result="";
+    //externals for loop
+    for(i=1;i<num;i++){
+      //internal for loop for print blank space
+      for(j=1;j<num-i;j++){
+        result +=" ";
+      }
+      //internal for loop for print the patter
+      for(k=1;k<i;k++){
+        result +=k;
+      }
+      result +="\n";
+    }
+    console.log(result);
+  </script>
+</body>
+</html>

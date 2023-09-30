@@ -1,0 +1,290 @@
+<div id="kt_toolbar_container" [ngClass]="toolbarContainerCssClasses" class="d-flex flex-stack">
+  <app-page-title #ktPageTitle class="page-title d-flex" [ngClass]="pageTitleCssClasses"></app-page-title>
+  <!-- begin::Actions  -->
+  <div class="d-flex align-items-center py-1">
+    <!-- begin::Wrapper  -->
+    <div class="me-4">
+      <!-- begin::Menu  -->
+      <!-- <a
+        class="
+          btn btn-sm btn-flex btn-light btn-active-primary
+          fw-bolder
+          cursor-pointer
+        "
+        data-kt-menu-trigger="click"
+        data-kt-menu-placement="bottom-end"
+        data-kt-menu-flip="top-end"
+      >
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/general/gen031.svg'"
+          class="svg-icon svg-icon-5 svg-icon-gray-500 me-1"
+        ></span>
+        Filter
+      </a> -->
+
+      <!-- end::Menu  -->
+
+      <!-- Super Admin -->
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && TotalExpiry > 0 && (RoleId === 1)" class="fw-bolder cursor-pointer"
+          data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="TotalExpiry" matBadgeColor="warn"
+            (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && (TotalExpiry === 0 || TotalExpiry === undefined ||TotalExpiry === null) && (RoleId === 1)"
+          class="fw-bolder cursor-pointer" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="0" matBadgeColor="warn"
+            (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+
+      <!------------------------------------------------------------------------------------------------------------------------------ -->
+      <!-- Branch Admin -->
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && (TotalExpiry ||RejectbyOperator||ConcernRaised || PackerConcern) > 0 && (RoleId === 2 )"
+          class="fw-bolder cursor-pointer" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="(TotalExpiry + TotalCntPLRejCon + PackerConcern)"
+            matBadgeColor="warn" (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && (TotalExpiry || RejectbyOperator || ConcernRaised || PackerConcern) === 0 && (RoleId === 2)"
+          class="fw-bolder cursor-pointer" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="0" matBadgeColor="warn"
+            (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+
+      <!------------------------------------------------------------------------------------------------------------------------------ -->
+
+      <!-- Operator -->
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && RejectbyOperator  > 0 && (RoleId === 3)" class="fw-bolder cursor-pointer"
+          data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="RejectbyOperator" matBadgeColor="warn"
+            (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+
+
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && RejectbyOperator   === 0 && (RoleId === 3)" class="fw-bolder cursor-pointer"
+          data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="0" matBadgeColor="warn"
+            (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+      <!-- -------------------------------------------------------------------------------------------------------------------------- -->
+
+      <!-- Supervisor -->
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && (TotalCntPLRejCon || PackerConcern)  > 0 && (RoleId === 4)"
+          class="fw-bolder cursor-pointer" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="TotalCntPLRejCon + PackerConcern" matBadgeColor="warn"
+            (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+
+
+      <ng-container *ngIf="title$ | async as title">
+        <a *ngIf="title ==='Dashboard' && (RejectbyOperator || ConcernRaised || PackerConcern)  === 0 && (RoleId === 4)"
+          class="fw-bolder cursor-pointer" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end">
+          <span class="material-icons" [matBadge]="0" matBadgeColor="warn"
+            (click)="OpenModalModalForFilterCount(ModalForNotificationId)">notifications</span>
+        </a>
+      </ng-container>
+
+      <!-- end::Wrapper  -->
+
+      <!-- begin::Button  -->
+      <!-- <a
+      class="btn btn-sm btn-primary cursor-pointer"
+      data-bs-toggle="modal"
+      data-bs-target="#kt_modal_create_app"
+      id="kt_toolbar_primary_button"
+    >
+      Create
+    </a> -->
+      <!-- end::Button  -->
+    </div>
+    <!-- end::Actions  -->
+  </div>
+  <!------------------------------------------------------------------------------------------------------------------------------ -->
+  <ng-template id="ModalForNotificationId" class="modal-content1" #ModalForNotificationId>
+    <html>
+
+    <body>
+      <div class="scrollable-content1 div1">
+        <div class="subject">
+          View All Notifications
+        </div>
+        <div class="card" style="padding: inherit;" *ngIf="(RoleId === 1 || RoleId === 2 )">
+          <div class="card-header newcolor" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1"
+            aria-controls="collapseExample" style="cursor: pointer;">
+            <h2>DL/FL Expiry Date </h2>
+            <!-- <mat-icon class="btn-war">warning</mat-icon> -->
+            <span [matBadge]="TotalExpiry" matBadgeColor="warn"></span>
+          </div>
+          <div id="collapseExample" [ngbCollapse]="isCollapsed1">
+            <div class="card">
+              <div class="card-body" style="padding: 1rem;">
+                <div *ngFor="let n of NewArray;" class="OneCard ">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <mat-icon class="AccountCircle">account_circle</mat-icon>
+                    </div>
+                    <div class="col-md-11">
+                      <p (click)="redirect();ClosePopup();" matTooltip="DL and Food Expiry">
+                        Stockist No : {{ n.StockistNo}} ,
+                        <!-- Stockist Name : {{n.StockistName}} , -->
+                        DL No : {{n.DLNo}} ,
+                        FL No : {{n.FoodLicNo}} ,<mark>FL Expiry Date : {{(n.FoodLicExpDateCount === 1) ? 'Yes':'No'}}
+                          ,
+                          DL
+                          Expiry Date : {{
+                          (n.DLExpDateCount === 1) ? 'Yes':'No'}}</mark>,
+                        <span class="dLflDates"><br>FL Exp Date : {{n.FoodLicExpDate | date:
+                          'dd/MM/yyyy'}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="dLflDates"> DL Exp Date : {{n.DLExpDate | date: 'dd/MM/yyyy' }},</span>
+                        <a target="_blank" style="cursor: pointer; color: rgb(18, 151, 204);" class="blink"><br>
+                          Redirect to stockist List<br></a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="(TotalExpiry === 0 || TotalExpiry === undefined || TotalExpiry === null ) && (RoleId === 1 || RoleId === 2)"
+            style="text-align: center;">
+            No new notifications
+          </div>
+        </div>
+
+
+        <div class="card" style="padding: inherit;" *ngIf="(RoleId === 2 || RoleId === 3 || RoleId === 4)">
+          <div class="card-header newcolor" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2"
+            aria-controls="collapseExample" style="cursor: pointer;">
+            <h2>Picklist Rejected </h2>
+            <!-- <mat-icon class="btn-war">warning</mat-icon> -->
+            <span [matBadge]="RejectbyOperator" matBadgeColor="warn"></span>
+          </div>
+          <div id="collapseExample" [ngbCollapse]="isCollapsed2">
+            <div class="card">
+              <div class="card-body" style="padding: 1rem;">
+                <div *ngFor="let p of PicklistRejected;" class="OneCard">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <mat-icon class="AccountCircle">account_circle</mat-icon>
+                    </div>
+                    <div class="col-md-11">
+                      <p (click)="redirectPicklistPage();ClosePopup();" class="Block" style="cursor: pointer;"
+                        matTooltip="Picklist Rejected">
+                        Picklist No : {{p.PicklistNo}} , Reject Reason : {{p.RejectReason}} , Is Stock Transfer :
+                        {{p.IsStockTransfer === 1 ? 'Yes':'No'}},<mark>Pick List Reject : {{ p.PicklistStatus === 2 ?
+                          'Yes':'No'}} , Pick List Concern : {{(p.PicklistStatus === 9 || p.PicklistStatus === 11) ?
+                          'Yes':'No'}}</mark>
+                        <a target="_blank" style="cursor: pointer; color: rgb(18, 151, 204);" class="blink"><br>
+                          Redirect To Picklist Page<br></a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="(RejectbyOperator === 0) && (RoleId === 2 || RoleId === 3 || RoleId === 4)"
+            style="text-align: center;">
+            No new notifications
+          </div>
+        </div>
+
+
+        <div class="card" style="padding: inherit;" *ngIf="(RoleId === 2 || RoleId === 4)">
+          <div class="card-header newcolor" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3"
+            aria-controls="collapseExample" style="cursor: pointer;">
+            <h2>Picklist Concern </h2>
+            <!-- <mat-icon class="btn-war">warning</mat-icon> -->
+            <span [matBadge]="ConcernRaised" matBadgeColor="warn"></span>
+          </div>
+
+          <div id="collapseExample" [ngbCollapse]="isCollapsed3">
+            <div class="card">
+              <div class="card-body" style="padding: 1rem;">
+                <div *ngFor="let p of PicklistArray;" class="OneCard">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <mat-icon class="AccountCircle">account_circle</mat-icon>
+                    </div>
+                    <div class="col-md-11">
+                      <p (click)="redirectPicklistConcern();ClosePopup();" class="Block" style="cursor: pointer;"
+                        matTooltip="Picklist Concern ">
+                        Picklist No : {{p.PicklistNo}} , Reject Reason : {{p.RejectReason}} , Is Stock Transfer :
+                        {{p.IsStockTransfer === 1 ? 'Yes':'No'}},<mark>Pick List Reject : {{ p.PicklistStatus === 2 ?
+                          'Yes':'No'}} , Pick List Concern : {{(p.PicklistStatus === 9 || p.PicklistStatus === 11) ?
+                          'Yes':'No'}}</mark>
+                        <a target="_blank" style="cursor: pointer; color: rgb(18, 151, 204);" class="blink"><br>
+                          Redirect to Resolve Concern Picklist Wise<br></a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="(ConcernRaised === 0) && (RoleId === 2 || RoleId === 4)" style="text-align: center;">
+            No new notifications
+          </div>
+        </div>
+
+        <div class="card" style="padding: inherit;" *ngIf="(RoleId === 2 || RoleId === 4)">
+          <div class="card-header newcolor" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4"
+            aria-controls="collapseExample" style="cursor: pointer;">
+            <h2>Invoice Packer Concern </h2>
+            <!-- <mat-icon class="btn-war">warning</mat-icon> -->
+            <span [matBadge]="PackerConcern" matBadgeColor="warn"></span>
+          </div>
+
+          <div id="collapseExample" [ngbCollapse]="isCollapsed4">
+            <div class="card">
+              <div class="card-body" style="padding: 1rem;">
+                <div *ngFor="let Inv of InvoiceListArray;" class="OneCard">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <mat-icon class="AccountCircle">account_circle</mat-icon>
+                    </div>
+                    <div class="col-md-11">
+                      <p (click)="redirectInvoiceConcern();ClosePopup();" class="Block" style="cursor: pointer;"
+                        matTooltip="Invoice Packer Concern ">
+                        Invoice No : {{Inv.InvNo}} , Packed By Name : {{Inv.PackedByName}} ,
+                        Stockist No : {{Inv.StockistNo}} , <mark>Packer Concern : {{ Inv.InvStatus === 4 ?
+                          'Yes':'No'}} </mark>
+                        <a target="_blank" style="cursor: pointer; color: rgb(18, 151, 204);" class="blink"><br>
+                          Redirect to Resolve Concern Invoice wise<br></a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="(PackerConcern === 0) && (RoleId === 2 || RoleId === 4)" style="text-align: center;">
+            No new notifications
+          </div>
+        </div>
+      </div>
+    </body>
+
+    </html>
+
+  </ng-template>

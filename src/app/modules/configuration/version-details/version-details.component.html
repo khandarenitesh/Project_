@@ -1,0 +1,110 @@
+<div class="card">
+  <div class="card-header">
+    <h2> {{ versionDetailsTitle }} </h2>
+  </div>
+  <div class="card-body">
+    <form class="vForm" [formGroup]="versionDetailsForm" (ngSubmit)="SaveVersionDetails()" autocomplete="off">
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> New Version Number <span class="text-danger"> * </span> </mat-label>
+            <input matInput placeholder="New Version Number" name="NewVersionNumber" pattern="[0-9\.]+." maxlength="7"
+              formControlName="NewVersionNumber" (focusout)="onCheckVersionNo()" />
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.NewVersionNumber.errors" class="invalid-feedback">
+            <span *ngIf="f.NewVersionNumber.errors.required"> Version number is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.NewVersionNumber.touched && f.NewVersionNumber.invalid"
+            class="invalid-feedback">
+            Version number is required
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Version Release Date <span class="text-danger"> * </span></mat-label>
+            <input matInput [matDatepicker]="picker" name="VersionReleaseDate" formControlName="VersionReleaseDate"
+              [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.VersionReleaseDate.errors" class="invalid-feedback">
+            <span *ngIf="f.VersionReleaseDate.errors.required"> Please select version release date </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.VersionReleaseDate.touched && f.VersionReleaseDate.invalid"
+            class="invalid-feedback">
+            Please select version release date
+          </mat-error>
+        </div>
+        <div class="col">
+          <button mat-raised-button class="cancel-buttton" (click)="onClearFields()" type="button">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!versionDetailsForm.valid"> {{ pageState
+            }} </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+&nbsp;&nbsp;
+
+<!-- Version Details List -->
+<div class="card-header">
+
+  <div class="row">
+
+    <div class="col-md-2">
+      <h2> List View </h2>
+    </div>
+    <div class="col-md-2">
+      <mat-form-field class="searchField" style="margin-right: 2%;">
+        <span class="GlobalSearch" matPrefix>
+          <mat-icon>search</mat-icon> &nbsp;
+        </span>
+        <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="col-md-12">
+  <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+    <!-- SrNo -->
+    <ng-container matColumnDef="SrNo">
+      <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+      <td mat-cell *matCellDef="let row;let SrNo = index;">
+        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+      </td>
+    </ng-container>
+
+    <!-- VersionNo -->
+    <ng-container matColumnDef="VersionNo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Version No. </th>
+      <td mat-cell *matCellDef="let row">
+        <div>
+          {{ row.VersionNo }}
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- VersionDate -->
+    <ng-container matColumnDef="VersionDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Version Date </th>
+      <td mat-cell *matCellDef="let row">
+        <div>
+          {{ row.VersionDate }}
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+    <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+  </table>
+  <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+    strokeWidth="5"></mat-progress-spinner>
+  <div *ngIf="!DataSource.data.length && !isLoading">
+    <h6 class="noRecordData"> No Record Found </h6>
+  </div>
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+</div>

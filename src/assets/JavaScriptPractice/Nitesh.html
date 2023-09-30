@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nitesh Name Pattern</title>
+</head>
+
+<body>
+  <script>
+    var n = 5;
+    var resultN = "";
+    for (let i = 0; i <= n; i++) {
+      for (let j = 0; j <= n; j++) {
+        if (i === j) {
+          resultN += "*";
+        } else {
+          if (j === 0 || j === n) {
+            resultN += "*";
+          } else {
+            resultN += " ";
+          }
+        }
+        resultN += " ";
+      }
+      resultN += "\n";
+    }
+
+    resultI = "";
+    for (let i = 0; i <= n; i++) {
+      for (let j = 0; j <= n; j++) {
+        if (i === 0 || i === n) {
+          resultI += "*";
+        } else {
+          if (j === 3) {
+            resultI += "*";
+          } else {
+            resultI += " ";
+          }
+        }
+        resultI += " ";
+      }
+      resultI += "\n";
+    }
+
+    resultT = "";
+    for (let i = 0; i <= n; i++) {
+      for (let j = 0; j <= n; j++) {
+        if (i === 0) {
+          resultT += "*";
+        } else {
+          if (j === 3) {
+            resultT += "*";
+          } else {
+            resultT += " ";
+          }
+        }
+        resultT += " ";
+      }
+      resultT += "\n";
+    }
+
+    resultE = "";
+    for (let i = 0; i <= n; i++) {
+      for (let j = 0; j <= n; j++) {
+        if (i === 0 || i == n) {
+          resultE += "*";
+        } else {
+          if (j === 0 || i == 3) {
+            resultE += "*";
+          } else {
+            resultE += " ";
+          }
+        }
+        resultE += " ";
+      }
+      resultE += "\n";
+    }
+
+    resultS = "";
+    for (let i = 0; i <= n; i++) {
+      for (let j = 0; j <= n; j++) {
+        if (i === 0 || i ===j) {
+          resultS += "*";
+        } else {
+          if (i=== n) {
+            resultS += "*";
+          } else {
+            resultS += " ";
+          }
+        }
+        resultS += " ";
+      }
+      resultS += "\n";
+    }
+
+    resultH = "";
+    for (let i = 0; i <= n; i++) {
+      for (let j = 0; j <= n; j++) {
+        if (i === 3) {
+          resultH += "*";
+        } else {
+          if (j === 0 || j == n) {
+            resultH += "*";
+          } else {
+            resultH += " ";
+          }
+        }
+        resultH += " ";
+      }
+      resultH += "\n";
+    }
+
+
+    console.log(resultN);
+    console.log(resultI);
+    console.log(resultT);
+    console.log(resultE);
+    console.log(resultS);
+    console.log(resultH);
+
+
+
+  </script>
+</body>
+
+</html>

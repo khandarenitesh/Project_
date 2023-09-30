@@ -1,0 +1,30 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+::ng-deep {
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 9999 !important;
+    }
+}
+
+a[title="Add Payment"] {
+    color: blue;
+    text-decoration: underline;
+}
+
+.butons {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}

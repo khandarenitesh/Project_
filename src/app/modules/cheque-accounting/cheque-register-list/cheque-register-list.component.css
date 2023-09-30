@@ -1,0 +1,80 @@
+table {
+  width: 100%;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 4%;
+}
+
+.mat-column-StockistName {
+  flex: 0px 0px 10% !important;
+  width: 12%;
+}
+
+.mat-column-Date {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-BankName {
+  flex: 0px 0px 10% !important;
+  width: 11%;
+}
+
+.mat-column-City {
+  flex: 0px 0px 10% !important;
+  width: 9%;
+}
+
+.mat-column-BankAccountNo {
+  flex: 0px 0px 10% !important;
+  width: 12%;
+}
+
+.mat-column-IFSCCode {
+  flex: 0px 0px 10% !important;
+  width: 9%;
+}
+
+.mat-column-ChequeNo {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+tr.example-element-row:hover {
+  cursor: pointer;
+  background: whitesmoke;
+}
+
+i {
+  margin-right: 15%;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}/*# sourceMappingURL=cheque-register-list.component.css.map */

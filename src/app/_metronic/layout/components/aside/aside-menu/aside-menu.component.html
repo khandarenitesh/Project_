@@ -1,0 +1,805 @@
+<!-- Dashboard -->
+<div class="menu-item">
+  <a class="menu-link without-sub" routerLink="/dashboard" routerLinkActive="active">
+    <span class="menu-icon">
+      <span [inlineSVG]="'./assets/media/icons/duotune/art/art002.svg'" class="svg-icon svg-icon-2"></span>
+    </span>
+    <span class="menu-title" translate="MENU.DASHBOARD"></span>
+  </a>
+</div>
+
+<!-- Start Masters - Add and List -->
+
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show" *ngIf="EmployeeMaster || StockistMaster || CartingMaster || CourierMaster || BranchMaster || CompanyMaster || StockistTransporterMapping
+            || TransporterMaster || StockistBranchRelation || StockistCompanyRelation || GeneralMaster || CityMaster || ThresholdValueMaster
+            || ChecklistMaster || OtherCNFMaster || BranchCompanyRelationMaster || VendorMaster ||TaxMaster||HeadMaster||TransportParentMaster||
+            TransportParentMapping||CourierParentMaster||CourierParentMapping ||CompanyVendorMapping && role !== 11">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/">
+      Masters
+    </span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+
+    <!-- Branch Master -->
+    <div class="menu-item" *ngIf="BranchMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/branch-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Branch Master </span>
+      </a>
+    </div>
+
+    <!-- Company Master -->
+    <div class="menu-item" *ngIf="CompanyMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/company-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Company Master </span>
+      </a>
+    </div>
+
+    <!-- Empolyee Master -->
+    <div class="menu-item" *ngIf="EmployeeMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/employee-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Employee Master </span>
+      </a>
+    </div>
+
+    <!-- User Master -->
+    <div class="menu-item" *ngIf="EmployeeMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/user-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> User Master </span>
+      </a>
+    </div>
+
+    <!-- Carting Master -->
+    <div class="menu-item" *ngIf="CartingMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/carting-agent-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Carting Master </span>
+      </a>
+    </div>
+
+    <!-- Courier Master -->
+    <div class="menu-item" *ngIf="CourierMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/courier-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Courier Master </span>
+      </a>
+    </div>
+
+    <!-- Stockist Master -->
+    <div class="menu-item" *ngIf="StockistMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/stockist-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Stockist Master </span>
+      </a>
+    </div>
+
+    <!-- Stockist data verify -->
+    <div class="menu-item" *ngIf="VerifyStockistData">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/stockist-data-verify">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Stockist Data Verify </span>
+      </a>
+    </div>
+
+    <!-- Stockist Branch Relation -->
+    <div class="menu-item" *ngIf="StockistBranchRelation">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/stockist-branch-relation">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Stockist Branch Relation </span>
+      </a>
+    </div>
+
+    <!-- Stockist Company Relation -->
+    <div class="menu-item" *ngIf="StockistCompanyRelation">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/masters/stockist-company-relation">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Stockist Company Relation </span>
+      </a>
+    </div>
+
+    <!--Transporter Master  -->
+    <div class="menu-item" *ngIf="TransporterMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/transporter-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Transporter Master </span>
+      </a>
+    </div>
+
+    <!-- Stockist Transporter Mapping -->
+    <div class="menu-item" *ngIf="StockistTransporterMapping">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/masters/stockist-transporter-mapping-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Stockist Transporter Mapping </span>
+      </a>
+    </div>
+
+    <!-- General Master -->
+    <div class="menu-item" *ngIf="GeneralMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/general-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> General Master </span>
+      </a>
+    </div>
+
+    <!-- Email Configuration -->
+    <div class="menu-item" *ngIf="EmailConfig">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/email-configuration">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Email Configuration</span>
+      </a>
+    </div>
+
+    <!-- City Master -->
+    <div class="menu-item" *ngIf="CityMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/city-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> City Master </span>
+      </a>
+    </div>
+
+    <!-- Threshold value master -->
+    <div class="menu-item" *ngIf="ThresholdValueMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/threshold-value-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> SLA Master </span>
+      </a>
+    </div>
+
+    <!-- Checklist Master -->
+    <div class="menu-item" *ngIf="ChecklistMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/checklist-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Checklist Master </span>
+      </a>
+    </div>
+
+    <!-- Other CNF Master -->
+    <div class="menu-item" *ngIf="OtherCNFMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/other-cnf-add">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Other CNF Master </span>
+      </a>
+    </div>
+
+    <!-- Branch Company Relation -->
+    <div class="menu-item" *ngIf="BranchCompanyRelationMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/branch-company-relation">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Branch Company Relation </span>
+      </a>
+    </div>
+
+    <!-- Vendor Master -->
+    <div class="menu-item" *ngIf="VendorMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/vendor-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Vendor Master </span>
+      </a>
+    </div>
+
+    <!--Tax Master-->
+    <div class="menu-item" *ngIf="TaxMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/tax-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Tax Master</span>
+      </a>
+    </div>
+
+    <!--Head Master-->
+    <div class="menu-item" *ngIf="HeadMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/head-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title">Head Master </span>
+      </a>
+    </div>
+
+    <!-- Transport Parent Master -->
+    <div class="menu-item" *ngIf="TransportParentMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/transport-parent-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Transport Parent Master </span>
+      </a>
+    </div>
+
+    <!-- Transport Parent Mapping -->
+    <div class="menu-item" *ngIf="TransportParentMapping">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/transport-parent-mapping">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Transport Parent Mapping </span>
+      </a>
+    </div>
+
+    <!-- Courier Parent Master -->
+    <div class="menu-item" *ngIf="CourierParentMaster">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/curier-parent-master">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Courier Parent Master </span>
+      </a>
+    </div>
+
+    <!-- Courier Parent Mapping  -->
+    <div class="menu-item" *ngIf="CourierParentMapping">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/courier-parent-mapping">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Courier Parent Mapping </span>
+      </a>
+    </div>
+
+    <!-- Company Vendor Mapping  -->
+    <div class="menu-item" *ngIf="CompanyVendorMapping">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/company-vendor-mapping">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title">Company Vendor Mapping </span>
+      </a>
+    </div>
+    <div class="menu-item" *ngIf="VendorBranchMapping">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/vendor-branch-mapping">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title">Vendor Branch Mapping </span>
+      </a>
+    </div>
+
+    <!-- Import Dynamically Data -->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/masters/import-dynamically">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import Dynamically </span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- End Masters -->
+<!-- Start Order Dispatch - Add and List -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show" *ngIf="PicklistOperation || ReAllotPicklist || ImportInvData || InvCancelList || ReadyToDispatch || AssignTransportMode
+            || ImportLRData || PrintSticker && role !== 11">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/">
+      Order Dispatch
+    </span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <!-- PickList Operation -->
+    <div class="menu-item" *ngIf="PicklistOperation">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/picklist-operation">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> PickList Operation </span>
+      </a>
+    </div>
+
+    <!-- Re-Allot PickList -->
+    <div class="menu-item" *ngIf="ReAllotPicklist">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-dispatch/Re-Allot-picklist">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Re-Allot PickList </span>
+      </a>
+    </div>
+
+    <!-- Import Invoice Data -->
+    <div class="menu-item" *ngIf="ImportInvData">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-dispatch/import-invoice">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import Invoice Data </span>
+      </a>
+    </div>
+
+    <!-- Invoice Cancel List -->
+    <div class="menu-item" *ngIf="InvCancelList">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/invoice-cancel-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Cancel Invoice </span>
+      </a>
+    </div>
+    <!-- Edit Assign Transport Mode -->
+    <div class="menu-item" *ngIf="AssignTransportMode">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/assign-transport-edit">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Edit Assign Transport Mode </span>
+      </a>
+    </div>
+
+    <!-- Import LR Data -->
+    <div class="menu-item" *ngIf="ImportLRData">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-dispatch/import-lr">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import LR Data </span>
+      </a>
+    </div>
+
+    <!-- Print Sticker -->
+    <div class="menu-item" *ngIf="PrintSticker">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-dispatch/print-sticker">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Print Sticker </span>
+      </a>
+    </div>
+
+    <!-- Resolve Concern Picklist Wise -->
+    <div class="menu-item" *ngIf="ResolveConcernPL">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-dispatch/resolve-concern">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Resolve Concern Picklist Wise </span>
+      </a>
+    </div>
+
+    <!-- Resolve Concern Invoice Wise -->
+    <div class="menu-item" *ngIf="ResolveConcernINV">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-dispatch/resolve-invoice">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Resolve Concern Invoice Wise </span>
+      </a>
+    </div>
+
+    <!-- Priority Invoice List -->
+    <div class="menu-item" *ngIf="InvCancelList">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/priority-invoice-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Priority Invoice List </span>
+      </a>
+    </div>
+
+  </div>
+</div>
+<!-- End order-dispatch -->
+<!-- Check Accounting Start -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show"
+  *ngIf="ChqRegister || ImportOS || ImportChqDeposit || ChqSummRpt || ChqSummMonthlyRpt ||ChequeStatusReport && role !== 11">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/">
+      Cheque Accounting
+    </span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+
+    <!-- Cheque Register -->
+    <div class="menu-item" *ngIf="ChqRegister">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/cheque-accounting/cheque-register">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Cheque Register </span>
+      </a>
+    </div>
+
+    <!-- Import Stockist OutStanding -->
+    <div class="menu-item" *ngIf="ImportOS">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/cheque-accounting/stockist-outstanding">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import Stockist OutStanding </span>
+      </a>
+    </div>
+
+    <!-- Import Deposited Cheque -->
+    <div class="menu-item" *ngIf="ImportChqDeposit">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/cheque-accounting/import-depositedcheque">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import Deposited Cheque </span>
+      </a>
+    </div>
+
+    <!-- Cheque Register Summary Report -->
+    <div class="menu-item" *ngIf="ChqSummRpt">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/cheque-accounting/Rptrgst-summry">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Cheque Register Summary Report </span>
+      </a>
+    </div>
+
+    <!-- Cheque Summary For Monthly/Weekly Report -->
+    <div class="menu-item" *ngIf="ChqSummMonthlyRpt">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/cheque-accounting/cheque-summary-report">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Cheque Summary Report </span>
+      </a>
+    </div>
+
+    <!-- Cheque Status Report -->
+    <div class="menu-item" *ngIf="ChequeStatusReport">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/cheque-accounting/cheque-status-report">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Cheque Status Report </span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- Check Accounting End-->
+<!-- Order Return -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show" *ngIf="LRReceivedList || ResolveClaimConcern || ImportSRS || CorrectionRequiredList || SRSPendingCNList || ImportCreditNote
+           || UploadDestructionCertificate || DestructionCertificateList && role !== 11">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/"> Order Return </span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+
+    <!-- LR Received List -->
+    <div class="menu-item" *ngIf="LRReceivedList">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="modules/order-return/lr-received-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> LR Received List </span>
+      </a>
+    </div>
+
+    <!-- Resolve Claim Concern -->
+    <div class="menu-item" *ngIf="ResolveClaimConcern">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-return/resolve-claim-concern">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Resolve Claim Concern </span>
+      </a>
+    </div>
+
+    <!-- Auditor Check List -->
+    <div class="menu-item" *ngIf="CorrectionRequiredList">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-return/auditor-check-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Correction Required List </span>
+      </a>
+    </div>
+
+    <!-- Import SRS -->
+    <div class="menu-item" *ngIf="ImportSRS">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-return/import-srs">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import SRS </span>
+      </a>
+    </div>
+
+    <!-- SRS Pending CN List -->
+    <div class="menu-item" *ngIf="SRSPendingCNList">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="modules/order-return/srs-pending-cn">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> SRS Pending CN List </span>
+      </a>
+    </div>
+
+    <!-- Import Credit Note -->
+    <div class="menu-item" *ngIf="ImportCreditNote">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-return/import-credit-note">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import Credit Note </span>
+      </a>
+    </div>
+
+    <!-- Upload Destruction Certificate -->
+    <div class="menu-item" *ngIf="UploadDestructionCertificate">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-return/upload-destruct-certificate">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Upload Destruction Certificate </span>
+      </a>
+    </div>
+
+    <!-- Destruction Certificate List -->
+    <div class="menu-item" *ngIf="DestructionCertificateList">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-return/destruction-certificate-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Destruction Certificate List </span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- Order Return End -->
+<!-- Inventory Inward Start -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show"
+  *ngIf="ImportTransitReport || ApproveVehicleIssue || InsuranceClaim || ApprovalClaim || RaisedConcernList ||VehicleChecklistForImg && role !== 11">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/"> Inventory Inward </span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+
+    <!-- Import Transit Report -->
+    <div class="menu-item" *ngIf="ImportTransitReport">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/inventory-inward/import-transit-report">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import Transit Report </span>
+      </a>
+    </div>
+
+    <!-- Resolve Vehicle Issue -->
+    <div class="menu-item" *ngIf="ApproveVehicleIssue">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/inventory-inward/approve-vehicle-issue">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Resolve Vehicle Issue </span>
+      </a>
+    </div>
+
+    <!-- Insurance Claim List -->
+    <div class="menu-item" *ngIf="InsuranceClaim">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/inventory-inward/insurance-claim-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Insurance Claim List </span>
+      </a>
+    </div>
+
+    <!-- Add Approval Claim -->
+    <div class="menu-item" *ngIf="ApprovalClaim">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/inventory-inward/approval-claim">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Add Approval Claim </span>
+      </a>
+    </div>
+
+    <!-- Raised Concern List -->
+    <div class="menu-item" *ngIf="RaisedConcernList">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/inventory-inward/raised-concern-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Raised Concern List </span>
+      </a>
+    </div>
+
+    <!-- Vehicle Checklist -->
+    <div class="menu-item" *ngIf="VehicleChecklistForImg">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/inventory-inward/vehicle-checklist-img">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Vehicle Check List </span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Stock Transfer - Start -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show" *ngIf="PicklistOperation || ReAllotPicklist || StockTransferAdd || InvCancelList || AssignTransportMode || ImportLRData || PrintSticker
+            || ResolveConcernPL || ResolveConcernINV || InvCancelList && role !== 11">
+
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/"> Stock Transfer </span>
+    <span class="menu-arrow"></span>
+  </span>
+
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <!-- PickList Operation -->
+    <div class="menu-item" *ngIf="PicklistOperation">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/picklist-operation-stocktransfer/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> PickList Operation </span>
+      </a>
+    </div>
+
+    <!-- Re-Allot PickList -->
+    <div class="menu-item" *ngIf="ReAllotPicklist">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/ReAllot-picklist/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Re-Allot PickList </span>
+      </a>
+    </div>
+
+    <!-- Add Stock Transfer -->
+    <div class="menu-item" *ngIf="StockTransferAdd">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="modules/stock-transfer/add-stock-transfer">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Add Stock Transfer </span>
+      </a>
+    </div>
+
+    <!-- Invoice Cancel List -->
+    <div class="menu-item" *ngIf="InvCancelList">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/order-dispatch/invoice-cancel/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Cancel Invoice </span>
+      </a>
+    </div>
+
+    <!-- Edit Assign Transport Mode -->
+    <div class="menu-item" *ngIf="AssignTransportMode">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/edit-assign-transport/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Edit Assign Transport Mode </span>
+      </a>
+    </div>
+
+    <!-- Import LR Data -->
+    <div class="menu-item" *ngIf="ImportLRData">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/import-lr-stock-transfer/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Import LR Data </span>
+      </a>
+    </div>
+
+    <!-- Print Sticker -->
+    <div class="menu-item" *ngIf="PrintSticker">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/print-sticker-stocktransfer/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Print Sticker </span>
+      </a>
+    </div>
+
+    <!-- Resolve Concern Picklist Wise -->
+    <div class="menu-item" *ngIf="ResolveConcernPL">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/resolve-concern-stocktransfer/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Resolve Concern Picklist Wise </span>
+      </a>
+    </div>
+
+    <!-- Resolve Concern Invoice Wise -->
+    <div class="menu-item" *ngIf="ResolveConcernINV">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/resolve-invoice-stocktransfer/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Resolve Concern Invoice Wise </span>
+      </a>
+    </div>
+
+    <!-- Priority Invoice List -->
+    <div class="menu-item" *ngIf="InvCancelList">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/order-dispatch/priority-invoice/1">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Priority Invoice List </span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- Stock Transfer - End -->
+<!-- App Configuration - Start -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show"
+  *ngIf="AppConfig || VersionDetails && role !== 11">
+
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title"> Configuration </span>
+    <span class="menu-arrow"></span>
+  </span>
+
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+
+    <!-- App Configuration -->
+    <div class="menu-item" *ngIf="AppConfig">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/configuration/app-configuration">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> App Configuration </span>
+      </a>
+    </div>
+
+    <!-- Version Details  -->
+    <div class="menu-item" *ngIf="VersionDetails">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/configuration/version-details">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Version Details </span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- App Configuration - End -->
+
+
+<!-- Accounts Module - Start -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show"
+  *ngIf="ExpenseRegister ||ReimbursmentInvoice||ComissionInvoice||GatepassbillSummary||CheckInvoice && role !== 11">
+
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title" data-link="/"> Accounts </span>
+    <span class="menu-arrow"></span>
+  </span>
+
+
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+
+    <!-- Expence Register -->
+    <div class="menu-item" *ngIf="ExpenseRegister">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/account-module/expence-register">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Expense Register </span>
+      </a>
+    </div>
+
+    <!-- Reimbursment Invoice -->
+    <div class="menu-item" *ngIf="ReimbursmentInvoice">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/account-module/reimbursment-invoice-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Reimbursement Invoice </span>
+      </a>
+    </div>
+    <!--  Comission Invoice  List-->
+    <div class="menu-item" *ngIf="ComissionInvoice">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/account-module/commsion-invoice-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Commission Invoice List </span>
+      </a>
+    </div>
+
+    <!-- Gate pass bill Summary -->
+    <!-- <div class="menu-item" *ngIf="GatepassbillSummary">
+            <a class="menu-link without-sub" routerLinkActive="active"
+                routerLink="/modules/account-module/gatepass-bill-list">
+                <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+                <span class="menu-title"> GatePass Bill Summary </span>
+            </a>
+        </div> -->
+    <div class="menu-item" *ngIf="CheckInvoice">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/modules/account-module/check-invoice-list">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> Check Invoice </span>
+      </a>
+    </div>
+
+  </div>
+</div>
+<!-- Accounts Module- End -->
+<!-- App OCR - Start -->
+<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'"></span>
+    </span>
+    <span class="menu-title"> OCR Integration </span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/ocr/ocr-integration">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> OCR Integration</span>
+      </a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/modules/ocr/ocr2">
+        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+        <span class="menu-title"> OCR Integration 1</span>
+      </a>
+    </div>
+  </div>
+  <!-- OCR End -->
+<mat-progress-spinner *ngIf="isLoading" class="spin" color="accent" mode="indeterminate" diameter="40" strokeWidth="5">
+</mat-progress-spinner>

@@ -1,0 +1,125 @@
+<div class="card">
+  <div class="card-header">
+    <h2>{{HeadTititle}}</h2>
+  </div>
+  <div class="card-body">
+    <form class="vForm" [formGroup]="headmasterForm" (ngSubmit)="SaveheadmasterData()" autocomplete="off">
+      <div class="row">
+        <div class="col w-50">
+          <mat-form-field class="example-full-width">
+            <mat-label> Head Name <span class="text-danger"> * </span> </mat-label>
+            <input matInput placeholder="Head Name" name="HeadName" formControlName="HeadName">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.HeadName.errors" class="invalid-feedback">
+            <span *ngIf="f.HeadName.errors.required"> Head name is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.HeadName.touched && f.HeadName.invalid" class="invalid-feedback">
+            Head name is required
+          </mat-error>
+        </div>
+
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Head Type </mat-label>
+            <input type="text" placeholder="Head Type" matInput name="HeadType" formControlName="HeadType"
+              [matAutocomplete]="autoHeadType" (focusout)="HeadTypeValidation()">
+            <mat-autocomplete #autoHeadType="matAutocomplete" [displayWith]="displayFnHeadType">
+              <mat-option *ngFor="let option of HeadTypeListArray | async" [value]="option">
+                {{ option.MasterName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.HeadType.errors" class="invalid-feedback">
+            <span *ngIf="f.HeadType.errors.required"> Please select head type </span>
+          </mat-error>
+          <mat-error *ngIf="InvalidHeadTypeName" class="invalid-feedback">
+            Please select valid head type
+          </mat-error>
+        </div>
+
+        <div class="col w-50"> </div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col">
+          <button mat-raised-button class="cancel-buttton" (click)="ClearForm()" type="button">Cancel</button>
+          <button mat-raised-button color="primary" type="submit"> {{ pageState }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card-header">
+  <div class="row">
+    <div class="col-md-2">
+      <h2> List View </h2>
+    </div>
+    <div class="col-md-2">
+      <mat-form-field class="searchField" style="margin-right: 2%;">
+        <span class="GlobalSearch" matPrefix>
+          <mat-icon>search</mat-icon> &nbsp;
+        </span>
+        <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12">
+  <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+    <ng-container matColumnDef="SrNo">
+      <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+      <td mat-cell *matCellDef="let row;let SrNo = index;">
+        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="HeadName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Head Name </th>
+      <td mat-cell *matCellDef="let row">
+        <div>
+          {{ row.HeadName }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="HeadType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Head Type </th>
+      <td mat-cell *matCellDef="let row">
+        <div>
+          {{ row.HeadType }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="IsActiveStatus">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+      <td mat-cell *matCellDef="let row">
+        <div>
+          {{ row.IsActiveStatus === "Y" ? "Active" : "Deactive" }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Actions">
+      <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+      <td mat-cell *matCellDef="let row">
+        <a (click)="EditData(row)" style="cursor: pointer;" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+        <a (click)="ChangeStatus(row)" style="cursor: pointer;" title="Change Status"><i class="far fa-trash-alt">
+          </i></a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsForHeadMasterAPI"></tr>
+    <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForHeadMasterAPI;"></tr>
+  </table>
+  <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+    strokeWidth="5"></mat-progress-spinner>
+  <div *ngIf="!DataSource.data.length && !isLoading">
+    <h6 class="noRecordData"> No Record Found </h6>
+  </div>
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+</div>

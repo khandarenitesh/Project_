@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get CurrentDate Format using javascript</title>
+</head>
+
+<body>
+  <script>
+    var today = new Date();
+    var day = today.getDay(); // getting today day
+    var dayList = ["Sunday", "Monday", "Tuesday", "Wednesday ", "Thursday", "Friday", "Saturday"];
+    console.log("today is :" + dayList[day] + "");
+    var hour = today.getHours(); // getting today hour
+    var minute = today.getMinutes(); // getting today minute
+    var second = today.getSeconds(); // getting today second
+    console.log("Current time:" + hour + "-" + minute + "-" + second);
+    var prepand = (hour >= 12) ? "PM" : "AM";
+    if (hour === 13 && prepand === "PM") {
+      if (minute === 0 && second === 0) {
+        hour = 12;
+        prepand = 'noon';
+
+      }
+      else {
+        hour = 12;
+        prepand = 'pm';
+      }
+    }
+    if (hour === 0 && prepand === "am") {
+      if (minute === 0 && second == 0) {
+        hour = 12;
+        prepand = 'midnight';
+      }
+      else {
+        hour = 12;
+        prepand = 'am';
+      }
+    }
+    console.log("current time :" + hour + prepand + ":" + minute + ":" + second);
+
+  </script>
+</body>
+
+</html>

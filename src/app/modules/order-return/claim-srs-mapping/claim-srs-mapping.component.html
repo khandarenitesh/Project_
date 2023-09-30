@@ -1,0 +1,138 @@
+<div class="card">
+    <div class="card-header">
+        <h2>{{claimsrsMappingTitle}} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="claimsrsMappingForm" (ngSubmit)="saveclaimsrsMapping()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> LRNo <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="LRNo" matInput name="LRNo" (ngModelChange)="GetClaimSrsMappingList($event)" formControlName="LRNo" [matAutocomplete]="autoLRNo" (focusout)="LRNoValidation()">
+                        <mat-autocomplete #autoLRNo="matAutocomplete" [displayWith]="displayFnLRNo">
+                            <mat-option *ngFor="let option of filteredOptionsClaimNo | async" [value]="option">
+                                {{ option.LRNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.LRNo.errors" class="invalid-feedback">
+                        <span *ngIf="f.LRNo.errors.required">Please select LR No </span>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.ClaimNo.touched && f.ClaimNo.invalid" class="invalid-feedback">
+                        Please select claim no.
+                    </mat-error> -->
+                    <mat-error *ngIf="ClaimNoInvalid" class="invalid-feedback">
+                        Please select valid LR no.
+                    </mat-error>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>LR Date <span class="text-danger"> * </span></mat-label>
+                        <input matInput [matDatepicker]="picker" name="LRDate" formControlName="LRDate" [min]="minDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    
+                    <mat-error *ngIf="submitted && f.LRDate.errors" class="invalid-feedback">
+                        <span *ngIf="f.LRDate.errors.required"> Please select LR date </span>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.LRDate.touched && f.LRDate.invalid" class="invalid-feedback">
+                        Please select LR date
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Claim no <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="ClaimNo" name="ClaimNo" formControlName="ClaimNo" readonly="true">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ClaimNo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.ClaimNo.errors.required"> LR No is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.ClaimNo.touched && f.ClaimNo.invalid" class="invalid-feedback">
+                        Claim No is required
+                    </mat-error>
+                </div>
+            </div><br><br>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Claim SRS Mapping List </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                    <!-- <ng-container matColumnDef="Select">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Select </th>
+                        <td mat-cell *matCellDef="let row; let i=index;">
+                            <input mat-checkbox type="checkbox" [checked]="row.PhyChkId != 0">
+                            <input type="checkbox" style="cursor: pointer;" id="{{ 'check' + i }}" [(ngModel)]="row.checked" (change)="getCheckboxesData(row, i)">
+                            <input type="checkbox" style="cursor: pointer;" id="{{ 'check' + i }}" [(ngModel)]="row.checked" (change)="getCheckboxesData(row, i)">
+                        </td>
+                    </ng-container> -->
+                    <ng-container matColumnDef="Select">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Select </th>
+                        <td mat-cell *matCellDef="let row; let i=index;">
+                            <input type="checkbox" style="cursor: pointer;" id="{{ 'check' + i }}" [checked]="row.LRIdGPId != 0" (change)="getCheckboxesData(row, i)">
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="SalesDocNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sales Doc No </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div>
+                                {{ row.SalesDocNo }}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DocDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Doc Date </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div>
+                                {{ row.DocDate | date: 'dd/MM/yyyy' }}
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="StockistNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist No </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div>
+                                {{row.StockistNo }}
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="StockistName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div>
+                                {{row.StockistName }}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+                    <!-- <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;" (click)="selection.toggle(row)"></tr> -->
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+                </table>
+                <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner>
+                <div *ngIf="!DataSource.data.length && !isLoading">
+                    <h6 class="noRecordData"> No Record Found </h6>
+                </div>
+                <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+                <br><br>
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col">
+                        <button mat-raised-button class="cancel-buttton" (click)="ClearForm()" type="button">Cancel</button>
+                        <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

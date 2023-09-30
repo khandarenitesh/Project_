@@ -1,0 +1,147 @@
+/* Add scrollbar to the table body */
+.mat-table {
+  table-layout: fixed;
+  width: 100%;
+  display: table;
+  overflow-y: auto;
+}
+
+.mat-column-SrNo,
+.mat-column-StockistNo,
+.mat-column-CityName,
+.mat-column-StockistPAN,
+.mat-column-DLExpDate,
+.mat-column-FoodLicExpDate,
+.mat-column-FoodLicNo,
+.mat-column-GSTNo,
+.mat-column-MobNo,
+.mat-column-Emailid,
+.mat-column-BankAccountNo,
+.mat-column-StockistName {
+  white-space: nowrap;
+  /* Prevent text from wrapping in cells */
+}
+
+.mat-column-SrNo,
+.mat-column-StockistNo,
+.mat-column-CityName,
+.mat-column-StockistPAN,
+.mat-column-DLExpDate,
+.mat-column-FoodLicExpDate,
+.mat-column-FoodLicNo,
+.mat-column-GSTNo,
+.mat-column-MobNo,
+.mat-column-Emailid,
+.mat-column-BankAccountNo,
+.mat-column-Pincode,
+.mat-column-StockistAddress {
+  padding-right: 10px;
+  /* Adjust padding as needed */
+}
+
+.mat-column-StockistName {
+  padding-right: 10px;
+}
+
+.mat-table mat-cell {
+  padding: 8px 16px;
+  /* Add padding to table cells */
+}
+
+/* Optional: If you want to truncate long text in cells */
+.mat-column {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.isColoRed {
+  color: red !important;
+}
+
+.mat-column-status {
+  width: 20%;
+  padding-right: 15px;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.card .card-header1 {
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
+  min-height: 50px;
+  padding: 0 1.25rem;
+  background-color: transparent;
+  border-bottom: 1px solid #eff2f5;
+  margin-top: 7px;
+}
+
+.mat-focused {
+  color: black;
+}
+
+.cancel-buttton {
+  margin-right: 5%;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 5%;
+  padding: 12px;
+}
+
+.mat-column-BranchName {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+  padding-right: 15px;
+
+}
+
+.mat-column-CompanyName {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+  padding-right: 15px;
+
+}
+
+.mat-column-ImpFor {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+  padding-right: 15px;
+
+}
+
+.mat-column-FieldName {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+  padding-right: 12px;
+}
+
+.mat-column-ExcelColName {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+}
+
+.mat-column-ColumnDatatype {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+  text-align: center;
+}

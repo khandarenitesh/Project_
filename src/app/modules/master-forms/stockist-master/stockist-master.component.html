@@ -1,0 +1,157 @@
+<div class="card">
+
+    <div class="card-header">
+
+        <!-- <h2>Stockist List</h2>
+        <button mat-raised-button color="primary" (click)="redirect()"> Add Stockist Master </button> -->
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <h2> List View </h2>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+                </mat-form-field>
+            </div>
+
+        </div>
+
+        <button mat-raised-button color="primary" (click)="redirect()"> Add </button>
+
+    </div>
+
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="Scroll">
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                        <td mat-cell *matCellDef="let row;let SrNo = index;">
+                            {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Customer Code
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Customer Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Emailid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Email </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.Emailid }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="MobNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Contact No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.MobNo }}
+                        </td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="StockistPAN">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> PAN </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistPAN }}
+                        </td>
+                    </ng-container> -->
+
+                    <!-- <ng-container matColumnDef="GSTNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> GST </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.GSTNo }}
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="CityName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.CityName }}
+                        </td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="Location">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Location </th>
+                    <td mat-cell *matCellDef="let row">
+                            {{ row.MasterName }}
+                    </td>
+                </ng-container> -->
+
+                    <!-- <ng-container matColumnDef="PinCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> PinCode </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.Pincode }}
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="FoodLicExpDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Food Lic Exp Date
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="(row.FoodLicExpDate !== '1900-01-01T00:00:00')">
+                              {{ row.FoodLicExpDate | date: 'dd/MM/yyyy' }}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DLExpDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> DL Exp Date </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="(row.DLExpDate !== '1900-01-01T00:00:00')">
+                              {{ row.DLExpDate | date: 'dd/MM/yyyy' }}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IsActive">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.IsActive === "Y" ? "Active" : "Deactive" }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Actions -->
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                        <td mat-cell *matCellDef="let row">
+                            <a (click)="GetData(row)" style="cursor: pointer;" title="Edit"><i
+                                    class="fa fa-edit"></i></a>
+                            <a (click)="ChangeStatus(row)" style="cursor: pointer;" title="Change Status"><i
+                                    class="far fa-trash-alt"> </i></a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns;"
+                    [ngClass]="{'highlightCancel': row.DLExpDateCount === 1 || row.FoodLicExpDateCount === 1}"></tr>
+                </table>
+            </div>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+        </div>
+    </div>
+</div>

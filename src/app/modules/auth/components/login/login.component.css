@@ -1,0 +1,25 @@
+:host {
+  width: 100%;
+}
+@media (min-width: 992px) {
+  :host .login-form {
+    width: 100%;
+    max-width: 450px;
+  }
+  :host .login-form .mat-form-field {
+    width: 100%;
+  }
+}
+
+.form-control.form-control-solid {
+  background-color: #E8F0FE;
+  border-color: #E8F0FE;
+  color: #5E6278;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.mat-select-disabled {
+  background-color: #F5F8FA !important;
+  border-color: #F5F8FA !important;
+  color: rgba(0, 0, 0, 0.38);
+}/*# sourceMappingURL=login.component.css.map */

@@ -1,0 +1,95 @@
+.mat-focused {
+    color: black;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095E8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 7%;
+    padding-right: 13px;
+}
+
+.mat-column-ParentTranspNo {
+    flex: 0px 0px 6% !important;
+    width: 12%;
+    padding-right: 13px;
+}
+
+.mat-column-ParentTranspName {
+    flex: 0px 0px 10% !important;
+    width: 14%;
+    padding-right: 13px;
+}
+
+.mat-column-ParentTranspMobNo {
+    flex: 0px 0px 10% !important;
+    width: 12%;
+    padding-right: 13px;
+}
+
+.mat-column-ParentTranspEmail {
+    flex: 0px 0px 10% !important;
+    width: 13%;
+    padding-right: 14px;
+}
+
+.mat-column-GSTNumber {
+    flex: 0px 0px 10% !important;
+    width: 9%;
+    padding-right: 14px;
+}
+
+.mat-column-IsActive {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 13px;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+i {
+    margin-right: 15%;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

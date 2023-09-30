@@ -1,0 +1,105 @@
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 2%;
+}
+
+.mat-column-InvNo {
+  flex: 0px 0px 6% !important;
+  width: 7%;
+}
+
+.mat-column-InvCreatedDate {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-PONo {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.mat-column-PODate {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-StockistNo {
+  flex: 0px 0px 10% !important;
+  width: 6%;
+}
+
+.mat-column-StockistName {
+  flex: 0px 0px 10% !important;
+  width: 14%;
+}
+
+.mat-column-CityName {
+  flex: 0px 0px 10% !important;
+  width: 6%;
+}
+
+.mat-column-InvAmount {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-StatusText {
+  flex: 0px 0px 8% !important;
+  width: 8%;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+i {
+  margin-right: 15%;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: underline !important;
+  color: #3f51b5 !important;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+::ng-deep .cdk-global-overlay-wrapper,
+::ng-deep .cdk-overlay-container {
+  z-index: 9999 !important;
+}
+
+.margin-right {
+  margin-right: 3%;
+}
+
+.highlightCancel td {
+  color: rgb(215, 82, 150);
+}/*# sourceMappingURL=ready-to-dispatch.component.css.map */

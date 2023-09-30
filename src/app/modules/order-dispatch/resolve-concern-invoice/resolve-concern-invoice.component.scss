@@ -1,0 +1,121 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 5%;
+    padding-right: 11px;
+}
+
+.mat-column-InvNo {
+    flex: 0px 0px 7% !important;
+    width: 7%;
+    padding-right: 12px;
+}
+
+.mat-column-StockistNo {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 12px;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 10% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-CityName {
+    flex: 0px 0px 8% !important;
+    width: 6%;
+}
+
+.mat-column-StatusText {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 12px;
+}
+
+.mat-column-BillDrawerName {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-PackingConcernText {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-PackingRemark {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 12px;
+}
+.mat-column-IsStockTransfer {
+  flex: 0px 0px 8% !important;
+  width: 7%;
+  text-align: center;
+}
+
+// .mat-column-DispatchByName {
+//     flex: 0px 0px 8% !important;
+//     width: 8%;
+//     padding-right: 12px;
+// }
+// .mat-column-DispatchConcernText {
+//     flex: 0px 0px 8% !important;
+//     width: 8%;
+//     padding-right: 12px;
+// }
+// .mat-column-ReadyToDispatchRemark {
+//     flex: 0px 0px 8% !important;
+//     width: 8%;
+//     padding-right: 12px;
+// }
+.mat-column-Actions {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+i {
+    margin-right: 15%;
+}
+
+.highlightPriority {
+    td {
+        color: rgba(215, 82, 150, 255);
+    }
+}
+
+a {
+    cursor: pointer;
+    text-decoration: underline !important;
+    color: #3f51b5 !important;
+}

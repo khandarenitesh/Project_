@@ -1,0 +1,91 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-PicklistNo {
+    flex: 0px 0px 10% !important;
+    width: 15%;
+    padding-right: 12px;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}
+
+.mat-column-PicklistDate {
+    flex: 0px 0px 10% !important;
+    width: 14%;
+    padding-right: 13px;
+}
+
+.mat-column-FromInv {
+    flex: 0px 0px 10% !important;
+    width: 15%;
+    padding-right: 12px;
+}
+
+.mat-column-ToInv {
+    flex: 0px 0px 10% !important;
+    width: 15%;
+    padding-right: 12px;
+}
+
+.mat-column-PickerName {
+    flex: 0px 0px 10% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-StatusText {
+    flex: 0px 0px 10% !important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-IsStockTransfer {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+  text-align: center;
+  padding-right: 12px;
+}
+
+.mat-column-Action {
+    flex: 0px 0px 10% !important;
+    width: 5%;
+    padding-right: 12px;
+}
+
+.mat-column-Name {
+    flex: 0px 0px 10% !important;
+    width: 30%;
+    padding-right: 12px;
+}
+
+.mat-column-ContactNumber {
+    flex: 0px 0px 10% !important;
+    width: 30%;
+    padding-right: 12px;
+}
+
+a {
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    color: blue !important;
+}
+
+.highlightCancel {
+    td {
+        color: rgba(215, 82, 150, 255);
+    }
+}
+
+.Scroll {
+    overflow-x: auto;
+}

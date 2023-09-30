@@ -1,0 +1,81 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+.Scroll {
+    overflow-x: auto;
+}
+.mat-column-SrNo {
+    flex: 0px 0px 8% !important;
+    width: 3%;
+    padding-right: 12px;
+}
+
+.mat-column-CrDrNoteNo {
+    flex: 0px 0px 8% !important;
+    width: 4%;
+    padding-right: 12px;
+}
+
+.mat-column-CRDRCreationDate {
+    flex: 0px 0px 8% !important;
+    width: 3%;
+    padding-right: 12px;
+}
+
+.mat-column-CrDrAmt {
+    flex: 0px 0px 8% !important;
+    width: 3%;
+    padding-right: 12px;
+}
+
+.mat-column-StockistNo {
+    flex: 0px 0px 6% !important;
+    width: 3%;
+    padding-right: 12px;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 8% !important;
+    width: 4%;
+    padding-right: 12px;
+}
+
+.mat-column-CityName {
+    flex: 0px 0px 8% !important;
+    width: 3%;
+    padding-right: 12px;
+}
+
+.mat-column-SalesOrderNo {
+    flex: 0px 0px 8% !important;
+    width: 4%;
+    padding-right: 12px;
+}
+
+.mat-column-SalesOrderDate {
+    flex: 0px 0px 8% !important;
+    width: 4%;
+    padding-right: 12px;
+}
+
+.green-color {
+    color: green;
+}
+
+i:hover {
+    color: hotpink !important;
+}
+
+.fa-duotone {
+    color: navy;
+    text-align: justify !important;
+    height: 10px;
+
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 8% !important;
+    width: 3%;
+    text-align: center;
+}

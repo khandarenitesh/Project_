@@ -1,0 +1,93 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.matbutton {
+    margin-left: 25px;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 8% !important;
+    width: 6%;
+    padding-right: 12px;
+}
+
+.mat-column-ActualGIDate {
+    flex: 0px 0px 10% !important;
+    width: 9%;
+    padding-right: 12px;
+}
+
+.mat-column-InvoiceDate {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-InvoiceNo {
+    flex: 0px 0px 8% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-DeliveryNo {
+    flex: 0px 0px 6% !important;
+    width: 8%;
+    padding-right: 21px;
+}
+
+.mat-column-Quantity {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 6px;
+}
+
+.mat-column-LrNo {
+    flex: 0px 0px 8% !important;
+    width: 9%;
+    padding-right: 12px;
+}
+
+.mat-column-LrDate {
+    flex: 0px 0px 10% !important;
+    width: 9%;
+    padding-right: 8px;
+}
+
+.mat-column-TransporterNo {
+    flex: 0px 0px 5% !important;
+    width: 9%;
+    padding-right: 12px;
+}
+
+.mat-column-TransporterName {
+    flex: 0px 0px 8% !important;
+    width: 9%;
+    padding-right: 12px;
+}
+
+.mat-column-VehicleNo {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 12px;
+}
+
+.green-color {
+    color: green;
+}
+
+a {
+    cursor: pointer !important;
+    text-decoration: underline !important;
+    color: blue !important;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}

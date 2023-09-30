@@ -1,0 +1,228 @@
+.mat-focused {
+    color: black;
+}
+
+.matbutton {
+    margin-right: 15%;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095E8;
+}
+
+.mat-column-SrNo {
+    display: none;
+    flex: 0px 0px 10% !important;
+    width: 7%;
+    padding-right: 13px;
+}
+
+.mat-column-GPDate {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 13px;
+}
+
+.mat-column-GPNoOfInv {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 13px;
+}
+
+.mat-column-GPNoOfBox {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 13px;
+}
+
+.mat-column-RatePerBox {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 11px;
+}
+
+.mat-column-CityName {
+    flex: 0px 0px 10% !important;
+    width: 11%;
+    padding-right: 11px;
+}
+
+.mat-column-Amount {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 10px;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 8% !important;
+    width: 12%;
+    padding-right: 13px;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+.footer {
+    font-weight: bold;
+    font-size: 14px;
+    color: rgb(32, 32, 43) !important;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: underline !important;
+    color: #3f51b5 !important;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+    float: right;
+}
+
+.submit-buttton {
+    margin-right: 5%;
+    float: right;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+::ng-deep {
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 9999 !important;
+    }
+}
+
+.Gatepasstable thead .alignAtStart,
+.Gatepasstable tbody tr .alignAtStart {
+    text-align: initial !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.AreaTable th,
+.AreaTable td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.AreaTable tr:not(:last-child),
+.AreaTable thead {
+    border-bottom: 1px solid #dddddd !important;
+}
+
+.ptblRow {
+    width: 100%;
+    background: aliceblue; //  aliceblue
+}
+
+.is-blue {
+    background: #e2e4f7 !important;
+}
+
+.AreaTable th {
+    font-weight: 500;
+    text-align: center;
+}
+
+.AreaTable td {
+    text-align: center;
+}
+
+.mat-column-expandedDetail {
+    max-width: 100% !important;
+}
+
+.example-detail-row {
+    padding: 0px !important;
+    border: none;
+    height: 0px;
+}
+
+table.AreaTable {
+    display: none;
+}
+
+.col-SrNo {
+    width: 3%;
+    flex: 0px 0px 10% !important;
+    padding-right: 13px;
+}
+
+.col-GPDate {
+    width: 8%;
+}
+
+.col-GPNoOfInv {
+    width: 6%;
+}
+
+.col-GPNoOfBox {
+    width: 8%;
+}
+
+.col-RatePerBox {
+    width: 6%;
+}
+
+.col-Amount {
+    width: 7%;
+}
+
+.col-TranspNoOfBox {
+    width: 7%;
+}
+
+.col-DtlsStatus {
+    width: 7%;
+}
+
+.col-Select {
+    width: 9%;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+.Border {
+    border: 1px solid black !important;
+}
+
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}

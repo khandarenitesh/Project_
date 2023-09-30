@@ -1,0 +1,270 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <!-- <div class="col text-center">
+                <h4>{{ TodaysWithOldOpen }}</h4>
+                <span>All Invoices</span>
+            </div> -->
+            <div class="col text-center">
+                <h4 style="cursor: pointer;" title="Today's With Old Open Invoices">
+                    <h4>{{ TodaysWithOldOpen }}</h4>
+                </h4>
+                <span>All Invoices</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ PendingInvCtn }}</h4>
+                <span>Pending Invoices</span>
+            </div>
+            <div class="col text-center">
+                <a style="cursor: pointer;" title="Picker Concern" (click)="ShowPickList('PackerConcern')">
+                    <h4>{{ PackerConcern }}</h4>
+                </a>
+                <span>Packer Concern</span>
+            </div>
+            <!-- <div class="col text-center">
+                <a style="cursor: pointer;" title="Priority">
+                    <h4>{{ OnPriorityCtn }}</h4>
+                </a>
+                <span> Priority </span>
+            </div> -->
+            <div class="col text-center">
+                <h4>{{ OnPriorityCtn }}</h4>
+                <span>Priority</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ StkPrint }}</h4>
+                <span>Sticker Print</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ GatpassGenCtn }}</h4>
+                <span>Gatpass Gen</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ CancelInvCtn }}</h4>
+                <span>Cancel Invoices</span>
+            </div>
+            <!-- <div class="col text-center">
+                <a style="cursor: pointer;" title="Stock Transfer">
+                    <h4>{{ IsStockTransferCtn }}</h4>
+                </a>
+                <span>Stock Transfer</span>
+            </div> -->
+            <div class="col text-center">
+                <h4>{{ IsStockTransferCtn }}</h4>
+                <span> Stock Transfer</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ LocalMode }}</h4>
+                <span> Local Mode</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ OtherCity }}</h4>
+                <span> Other City</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{ ByHand }}</h4>
+                <span> By Hand</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Invoice  List -->
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ Title }}</h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Search -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="Scroll">
+                <!--  Table  -->
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr.No. </th>
+                        <td mat-cell *matCellDef="let row;let SrNo = index;">
+                            {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="InvNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.InvNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist No </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Stockist Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="CityName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.CityName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StatusText">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Status
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StatusText }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BillDrawerName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Bill Drawer Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.BillDrawerName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="PackingConcernText">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Packing Concern
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.PackingConcernText }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="PackingRemark">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Packing Remark
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.PackingRemark }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IsStockTransfer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Is Stock Transfer
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="row.IsStockTransfer == 1">Y</span>
+                            <span *ngIf="row.IsStockTransfer == 0">N</span>
+                        </td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="DispatchByName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Dispatch By</th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.DispatchByName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="DispatchConcernText">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Dispatch Concern</th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.DispatchConcernText }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ReadyToDispatchRemark">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Dispatch Remark</th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ReadyToDispatchRemark }}
+                    </td>
+                </ng-container> -->
+
+                    <ng-container matColumnDef="OnPriority">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Priority</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.OnPriority }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span>
+                                <a (click)="ResolveConernInvPopup(row,ResolveConcernInvPopup)" class="rmargin"> Resolve
+                                    Concern
+                                </a> </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-template id="AddEditPopup" #ResolveConcernInvPopup let-c="close" let-d="dismiss">
+                        <div class="modal-header">
+                            <h4 class="modal-title"> Resolve Concern</h4>
+                            <a class="" style="float: right; cursor: pointer;" aria-label="Close"
+                                (click)="d('Cross click')">
+                                <span aria-hidden="true">
+                                    <i class="fa fa-times SBModalclose"></i>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="modal-body cons-info">
+                            <div class="card-body">
+                                <form #ConcernForm="ngForm" (ngSubmit)="ResolveInvConernSave()">
+                                    <div class="row">
+                                        <div class="col">
+                                            <mat-form-field class="example-full-width" style="width: 300px;">
+                                                <mat-label for="exampleFormControlTextarea1">Resolve Concern</mat-label>
+                                                <textarea matInput class="form-control" placeholder="Resolve Concern"
+                                                    required [(ngModel)]="Remark" name="Remark" #InRsolve="ngModel"
+                                                    cols="10" rows="2"></textarea>
+                                            </mat-form-field>
+                                            <div *ngIf="!InRsolve?.valid && (InRsolve?.dirty || InRsolve?.touched)">
+                                                <div *ngIf="InRsolve.errors?.required">
+                                                    <span style="color: red"> Resolve Concern is required </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"></div>
+                                        <div class="col">
+                                            <button mat-raised-button color="primary" type="submit"
+                                                [disabled]="!ConcernForm.valid"> {{
+                                                pageState }}</button>
+                                            <button mat-raised-button class="cancel-buttton" class="m-4" type="button"
+                                                (click)="d('Cross click');">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <tr mat-header-row *matHeaderRowDef="DisplayInvoiceData"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: DisplayInvoiceData;"
+                        [ngClass]="{'highlightPriority': row.OnPriority === 1 }"></tr>
+                </table>
+            </div>
+
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                strokeWidth="5"></mat-progress-spinner>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+        </div>
+    </div>
+</div>

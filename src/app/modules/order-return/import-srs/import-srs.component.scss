@@ -1,0 +1,90 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 8% !important;
+    width: 5%;
+    padding-right: 12px;
+}
+
+.mat-column-LRNo {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-LRDate {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-ReceiptDate {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 8% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-PONo {
+    flex: 0px 0px 6% !important;
+    width: 5%;
+    padding-right: 12px;
+}
+
+.mat-column-StockistNo {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-CityName {
+    flex: 0px 0px 6% !important;
+    width: 9%;
+    padding-right: 12px;
+}
+
+.mat-column-TransCourName {
+    flex: 0px 0px 8% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-ReceiptDate {
+    flex: 0px 0px 6% !important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-RecvdAtOPDate {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+}
+
+.green-color {
+    color: green;
+}
+
+.fa-solid {
+    width: 2%;
+}
+
+.white-color {
+    color: white;
+    margin: 0% 10% 10% 0%;
+}
+
+.matbutton {
+    margin-left: 13%;
+}

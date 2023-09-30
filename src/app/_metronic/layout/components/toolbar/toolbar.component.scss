@@ -1,0 +1,187 @@
+.scrollable-content1 {
+  height: 600px;
+  overflow: auto;
+  position: static;
+
+}
+
+.OneCard:hover {
+  background-color: #ebf7fdf5;
+}
+
+.Positionmodal {
+  position: absolute;
+  margin-left: 100%;
+  margin-top: 115px;
+}
+
+.btn-ExpandCollapse {
+  cursor: pointer;
+  color: #0798ec;
+  // margin-right: 82%;
+  // margin-top: 15px;
+}
+
+.newcolor {
+  background-color: #AEE1FC;
+  min-height: 39px
+}
+
+.subject {
+  text-align: center;
+  padding: 10px;
+  border: 1px;
+  background-color: #60ABFB;
+  // position: sticky;
+  top: 1px;
+}
+
+.container1 {
+  border: 1px solid #d8d8d8;
+  width: 405px;
+  margin-left: 50px;
+}
+
+.content1 {
+  font-size: 14px;
+  padding: 20px 3px 35px 74px;
+}
+
+.time1 {
+  color: #979797;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.icon1 {
+  margin: 19px 0 0 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #818181;
+}
+
+.txt1 {
+  color: #818181;
+  margin: 6px;
+}
+
+.triangle1 {
+  width: 0;
+  height: 0;
+  color: #fff;
+  border-style: solid;
+  border-width: 0 25px 25px 25px;
+  border: 1px solid #d8d8d8;
+}
+
+
+::ng-deep .modal-content1 {
+  margin-left: 510px;
+  display: flex;
+  height: auto;
+  flex-direction: column;
+  border: 0 solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.475rem;
+  margin-top: 108px;
+  width: 450px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  // background-color: darkgrey;
+  background-color: white;
+  outline: 1px solid slategrey;
+}
+
+.div1 {
+  // border: 1px solid gray;
+  padding: 8px;
+  font-family: "Roboto", sans-serif !important;
+  font-weight: 500;
+}
+
+.h11 {
+  text-align: center;
+  text-transform: uppercase;
+  color: #4CAF50;
+}
+
+.p1 {
+  text-indent: 50px !important;
+  text-align: justify !important;
+  letter-spacing: 3px !important;
+  border-radius: 2px !important;
+}
+
+.a1 {
+  text-decoration: none;
+  // color: #388ca8;
+  color: #b8d7f8;
+}
+
+.NewNotification {
+  text-align: center;
+  margin-top: 177px;
+  font-family: 'Roboto';
+}
+
+.body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-color: var(--Very-light-grayish-blue);
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.AccountCircle {
+
+  margin-top: 11px;
+  color: #9fc7f3;
+  font-size: 35px;
+  margin-left: -3px;
+}
+
+.FLClass {
+  text-decoration: red;
+}
+
+.blink:hover {
+  animation: blinker 1s linear infinite;
+}
+
+.custom-link {
+  /* Updated: Removed underline */
+  transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+
+  color: rgb(238, 98, 55);
+  //color: rgb(43, 72, 240);
+}
+
+.dLflDates {
+  font-size: x-small;
+  color: #808080
+}
+
+p {
+  cursor: pointer;
+  font-family: none;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: 600;
+}

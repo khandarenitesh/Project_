@@ -1,0 +1,15 @@
+.mat-focused {
+    color: black;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}

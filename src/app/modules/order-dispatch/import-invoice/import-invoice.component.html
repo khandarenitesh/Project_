@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{Title}} </h2>
+        <button title="Download Template file" mat-raised-button (click)="DownloadTemplate()">
+            <i class="fa fa-2px fa-download green-color"></i>Download Template
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xl-12 col-lg-4">
+                    <mat-label> Select File <span class="text-danger">*</span></mat-label> &nbsp;&nbsp;
+                    <input #fileInput type="file" (change)="onChange()"
+                        accept="xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                    <mat-hint> Accepts only xls or .xlsx </mat-hint>
+                    <button mat-raised-button class="matbutton" color="primary" type="submit" (click)="onUpload()"><i
+                            class="fa fa-upload white-color"></i>Upload</button>
+                    <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+                        <mat-progress-spinner color="primary" mode="indeterminate" diameter="40" strokeWidth="5">
+                        </mat-progress-spinner>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+&nbsp;
+<!-- Invoice List -->
+<!-- <div class="card"> -->
+<app-invoice-list *ngIf="isInvoiceList === false"></app-invoice-list>
+<app-invoice-list *ngIf="isInvoiceList === true"></app-invoice-list>
+<!-- </div> -->

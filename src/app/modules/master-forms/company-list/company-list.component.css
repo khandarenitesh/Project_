@@ -1,0 +1,99 @@
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.Scroll {
+  overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+  background-color: #0095E8;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 2% !important;
+  width: 8%;
+}
+
+.mat-column-CompanyCode {
+  flex: 0px 0px 8% !important;
+  width: 8%;
+}
+
+.mat-column-CompanyName {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+}
+
+.mat-column-CompanyEmail {
+  flex: 0px 0px 11% !important;
+  width: 9%;
+}
+
+.mat-column-ContactNo {
+  flex: 0px 0px 7% !important;
+  width: 8%;
+}
+
+.mat-column-CompanyPAN {
+  flex: 0px 0px 8% !important;
+  width: 9%;
+}
+
+.mat-column-GSTNo {
+  flex: 0px 0px 7% !important;
+  width: 7%;
+}
+
+.mat-column-CityName {
+  flex: 0px 0px 6% !important;
+  width: 6%;
+}
+
+.mat-column-Pin {
+  flex: 0px 0px 7% !important;
+  width: 7%;
+}
+
+.mat-column-IsActive {
+  flex: 0px 0px 6% !important;
+  width: 6%;
+}
+
+.mat-column-IsPicklistAvailable {
+  flex: 0px 0px 8% !important;
+  width: 9%;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 6% !important;
+  width: 5%;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+i {
+  margin-right: 15%;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}/*# sourceMappingURL=company-list.component.css.map */

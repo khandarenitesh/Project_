@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Long single-line</title>
+<body>
+  <script>
+    let LongString="This is an example long string line of string and it goes out of my editor screen so i need to wrap it.";
+    let LongString1="This is an example long string line of string"+"and it goes out of my editor"+ "screen so i need to wrap it.";
+    console.log(LongString);
+    console.log(LongString1);
+
+    let longString3 ="This is an example long string\ line of string and it goes out of my editor screen\so i need to wrap it";
+    console.log(longString3);
+
+    //javascript string function create primitive string and string object can be created with new string object.
+    var strPrimitive="I'm primitive string";
+    var strglobal ="I am a primitive string created using string method"; //primitive
+    var strObj = new String("I am a object");
+    console.log(typeof(strPrimitive)); //string
+    console.log(typeof(strglobal)); //global
+    console.log(typeof(strObj)); //object
+  </script>
+</body>
+</html>

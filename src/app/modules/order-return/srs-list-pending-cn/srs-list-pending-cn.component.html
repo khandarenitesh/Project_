@@ -1,0 +1,195 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <h4>{{SRSCnt}}</h4>
+                <span> SRS Count </span>
+            </div>
+            <div class="col text-center">
+                <h4>{{CNCnt}}</h4>
+                <span>CN Count </span>
+            </div>
+            <div class="col text-center">
+                <h4>{{PendingForCNCnt}}</h4>
+                <span>Pending For CN Count</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{PendingDestrCertCnt}}</h4>
+                <span>Pending Destruction Cert Count</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>{{Title}}</h2>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field class="searchField" style="margin-right: 2%;">
+                <span class="GlobalSearch" matPrefix>
+                    <mat-icon>search</mat-icon> &nbsp;
+                </span>
+                <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                    placeholder="Search">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="Scroll">
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+            <ng-container matColumnDef="SrNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sr. No. </th>
+                <td mat-cell *matCellDef="let row;let SrNo = index;">
+                    {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="DocDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Doc Date </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{ row.DocDate | date: 'dd/MM/yyyy' }}
+                    </div>
+                </td>
+            </ng-container> -->
+            <ng-container matColumnDef="StockistNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist No </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{row.StockistNo }}
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="StockistName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{row.StockistName }}
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="SalesDocNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sales Doc No </th>
+              <td mat-cell *matCellDef="let row">
+                  <div>
+                      {{ row.SalesDocNo }}
+                  </div>
+              </td>
+          </ng-container>
+            <ng-container matColumnDef="LRNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR No </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{row.PONoLRNo }}
+                    </div>
+                </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="DocStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Doc Status </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{row.DocStatus }}
+                    </div>
+                </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="DelayReason">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Delay Reason </th>
+                <td mat-cell *matCellDef="let row">
+                    <div>
+                        {{row.DelayReason }}
+                    </div>
+                </td>
+            </ng-container>
+
+               <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                <td mat-cell *matCellDef="let row">
+                    <span>
+                        <a (click)="DelayReasonPopup(row,DelayReasonsPopup)" *ngIf="row.DelayReason ==null"
+                            class="rmargin">
+                            Add Delay Reason
+                        </a>
+                        <!-- <span  style="color: rgb(129, 203, 109);">Successfully Updated</span> -->
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-template id="AddEditPopup" #DelayReasonsPopup let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4 class="modal-title"> Delay Reason</h4>
+                    <a style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">
+                            <i class="fa fa-times SBModalclose"></i>
+                        </span>
+                    </a>
+                </div>
+                <div class="modal-body cons-info">
+                    <div class="card-body">
+                        <form class="vForm" [formGroup]="DelayRForm" (ngSubmit)="AddDelayReasonSave()" autocomplete="off">
+                            <div class="row">
+                                <div class="col">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label> Select Delay Reason <span class="text-danger"> * </span>
+                                        </mat-label>
+                                        <input type="text" placeholder="Delay Reason" matInput name="DelayReason"
+                                            formControlName="DelayReason" [matAutocomplete]="autoDelayReason"
+                                            (focusout)="DelayReasonValidation()">
+                                        <mat-autocomplete #autoDelayReason="matAutocomplete"
+                                            [displayWith]="displayFnCategoryName">
+                                            <mat-option *ngFor="let option of CategoryNameArray | async"
+                                                [value]="option">
+                                                {{ option.MasterName }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="submitted && f.DelayReason.errors" class="invalid-feedback">
+                                        <span *ngIf="f.DelayReason.errors.required">Please select delay reason. </span>
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="submitted === false && f.DelayReason.touched && f.DelayReason.invalid"
+                                        class="invalid-feedback">
+                                        Please select delay reason.
+                                    </mat-error>
+                                    <mat-error *ngIf="InvalidCategory" class="invalid-feedback">
+                                        Please select valid delay reason.
+                                    </mat-error>
+                                </div> <br><br>
+                                <div class="col">
+                                    <mat-form-field class="example-full-width" style="width: 300px;">
+                                        <mat-label for="exampleFormControlTextarea1"> Delay Reason Remark </mat-label>
+                                        <textarea matInput class="form-control" name="DelayReasonRemark"
+                                            formControlName="DelayReasonRemark"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col"></div>
+                                <div class="col">
+                                    <button mat-raised-button color="primary" type="submit"
+                                        [disabled]="!DelayRForm.valid">{{
+                                        pageState}}</button>
+                                    <button mat-raised-button class="cancel-buttton" class="m-4" type="button"
+                                        id="cancel" (click)=" ClearData(); d('Cross click');">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </ng-template>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+            <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+        </table>
+    </div>
+    <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+    <div *ngIf="!DataSource.data.length && !isLoading">
+        <h6 class="noRecordData"> No Record Found </h6>
+    </div>
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5,20,30,40,50]"></mat-paginator>
+</div>

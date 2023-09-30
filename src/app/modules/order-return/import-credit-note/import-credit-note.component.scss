@@ -1,0 +1,49 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 8% !important;
+    width: 5%;
+}
+
+.mat-column-CrDrNoteNo {
+    flex: 0px 0px 8% !important;
+    width: 6%;
+}
+
+.mat-column-CRDRCreationDate {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+}
+
+.mat-column-StockistNo {
+    flex: 0px 0px 6% !important;
+    width: 6%;
+    padding-right: 13px;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 13px;
+}
+
+.mat-column-CityName {
+    flex: 0px 0px 8% !important;
+    width: 5%;
+}
+
+.green-color {
+    color: green;
+}
+
+.white-color {
+    color: white;
+    margin: 0% 10% 10% 0%;
+}
+
+.matbutton {
+    margin-left: 18%;
+}

@@ -1,0 +1,169 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col text-center">
+                <h4>{{LRGP}}</h4>
+                <span> Today's LR </span>
+            </div>
+            <div class="col text-center">
+                <a (click)="ShowResolveClaimConcernList('Raise')" title="Raise Claim Concern">
+                    <h4>{{ConcernCnt}}</h4>
+                </a>
+                <span>Raise Claim Concern </span>
+            </div>
+            <div class="col text-center">
+                <a (click)="ShowResolveClaimConcernList('Resolve')" title="Resolve Claim Concern">
+                    <h4>{{ConcernResolveCnt}}</h4>
+                </a>
+                <span>Resolve Claim Concern </span>
+            </div>
+            <div class="col text-center">
+                <h4>{{RecvdAtOPCnt}}</h4>
+                <span>Received Operator level</span>
+            </div>
+            <div class="col text-center">
+                <h4>{{PendingAtExpSCnt}}</h4>
+                <span>Pending At Exp Supervisor level</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-5">
+                <h2> List View </h2>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="Scroll">
+            <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sr. No. </th>
+                    <td mat-cell *matCellDef="let row; let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="GatepassNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Gatepass No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.GatepassNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.StockistName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="LRNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.LRNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="RetCatName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Return Category
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.RetCatName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ClaimNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Claim No </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ClaimNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ClaimDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Claim Date </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ClaimDate | date: 'dd/MM/yyyy' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ConcernText">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Concern </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ConcernText }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ConcernByName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Concern By</th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ConcernByName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.ResolveRemark == null">
+                            <a (click)="onClickResolveModel(ResolveConcern, row)">
+                                Resolve
+                            </a>
+                        </span>
+                        <span *ngIf="row.ResolveRemark !== null">
+                            Resolved
+                        </span>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayColumns;"></tr>
+            </table>
+        </div>
+        <mat-progress-spinner class="spin" *ngIf="isLoading" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner>
+        <div *ngIf="!DataSource.data.length && !isLoading">
+            <h6 class="noRecordData"> No Record Found </h6>
+        </div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+    </div>
+</div>
+
+<!-- Allot-Reallot - Popup Code -->
+<ng-template id="ResolveConcern" #ResolveConcern let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title"> Resolve Concern </h4>
+        <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">
+                <i class="fa fa-times SBModalclose"></i>
+            </span>
+        </a>
+    </div>
+    <div class="modal-body cons-info">
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Resolve Remark </mat-label>
+                    <textarea matInput type="text" placeholder="Resolve Remark" name="ResolveRemark" [(ngModel)]="ResolveRemark" #ResRemark="ngModel" [ngModelOptions]="{standalone: true}" required></textarea>
+                    <mat-error *ngIf="ResRemark.errors?.required && ResRemark.touched">
+                        Resolve Remark is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button mat-raised-button class="cancel-buttton" color="primary" [disabled]="!ResRemark.valid" (click)="ResolveClaim()"> Resolve </button>
+        <button mat-raised-button class="cancel-buttton" (click)="Clear()">Cancel</button>
+    </div>
+</ng-template>

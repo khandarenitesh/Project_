@@ -1,0 +1,114 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095e8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 2% !important;
+    width: 5%;
+    padding-right: 13px;
+}
+
+.mat-column-LRNo {
+    flex: 0px 0px 8% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-ClaimSANNo {
+    flex: 0px 0px 10% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-ClaimSANDate {
+    flex: 0px 0px 11% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-ClaimSANAmount {
+    flex: 0px 0px 7% !important;
+    width: 12%;
+    padding-right: 12px;
+}
+
+.mat-column-EmailSendDate {
+    flex: 0px 0px 7% !important;
+    width: 5;
+    padding-right: 10px;
+}
+
+.mat-column-ClaimType {
+    flex: 0px 0px 6% !important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-ResolveRemark {
+    flex: 0px 0px 6% !important;
+    width: 10%;
+    padding-right: 10px;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 6% !important;
+    width: 15%;
+    padding-right: 12px;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: underline !important;
+    color: blue !important;
+}
+
+a:hover {
+    color: hotpink !important;
+}
+
+.rmargin {
+    margin-right: 9%;
+}
+
+.cancel-buttton {
+    margin-right: 3%;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+::ng-deep {
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 9999!important;
+    }
+}

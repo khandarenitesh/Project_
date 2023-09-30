@@ -1,0 +1,45 @@
+.cancel-button
+{
+    margin-right: 5%;
+}
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+}
+.mat-column-CityCode {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+.mat-column-CityName {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+.mat-column-StateName {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+
+.mat-column-Status {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+}
+.mat-column-Actions {
+    flex: 0px 0px 10% !important;
+    width: 6%;
+    text-align: center;
+}
+.fa-toggle-on {
+    font-size: 20px;
+    color: green;
+}
+
+.fa-toggle-off {
+    font-size: 20px;
+    color: red;
+}
+
+

@@ -1,0 +1,130 @@
+<div class="card">
+  <div class="card-header">
+    <h2> {{ Title }}</h2>
+  </div>
+  <div class="card-body">
+    <form class="vForm" [formGroup]="VendorForm" (ngSubmit)="SaveVendor()" autocomplete="off">
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Vendor Name <span class="text-danger"> * </span> </mat-label>
+            <input matInput type="text" placeholder="Vendor Name" name="VendorName" formControlName="VendorName"
+              maxlength="25">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.VendorName.errors" class="invalid-feedback">
+            <span *ngIf="f.VendorName.errors.required"> Vendor Name is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.VendorName.touched && f.VendorName.invalid"
+            class="invalid-feedback">
+            Vendor Name is required
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Email <span class="text-danger"> * </span></mat-label>
+            <input matInput type="email" placeholder="abc@gmail.com" name="Email" formControlName="Email"
+              (focusout)="emailValidation()" style="text-transform:lowercase" />
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.Email.errors && IsEmailFlag === true" class="invalid-feedback">
+            <span *ngIf="f.Email.errors.required && IsEmailFlag === true"> Email is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.Email.touched && f.Email.invalid && IsEmailFlag === true"
+            class="invalid-feedback">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="IsEmailFlag === false"> Email must be a valid email address </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Contact No <span class="text-danger"> * </span> </mat-label>
+            <input matInput placeholder="Contact No" name="ContactNo" formControlName="ContactNo"
+              (keypress)="mobileNoValidation($event)" maxlength="22" (focusout)="CopyPasteMblNotSpelcharAllow()">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.ContactNo.errors && IsInvalidMobile === false" class="invalid-feedback">
+            <span *ngIf="f.ContactNo.errors.required && IsInvalidMobile === false"> Contact number is required </span>
+          </mat-error>
+          <mat-error
+            *ngIf="submitted === false && f.ContactNo.touched && f.ContactNo.invalid && IsInvalidMobile === false"
+            class="invalid-feedback">
+            Contact number is required
+          </mat-error>
+          <mat-error *ngIf="IsInvalidMobile === true">
+            Please Enter valid Contact number
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> PAN <span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="PAN" name="PANNo" formControlName="PANNo" maxLength="10"
+              (keypress)="PANNoValidation($event)" (focusout)="copyPastNumbeAllow()">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.PANNo.errors && f.PANNo.touched && IsInvalidPan === false"
+            class="invalid-feedback">
+            <span *ngIf="f.PANNo.errors.required &&IsInvalidPan === false"> PAN number is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.PANNo.touched && f.PANNo.invalid && IsInvalidPan === false"
+            class="invalid-feedback">
+            PAN number is required
+          </mat-error>
+          <mat-error *ngIf="IsInvalidPan === true">
+            Please Enter valid PAN number
+          </mat-error>
+        </div>
+        <div class="col">
+          <!-- autocomplete code city start-->
+          <mat-form-field class="example-full-width">
+            <mat-label>City <span class="text-danger"> * </span> </mat-label>
+            <input type="text" placeholder="City" matInput name="City" formControlName="City"
+              [matAutocomplete]="autoCity" (focusout)="CityValidation()">
+            <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displayFnCity">
+              <mat-option *ngFor="let option of filteredOptionsCity | async" [value]="option">
+                {{ option.CityName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <!-- autocomplete code city end-->
+          <mat-error *ngIf="submitted && f.City.errors" class="invalid-feedback">
+            <span *ngIf="f.City.errors.required"> Please select city </span>
+          </mat-error>
+          <mat-error *ngIf="InvalidCity" class="invalid-feedback">
+            Please select valid city
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Address </mat-label>
+            <textarea matInput placeholder="Address" name="Address" formControlName="Address"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <input type="checkbox" name="IsGST" formControlName="IsGST" (ngModelChange)="onchangeIsGstCheckBox($event)">
+          &nbsp;
+          <mat-label>Is GST</mat-label>
+        </div>
+        <div class="col" *ngIf="IsGSTChecked === true || GST=== 'Y'">
+          <mat-form-field class="example-full-width">
+            <mat-label> GST No<span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="GST Number" name="GSTNo" formControlName="GSTNo" (keypress)="GstValidation($event)"
+              maxlength="15" (focusout)="copyPastGSTNoNumbeAllow()">
+          </mat-form-field>
+          <mat-error *ngIf="IsInvalidGSTNo === false" class="invalid-feedback">
+            Please Enter valid GST Number
+          </mat-error>
+        </div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <button mat-raised-button class="cancel-buttton" (click)="redirect()">Cancel</button>
+          <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ PickListMsg }} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="picklistAddForm" autocomplete="off">
+            <div class="row">
+
+                <!-- Picklist No. -->
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> Picklist No. </mat-label>
+                        <input matInput type="text" placeholder="Picklist No." name="PicklistNo" formControlName="PicklistNo" />
+                    </mat-form-field>
+                </div>
+
+                <!-- Date -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Date <span class="text-danger">*</span></mat-label>
+                        <input matInput [matDatepicker]="picker" name="Date" formControlName="Date" [min]="minDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Date.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Date.errors.required"> Date is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.Date.touched && f.Date.invalid" class="invalid-feedback">
+                        Date is required
+                    </mat-error>
+                </div>
+
+                <!-- From Invoice No. -->
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> From Invoice No. </mat-label>
+                        <input matInput type="text" placeholder="From Invoice No." name="FromInvoiceNo" formControlName="FromInvoiceNo" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- To Invoice No. -->
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> To Invoice No. </mat-label>
+                        <input matInput type="text" placeholder="To Invoice No." name="ToInvoiceNo" formControlName="ToInvoiceNo" />
+                    </mat-form-field>
+                </div>
+
+                <div class="col"></div>
+
+            </div>
+
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" (click)="ClearForm()" type="button" title="Cancel">Cancel</button>
+                    <button mat-raised-button class="cancel-buttton" color="primary" type="submit" title="{{ pageState }}" (click)="SavePicklist()"> {{ pageState }} </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+&nbsp;&nbsp;
+<!-- PickList -->
+<div class="col-md-12" [hidden]="isPickListFlag === true">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-5">
+                    <h2> List View </h2>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field class="searchField" style="margin-right: 2%;">
+                        <span class="GlobalSearch" matPrefix>
+              <mat-icon>search</mat-icon> &nbsp;
+            </span>
+                        <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+            <ng-container matColumnDef="SrNo">
+                <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr.No. </th>
+                <td mat-cell *matCellDef="let row;let SrNo = index;">
+                    {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PicklistNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Picklist No. </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.PicklistNo }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Date </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.PicklistDate | date: 'dd/MM/yyyy' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FromInvoiceNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> From Invoice No. </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.FromInv }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ToInvoiceNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> To Invoice No. </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.ToInv }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+                <td mat-cell *matCellDef="let row">
+                    {{ row.StatusText }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Actions </th>
+                <td mat-cell *matCellDef="let row">
+                    <a (click)="EditData(row)" style="cursor: pointer;" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                    <a style="cursor: pointer;"><i class="fa fa-trash" title="Delete"> </i></a>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsForApi"></tr>
+            <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForApi;"></tr>
+        </table>
+        <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner>
+        <div *ngIf="!DataSource.data.length && !isLoading">
+            <h6 class="noRecordData"> No Record Found </h6>
+        </div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+    </div>
+</div>

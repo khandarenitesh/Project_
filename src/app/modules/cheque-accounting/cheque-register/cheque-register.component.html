@@ -1,0 +1,630 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-4">
+        <form class="vForm" [formGroup]="ChequeRegisterFormControl">
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="example-full-width">
+                <mat-label> Stockist Name </mat-label>
+                <input type="text" placeholder="Stockist Name" matInput name="StockistNameforList"
+                  formControlName="StockistNameforList" (ngModelChange)="GetChequeList(); GetChequeCounts();"
+                  [matAutocomplete]="autoStockistNameforList">
+                <mat-autocomplete #autoStockistNameforList="matAutocomplete" [displayWith]="displayFnStockistName">
+                  <mat-option *ngFor="let obj of StockistNameforListArray | async" [value]="obj">
+                    {{ obj.StockistName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col text-center">
+        <a style="cursor: pointer;" (click)="ShowChqList('All')">
+          <h4>{{ Total }}</h4>
+        </a>
+        <span> All Cheques </span>
+      </div>
+      <div class="col text-center">
+        <a style="cursor: pointer;" (click)="ShowChqList('Utilised')">
+          <h4>{{ Utilised }}</h4>
+        </a>
+        <span>Blocked Cheques</span>
+      </div>
+      <div class="col text-center">
+        <a style="cursor: pointer;" (click)="ShowChqList('Blank')">
+          <h4>{{ Blank }}</h4>
+        </a>
+        <span>Usable Cheques</span>
+      </div>
+      <div class="col text-center">
+        <a style="cursor: pointer;" (click)="ShowChqList('Deposited')">
+          <h4>{{ Deposited }}</h4>
+        </a>
+        <span>Deposited Cheques</span>
+      </div>
+      <div class="col text-center">
+        <a style="cursor: pointer;" (click)="ShowChqList('Return')">
+          <h4>{{ Returned }}</h4>
+        </a>
+        <span>Returned Cheques</span>
+      </div>
+      <div class="col text-center">
+        <a style="cursor: pointer;" (click)="ShowChqList('Settled')">
+          <h4>{{ Settled }}</h4>
+        </a>
+        <span>Return Settled</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h2> List View </h2>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="searchField" style="margin-right: 2%;">
+          <span class="GlobalSearch" matPrefix>
+            <mat-icon>search</mat-icon> &nbsp;
+          </span>
+          <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+        </mat-form-field>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" (click)="AddEdit(AddEditPopup, 'row')"> Add </button>
+  </div>
+  <div class="card-body">
+    <div class="col-md-12">
+      <div class="Scroll">
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+          <ng-container matColumnDef="SrNo">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+            <td mat-cell *matCellDef="let row;let SrNo = index;">
+              {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="StockistName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.StockistName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Receipt Date
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.ChqReceivedDate | date: 'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="BankName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Bank Name </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.BankName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="City">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City </th>
+            <td mat-cell class="tblcon" *matCellDef="let row">
+              {{ row.CityName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="BankAccountNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Bank Account No.
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.AccountNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="IFSCCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> IFSC Code </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.IFSCCode }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ChequeNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Cheque No. </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.ChqNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ChequeSts">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Cheque Status
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.ChqStatusText }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="DateDiff">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Return days
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span *ngIf="row.ChqStatus !== 5">
+                -
+              </span>
+              <span *ngIf="row.ChqStatus === 5">
+                {{ row.date_difference }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+            <td mat-cell *matCellDef="let row">
+              <a *ngIf="row.ChqStatus === 0" (click)="AddEdit(AddEditPopup, row)" title="Edit" class="rmargin"><i
+                  class="fa fa-edit"></i></a>
+              <a *ngIf="row.ChqStatus === 0" (click)="DeleteCheque(row)" title="Change Status" class="rmargin"><i
+                  class="far fa-trash-alt"> </i></a>
+              <!-- <a *ngIf="row.ChqStatus === 0" (click)="OpenModelChqSts(ChkStsPopup, 'Block', row)" // old Code
+                                class="rmargin">Block</a> -->
+              <a *ngIf="row.ChqStatus === 0" (click)="OpenModelChqSts(ChkStsPopup,'Block',row)"
+                class="rmargin">Block</a>
+              <!-- <a *ngIf="row.ChqStatus === 1" (click)="OpenModelChqSts(ChkStsPopup, 'Release', row)"
+                                class="rmargin">Release</a> -->
+              <!-- <a *ngIf="row.ChqStatus === 1" (click)="PrepareStatus(row)" class="rmargin">Prepare</a> -->
+              <!-- <a *ngIf="row.ChqStatus < 2" (click)="OpenModelChqSts(ChkStsPopup, 'Discard', row)"
+                                class="rmargin">Discard</a> -->
+              <a *ngIf="row.ChqStatus === 9" (click)="OpenModelChqSts(ChkStsPopup, 'Release', row)"
+                class="rmargin">Release</a>
+              <a *ngIf="row.ChqStatus === 9" (click)="PrepareStatus(row)" class="rmargin">Prepare</a>
+              <!-- <a *ngIf="row.ChqStatus < 2" (click)="OpenModelChqSts(ChkStsPopup, 'Discard', row)"
+                                class="rmargin">Discard</a> -->
+
+              <a *ngIf="row.ChqStatus === 4" (click)="OpenModelChqSts(ChkStsPopup, 'Return', row)"
+                class="rmargin">Return</a>
+              <a *ngIf="row.IsFirstNoticeFlag" (click)="OpenModelChqSts(ChkStsPopup, 'FirstNotice', row)"
+                class="rmargin">First
+                Notice</a>
+              <a *ngIf="row.IsLegalNoticeFlag" (click)="OpenModelChqSts(ChkStsPopup, 'LegalNotice', row)"
+                class="rmargin">Legal
+                Notice</a>
+              <a *ngIf="row.ChqStatus === 6" (click)="OpenModelChqSts(ChkStsPopup, 'Settle', row)"
+                class="rmargin">Settle</a>
+              <a *ngIf="row.ChqStatus === 5" (click)="OpenModelChqSts(ChkStsPopup, 'Settle', row)"
+                class="rmargin">Settle</a>
+              <a *ngIf="row.ChqStatus === 7" (click)="OpenModelChqSts(ChkStsPopup, 'Settle', row)"
+                class="rmargin">Settle</a>
+              <a *ngIf="row.ChqStatus === 1" (click)="OpenModelChqSts(ChkStsPopup, 'MapInvoice', row)"
+                class="rmargin">MapInvoice</a>
+              <a *ngIf="row.ChqStatus === 1" (click)="OpenModelChqSts(ChkStsPopup, 'Release', row)"
+                class="rmargin">Release</a>
+              <a *ngIf="row.ChqStatus < 2" (click)="OpenModelChqSts(ChkStsPopup, 'Discard', row)"
+                class="rmargin">Discard</a>
+              <a *ngIf="row.ChqStatus === 9" (click)="OpenModelChqSts(ChkStsPopup, 'Discard', row)"
+                class="rmargin">Discard</a>
+              <a *ngIf="row.ChqStatus === 3" (click)="OpenModelChqSts(ChkStsPopup, 'Release', row)"
+                class="rmargin">Release</a>
+              <!-- <a *ngIf="row.ChqStatus === 0" (click)="OpenModelChqSts(ChkStsPopup,'Block',row)"
+                                class="rmargin">Block</a> -->
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+      <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+
+      <div *ngIf="!DataSource.data.length && !isLoading">
+        <h6 class="noRecordData"> No Record Found </h6>
+      </div>
+
+      <mat-paginator [length]="DataSource.data.length" #paginator [pageSize]="10"
+        [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+    </div>
+  </div>
+</div>
+
+<ng-template id="AddEditPopup" #AddEditPopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ Title }}</h4>
+    <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click');ClearForm();">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a>
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <form class="vForm" [formGroup]="ChequeRegisterForm" (ngSubmit)="SaveCheque()" autocomplete="off">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Stockist Name<span class="text-danger"> * </span> </mat-label>
+              <input type="text" placeholder="Stockist Name" matInput (ngModelChange)="onChangeStockistName()"
+                name="StockistName" formControlName="StockistName" [matAutocomplete]="autoStockistName"
+                (focusout)="stockistnameValidation()">
+              <mat-autocomplete #autoStockistName="matAutocomplete" [displayWith]="displayFnStockistName">
+                <mat-option *ngFor="let option of StockistNameArray | async" [value]="option">
+                  {{ option.StockistName }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-error *ngIf="submitted && f.StockistName.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.StockistName.errors.required"> Please select stockist name </mat-error>
+            </mat-error>
+            <!-- <mat-error *ngIf="submitted === false && f.StockistName.touched && f.StockistName.invalid" class="invalid-feedback">
+                            Please select stockist name
+                        </mat-error> -->
+            <mat-error *ngIf="StockistName" class="invalid-feedback">
+              Please select valid stockist name
+            </mat-error>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Stockist Number <span class="text-danger"> * </span> </mat-label>
+              <input type="text" placeholder="Stockist Number" matInput (ngModelChange)="onChangeStockistNo()"
+                name="StockistNo" formControlName="StockistNo" [matAutocomplete]="autoStockistNo"
+                (focusout)="stockistnoValidation()">
+              <mat-autocomplete #autoStockistNo="matAutocomplete" [displayWith]="displayFnStockistNo">
+                <mat-option *ngFor="let option of StockistNoArray | async" [value]="option">
+                  {{ option.StockistNo }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.StockistNo.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.StockistNo.errors.required"> Please select stockist Number </mat-error>
+            </mat-error>
+            <!-- <mat-error *ngIf="submitted === false && f.StockistNo.touched && f.StockistNo.invalid" class="invalid-feedback">
+                            Please select stockist Number
+                        </mat-error> -->
+            <mat-error *ngIf="StockistNo" class="invalid-feedback">
+              Please select valid stockist no.
+            </mat-error>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Receipt Date <span class="text-danger">*</span></mat-label>
+              <input matInput [matDatepicker]="picker" name="Date" formControlName="Date" [max]="maxDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.Date.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Date.errors.required"> Date is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.Date.touched && f.Date.invalid" class="invalid-feedback">
+              Date is required
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>City </mat-label>
+              <mat-select name="City" formControlName="City">
+                <mat-option *ngFor="let City of CityList" [value]="City.CityCode">
+                  {{City.CityName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.City.errors" class="invalid-feedback">
+              <span *ngIf="f.City.errors.required"> Please select city </span>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.City.touched && f.City.invalid" class="invalid-feedback">
+              Please select city
+            </mat-error>
+          </div>
+
+          <div class="col">
+            <mat-form-field>
+              <mat-label> Bank Name <span class="text-danger"> * </span> </mat-label>
+              <mat-select name="StockistNo" formControlName="BankName" (selectionChange)="onBankChange()">
+                <mat-option *ngFor="let banks of BankList" [value]="banks.BankId">
+                  {{ banks.BankName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-error *ngIf="submitted && f.BankName.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.BankName.errors.required"> Please select Bank name </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.BankName.touched && f.BankName.invalid" class="invalid-feedback">
+              Please select Bank name
+            </mat-error>
+
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Account Number </mat-label>
+              <input matInput placeholder="Account Number" name="BankAccountNo" formControlName="BankAccountNo">
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.BankAccountNo.errors" class="invalid-feedback">
+              <span *ngIf="f.BankAccountNo.errors.required"> Account Number is required </span>
+            </mat-error>
+
+            <mat-error *ngIf="submitted === false && f.BankAccountNo.touched && f.BankAccountNo.invalid"
+              class="invalid-feedback">
+              Account Number is required
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> IFSC Code </mat-label>
+              <input matInput placeholder="IFSC Code" name="IFSCCode" formControlName="IFSCCode">
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.IFSCCode.errors" class="invalid-feedback">
+              <span *ngIf="f.IFSCCode.errors.required"> IFSC Code is required </span>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.IFSCCode.touched && f.IFSCCode.invalid" class="invalid-feedback">
+              IFSC Code is required
+            </mat-error>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> {{inputTitle}} <span class="text-danger"> * </span> </mat-label>
+              <input matInput (keypress)="NumValidation($event)" placeholder={{inputTitle}} name="FromChequeNo" #input1
+                formControlName="FromChequeNo" maxlength="6" type="text" pattern="\d*">
+              <mat-hint align="end">(Max 6 digit ({{input1 .value.length}}/6))</mat-hint>
+            </mat-form-field>
+            <!-- <mat-form-field class="example-full-width">
+                            <mat-label> Cheque Number <span class="text-danger"> * </span> </mat-label>
+                            <input matInput (keypress)="NumValidation($event)" placeholder="From Cheque Number" name="FromChequeNo" formControlName="FromChequeNo" maxlength="6">
+                        </mat-form-field> -->
+            <mat-error *ngIf="submitted && f.FromChequeNo.errors" class="invalid-feedback">
+              <span *ngIf="f.FromChequeNo.errors.required"> From Cheque Number is required </span>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.FromChequeNo.touched && f.FromChequeNo.invalid"
+              class="invalid-feedback">
+              From Cheque Number is required
+            </mat-error>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width" *ngIf="pageState === 'Save'">
+              <mat-label> To Cheque Number </mat-label>
+              <input matInput (keypress)="NumValidation($event)" placeholder="To Cheque Number" name="ToChequeNo" #input
+                formControlName="ToChequeNo" maxlength="6" type="text" pattern="\d*">
+              <mat-hint align="end">(Max 6 digit ({{input.value.length}}/6))</mat-hint>
+            </mat-form-field>
+            <!-- <mat-error *ngIf="submitted && f.ToChequeNo.errors" class="invalid-feedback">
+                            <span *ngIf="f.ToChequeNo.errors.required"> To Cheque Number is required </span>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.ToChequeNo.touched && f.ToChequeNo.invalid" class="invalid-feedback">
+                            To Cheque Number is required
+                        </mat-error> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col"> </div>
+          <div class="col"> </div>
+          <div class="col">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!ChequeRegisterForm.valid">
+              {{ pageState }}
+            </button>
+            <button mat-raised-button class="cancel-buttton" class="m-4" type="button" id="cancel"
+              (click)="ClearForm();d('Cross click')"> Cancel </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template id="ChkStsPopup" #ChkStsPopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ ModalTitle }}</h4>
+    <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click');clear();">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a>
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <div *ngIf="flag == 'Block'">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Date </mat-label>
+              <input matInput [matDatepicker]="picker" name="BlockDate" [(ngModel)]="BlockDate" [max]="maxDate"
+                [min]="minDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="flag == 'MapInvoice'">
+        <div class="card-body">
+          <form class="vForm" [formGroup]="MapForm" (ngSubmit)="FecthMapInvoiceData()" autocomplete="off">
+
+
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="example-full-width">
+                  <mat-label>From Date</mat-label>
+                  <input matInput [matDatepicker]="picker" [formControl]="FromDate" [max]="maxDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="example-full-width">
+                  <mat-label>To Date </mat-label>
+                  <input matInput [matDatepicker]="picker2" [min]="FromDate.value" [formControl]="ToDate"
+                    [max]="maxDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <button mat-raised-button class="cancel-buttton" type="button"
+                  (click)="clearMapInvoice()">Cancel</button>
+                <button mat-raised-button color="primary" type="submit"> Fetch Data</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <table mat-table [dataSource]="InvDataSource" #InvSortNew="matSort" matSort>
+          <ng-container matColumnDef="Action">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Action </th>
+            <td mat-cell *matCellDef="let row;">
+              <input mat-checkbox type="checkbox" (click)="AddString(row)" checked="true">
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InvNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.InvNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InvCreatedDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Date </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.InvCreatedDate | date:'dd-MM-yyyy' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="IsColdStorage">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Is Cold Storage
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.IsColdStorage === true ? 'Y' : 'N'}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="StockistName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sold To Name
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.StockistName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="CityName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sold To City
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.CityName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InvAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Amt.
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.InvAmount }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsForInv"></tr>
+          <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumnsForInv;"></tr>
+        </table>
+
+        <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+          strokeWidth="5"></mat-progress-spinner>
+
+        <div *ngIf="!InvDataSource.data.length && !isLoading">
+          <h6 class="noRecordData"> No Record Found </h6>
+        </div>
+        <mat-paginator #paginator1 [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" [pageIndex]="pageIndex"
+          [length]="InvDataSource.data.length" (page)="onPageChange($event, paginator1)">
+        </mat-paginator>
+
+      </div>
+      <div *ngIf="flag === 'Return'">
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label> Return Reason </mat-label>
+              <mat-select name="RetReason" [(ngModel)]="RetReason">
+                <mat-option *ngFor="let Reason of ReasonList" [value]="Reason.pkId">
+                  {{ Reason.MasterName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Date</mat-label>
+              <input matInput [matDatepicker]="picker" name="currentDate" [(ngModel)]="currentDate" [max]="maxDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="flag === 'Discard'">
+        <div class="col-lg-6">
+          <mat-form-field class="example-full-width text-area">
+            <mat-label>Remark</mat-label>
+            <textarea matInput placeholder="Remark" name="Remark" rows="4" [(ngModel)]="Remark"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="flag === 'Release'">
+        <div class="col-lg-6">
+          <mat-form-field class="example-full-width text-area">
+            <mat-label>Remark</mat-label>
+            <textarea matInput placeholder="Remark" name="Remark" rows="4" [(ngModel)]="Remark"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="flag === 'FirstNotice'">
+        <div class="col-lg-6">
+          <mat-form-field class="example-full-width text-area">
+            <mat-label>Remark</mat-label>
+            <textarea matInput placeholder="Remark" name="Remark" rows="4" [(ngModel)]="Remark"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="flag === 'LegalNotice'">
+        <div class="col-lg-6">
+          <mat-form-field class="example-full-width text-area">
+            <mat-label>Remark</mat-label>
+            <textarea matInput placeholder="Remark" name="Remark" rows="4" [(ngModel)]="Remark"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="flag === 'Settle'">
+        <div class="col-lg-6">
+          <mat-form-field class="example-full-width text-area">
+            <mat-label>Remark</mat-label>
+            <textarea matInput placeholder="Remark" name="Remark" rows="4" [(ngModel)]="Remark"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div *ngIf="flag !== 'Block'">
+                <div class="col-lg-6">
+                    <mat-form-field class="example-full-width text-area">
+                        <mat-label>Remark</mat-label>
+                        <textarea matInput placeholder="Remark" name="Remark" rows="4" [(ngModel)]="Remark"></textarea>
+                    </mat-form-field>
+                </div>
+            </div> -->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button class="cancel-buttton" color="primary" (click)="UpdateChqSts()">Submit</button>
+    <button mat-raised-button class="cancel-buttton" (click)="d('Cross click')" (click)="clear()">Cancel</button>
+  </div>
+</ng-template>

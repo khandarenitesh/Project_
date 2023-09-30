@@ -1,0 +1,95 @@
+.mat-focused {
+    color: black;
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095E8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 7%;
+    padding-right: 13px;
+}
+
+.mat-column-BillFromName {
+    flex: 0px 0px 6% !important;
+    width: 10%;
+    padding-right: 13px;
+}
+
+.mat-column-ExpInvNo {
+    flex: 0px 0px 10% !important;
+    width: 09%;
+    padding-right: 13px;
+}
+
+.mat-column-InvDate {
+    flex: 0px 0px 10% !important;
+    width: 09%;
+    padding-right: 13px;
+}
+
+.mat-column-CompanyName {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 14px;
+}
+
+.mat-column-NoOfBox {
+    flex: 0px 0px 10% !important;
+    width: 08%;
+    padding-right: 14px;
+}
+
+.mat-column-TaxableAmt {
+    flex: 0px 0px 8% !important;
+    width: 09%;
+    padding-right: 13px;
+}
+
+.mat-column-TotalAmt {
+    flex: 0px 0px 8% !important;
+    width: 09%;
+    padding-right: 13px;
+}
+
+.mat-column-ExpInvStatusText {
+    flex: 0px 0px 8% !important;
+    width: 09%;
+    padding-right: 13px;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 8% !important;
+    width: 10%;
+    padding-right: 13px;
+}
+
+i {
+    color: black;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

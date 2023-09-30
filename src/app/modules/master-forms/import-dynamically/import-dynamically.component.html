@@ -1,0 +1,247 @@
+<div class="card">
+    <div class="card-header1">
+        <div class="row">
+            <div class="col-md-4">
+                <h2> {{ ImportDynamicallytitle }} </h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="ImportDynamicallyForm" (ngSubmit)="SaveImportedData()" autocomplete="off">
+            <div class="row">
+                <!-- Branch -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Branch <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Branch" matInput name="Branch"
+                            (ngModelChange)="GetComapanyList()" (focusout)="branchValidation()" formControlName="Branch"
+                            [matAutocomplete]="autoBranchName">
+                        <mat-autocomplete #autoBranchName="matAutocomplete" [displayWith]="displayFnBranchName">
+                            <mat-option *ngFor="let option of BranchNameArray | async" [value]="option">
+                                {{ option.BranchName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Branch.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Branch.errors.required"> Please select Branch </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidBranch" class="invalid-feedback">
+                        Please select valid Branch
+                    </mat-error>
+                </div>
+
+                <!-- Company -->
+                <div class="col">
+                    <!-- autocomplete code Company start-->
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Company<span class="text-danger"> * </span>
+                        </mat-label>
+                        <input type="text" placeholder="Company" matInput name="Company" formControlName="Company"
+                            [matAutocomplete]="autoCompany" (focusout)="CompanyValidation()">
+                        <mat-autocomplete #autoCompany="matAutocomplete" [displayWith]="displayFnCompany">
+                            <mat-option *ngFor="let option of filteredOptionsCompany | async" [value]="option">
+                                {{ option.CompanyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- autocomplete code company end-->
+                    <mat-error *ngIf="submitted && f.Company.errors" class="invalid-feedback">
+                        <span *ngIf="f.Company.errors.required"> Please select Company </span>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+                        Please select valid Company
+                    </mat-error>
+                </div>
+
+                <!-- Import For -->
+                <div class="col">
+                    <!-- autocomplete code Import Type start-->
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Import For<span class="text-danger"> * </span>
+                        </mat-label>
+                        <input type="text" placeholder="Import Type" matInput name="ImportType"
+                            formControlName="ImportType" [matAutocomplete]="autoImportType"
+                            (focusout)="ImportTypeValidation()" (ngModelChange)="GetImporForOnChange()">
+                        <mat-autocomplete #autoImportType="matAutocomplete" [displayWith]="displayFnImportType">
+                            <mat-option *ngFor="let option of ImportTypeArray | async" [value]="option">
+                                {{ option.ImportType }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- autocomplete Import Type end-->
+                    <mat-error *ngIf="submitted && f.ImportType.errors" class="invalid-feedback">
+                        <span *ngIf="f.ImportType.errors.required"> Please select Import Type </span>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidImportType" class="invalid-feedback">
+                        Please select valid Import Type
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Field Name<span class="text-danger"> * </span>
+                        </mat-label>
+                        <input type="text" placeholder="FieldName" matInput name="FieldName" formControlName="FieldName"
+                            [matAutocomplete]="autoFieldName" (focusout)="FieldNameValidation()"
+                            (ngModelChange)="OnFiledNameChaneChange()">
+                        <mat-autocomplete #autoFieldName="matAutocomplete" [displayWith]="displayFnFieldName">
+                            <mat-option *ngFor="let option of filteredOptionsFieldName | async" [value]="option">
+                                {{ option.FieldName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- autocomplete Field Name end-->
+                    <mat-error *ngIf="submitted && f.FieldName.errors" class="invalid-feedback">
+                        <span *ngIf="f.FieldName.errors.required"> Please select Field Name </span>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidFieldName" class="invalid-feedback">
+                        Please select valid Field Name
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Column Data Type <span class="text-danger"> * </span></mat-label>
+                        <input type="text" placeholder="ColumnDatatype" matInput name="ColumnDatatype"
+                            formControlName="ColumnDatatype" [matAutocomplete]="autoColumnDatatype"
+                            (focusout)="ColumnDataValidation()">
+                        <mat-autocomplete #autoColumnDatatype="matAutocomplete" [displayWith]="displayFnColumnDatatype">
+                            <mat-option *ngFor="let option of filteredautoColumnDatatype | async" [value]="option">
+                                {{ option.ColumnDatatype }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- autocomplete Column Data typeend-->
+                    <mat-error *ngIf="submitted && f.ColumnDatatype.errors" class="invalid-feedback">
+                        <span *ngIf="f.ColumnDatatype.errors.required"> Please select Column Data type </span>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidColumnDatatype" class="invalid-feedback">
+                        Please select valid Column Data type
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Excel Name</mat-label>
+                        <input type="text" placeholder="Excel Name" matInput name="ExcelName"
+                            formControlName="ExcelName">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" (click)="ClearForm()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Threshold value master list -->
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2> {{ ListTitle }}</h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Serach -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="Scroll">
+                <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS">Sr. No. </th>
+                        <td mat-cell *matCellDef="let row; let SrNo = index;">
+                            {{ (SrNo + 1) + (paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BranchName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Branch Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.BranchName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="CompanyName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Company Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.CompanyName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ImpFor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Imp For
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.ImpFor }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FieldName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Field Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.FieldName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ColumnDatatype">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Column Data type
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.ColumnDatatype }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ExcelColName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Excel Col Name
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.ExcelColName }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Actions -->
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+                        <td mat-cell *matCellDef="let row">
+                            <a (click)="EditData(row)" style="cursor: pointer;" title="Edit"><i class="fa fa-edit"
+                                    title="Edit"></i></a>&nbsp;&nbsp;
+
+                            <a (click)="DeleteData(row)" style="cursor: pointer;" title="Delete"><i
+                                    class="far fa-trash-alt" title="Delete">
+                                </i></a>
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="ImportDynaDetails"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: ImportDynaDetails;"></tr>
+                </table>
+                <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                    strokeWidth="5"></mat-progress-spinner>
+                <div *ngIf="!DataSource.data.length && !isLoading">
+                    <h6 class="noRecordData"> No Record Found </h6>
+                </div>
+                <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

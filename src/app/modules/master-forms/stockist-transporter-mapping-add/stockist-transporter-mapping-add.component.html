@@ -1,0 +1,185 @@
+<div class="card">
+
+    <div class="card-header">
+        <h2> {{ stockistTransporterMappingMsg }} </h2>
+    </div>
+
+    <div class="card-body">
+
+        <form class="vForm" [formGroup]="stockistTransporterMappingForm" (ngSubmit)="SaveStockistTransporterMapping()" autocomplete="off">
+
+            <!-- 1st Row -->
+            <div class="row">
+                <!-- Stockist No. -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Stockist Number <span class="text-danger"> * </span></mat-label>
+                        <input type="text" placeholder="Stockist Number" matInput formControlName="StockistNo" name="StockistNo" [matAutocomplete]="autoStockistNo" (focusout)="stockistnoValidation()">
+                        <mat-autocomplete #autoStockistNo="matAutocomplete" [displayWith]="displayFnStockistNo" (optionSelected)="onChangeStockistNo()">
+                            <mat-option *ngFor="let option of StockistNoArray | async" [value]="option">
+                                {{ option.StockistNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.StockistNo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.StockistNo.errors.required"> Please select stockist number </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.StockistNo.touched && f.StockistNo.invalid" class="invalid-feedback">
+                        Please select stockist number
+                    </mat-error> -->
+                    <mat-error *ngIf="StockistNo" class="invalid-feedback">
+                        Please select valid stockist no.
+                    </mat-error>
+                </div>
+
+                <!--  Stockist Name -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Stockist Name <span class="text-danger"> * </span></mat-label>
+                        <input type="text" placeholder="Stockist Name" matInput formControlName="StockistName" name="StockistName" [matAutocomplete]="autoStockistName" (focusout)="stockistnameValidation()">
+                        <mat-autocomplete #autoStockistName="matAutocomplete" [displayWith]="displayFnStockistName" (optionSelected)="onChangeStockistName()">
+                            <mat-option *ngFor="let option of StockistNameArray | async" [value]="option">
+                                {{ option.StockistName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.StockistName.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.StockistName.errors.required"> Please select stockist name </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.StockistName.touched && f.StockistName.invalid" class="invalid-feedback">
+                        Please select stockist name
+                    </mat-error> -->
+                    <mat-error *ngIf="StockistName" class="invalid-feedback">
+                        Please select valid stockist name
+                    </mat-error>
+                </div>
+                <!-- Email -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Email </mat-label>
+                        <input matInput type="email" placeholder="abc@gmail.com" name="Email" formControlName="Email" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- 2nd Row -->
+            <div class="row">
+                <!-- Mobile No. -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Mobile No</mat-label>
+                        <input type="text" matInput placeholder="Mobile No" name="MobileNo" formControlName="MobileNo" (keypress)="mobileNoValidation($event)" maxlength="12" />
+                    </mat-form-field>
+                </div>
+
+                <!-- City -->
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label> City </mat-label>
+                        <mat-select name="City" formControlName="City">
+                            <mat-option *ngFor="let city of CityList" [value]="city.CityCode">
+                                {{ city.CityName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Transport Number <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Transport Number" matInput formControlName="TransporterNumber" name="TransporterNumber" [matAutocomplete]="autoTransporterNo" (focusout)="transportnoValidation()">
+                        <mat-autocomplete #autoTransporterNo="matAutocomplete" [displayWith]="displayFnTransporterNo" (optionSelected)="onChangeTransporterNumber()">
+                            <mat-option *ngFor="let option of StockistTransporterNo | async" [value]="option">
+                                {{ option.TransporterNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.TransporterNumber.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.TransporterNumber.errors.required"> Transport number is required
+                        </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.TransporterNumber.touched && f.TransporterNumber.invalid" class="invalid-feedback">
+                        Transport number is required
+                    </mat-error> -->
+                    <mat-error *ngIf="TransportNo" class="invalid-feedback">
+                        Please select valid transport no.
+                    </mat-error>
+                </div>
+
+            </div>
+            <!-- 3rd Row -->
+            <div class="row">
+                <!-- Transporter Name -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Transport Name <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Transport Name" matInput name="TransporterName" formControlName="TransporterName" [matAutocomplete]="autoTransporterName" (focusout)="transportnameValidation()">
+                        <mat-autocomplete #autoTransporterName="matAutocomplete" [displayWith]="displayFnautoTransporterName" (optionSelected)="onChangeTransporterName()">
+                            <mat-option *ngFor="let option of StockistTransporterName | async" [value]="option">
+                                {{ option.TransporterName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.TransporterName.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.TransporterName.errors.required"> Transport name is required </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.TransporterName.touched && f.TransporterName.invalid" class="invalid-feedback">
+                        Transport name is required
+                    </mat-error> -->
+                    <mat-error *ngIf="TransportName" class="invalid-feedback">
+                        Please select valid transport name
+                    </mat-error>
+                </div>
+                <!-- Transit Days -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Transit Days </mat-label>
+                        <input matInput type="text" placeholder="Transit Days" name="TransitDays" formControlName="TransitDays"
+                         pattern="\d*" maxlength="3" (keypress)="numberValidation($event)"/>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.TransitDays.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.TransitDays.errors.required"> Transit days is required </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.TransitDays.touched && f.TransitDays.invalid" class="invalid-feedback">
+                        Transit days is required
+                    </mat-error>
+                </div>
+                <!-- Supply Types  -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Supply Types <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Supply Types" matInput name="SupplyTypes" formControlName="SupplyTypes" [matAutocomplete]="autoSupplyTypes" (ngModelChange)="onSupplytypesChange()" (focusout)="suppytypeValidation()">
+                        <mat-autocomplete #autoSupplyTypes="matAutocomplete" [displayWith]="displayFnSupplyTypes">
+                            <mat-option *ngFor="let option of StockistSupplyTypes | async" [value]="option">
+                                {{ option.MasterName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.SupplyTypes.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.SupplyTypes.errors.required"> Supply types is required </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.SupplyTypes.touched && f.SupplyTypes.invalid" class="invalid-feedback">
+                        Supply types is required
+                    </mat-error> -->
+                    <mat-error *ngIf="MasterName" class="invalid-feedback">
+                        Please select valid supply type
+                    </mat-error>
+                </div>
+            </div>
+            <!-- 4th row -->
+            <div class="row">
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 5th row -->
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" type="submit" (click)="redirect()"> {{
+                        btnCancelText }} </button> &nbsp;&nbsp;
+                    <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

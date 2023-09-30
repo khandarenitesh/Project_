@@ -1,0 +1,328 @@
+<div class="card">
+  <div class="card-header">
+    <h2> {{ StockistMsg }} </h2>
+  </div>
+  <div class="card-body">
+    <form class="vForm" [formGroup]="StokistForm" (ngSubmit)="SaveStokist()" autocomplete="off">
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Customer Code <span class="text-danger"> * </span></mat-label>
+            <input matInput type="text" [errorStateMatcher]="customErrorStateMatcherType" placeholder="Customer Code"
+              maxlength="25" name="CustomerCode" formControlName="CustomerCode" (focusout)="onStockistNoChange()">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.CustomerCode.errors" class="invalid-feedback">
+            <span *ngIf="f.CustomerCode.errors.required"> Customer code is required </span>
+          </mat-error>
+          <mat-error *ngIf="f.CustomerCode.invalid && (f.CustomerCode.dirty || f.CustomerCode.touched)">
+            <mat-error *ngIf="submitted === false && f.CustomerCode.touched && f.CustomerCode.invalid && !f.CustomerCode.errors?.noZeroStart
+              && !f.CustomerCode.errors?.noSpecialChar" class="invalid-feedback">
+              Customer code is required
+            </mat-error>
+            <mat-error *ngIf="f.CustomerCode.errors?.noZeroStart && !f.CustomerCode.errors?.noSpecialChar">Customer code
+              should not start with
+              zero(0).</mat-error>
+            <mat-error *ngIf="f.CustomerCode.errors?.noSpecialChar">Invalid characters.</mat-error>
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Customer Name <span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="Customer Name" name="CustomerName" formControlName="CustomerName">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.CustomerName.errors" class="invalid-feedback">
+            <span *ngIf="f.CustomerName.errors.required"> Customer name is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.CustomerName.touched && f.CustomerName.invalid"
+            class="invalid-feedback">
+            Customer name is required
+          </mat-error>
+        </div>
+        <!-- Email -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Email <span class="text-danger"> * </span></mat-label>
+            <input matInput type="email" placeholder="abc@gmail.com" name="Email" formControlName="Email"
+              (focusout)="emailValidation()" style="text-transform:lowercase" />
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+            <span *ngIf="f.Email.errors.required"> Email is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.Email.touched && f.Email.invalid && IsEmailFlag === true"
+            class="invalid-feedback">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="IsEmailFlag === false"> Email must be a valid email address </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Contact No <span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="Contact No" name="ContactNo" formControlName="ContactNo"
+              (keypress)="mobileNoValidation($event)" (focusout)="CopyPasteMblNotSpelcharAllow()" maxlength="22">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.ContactNo.errors" class="invalid-feedback">
+            <span *ngIf="f.ContactNo.errors.required">Contact no is required </span>
+          </mat-error>
+          <mat-error
+            *ngIf="submitted === false && f.ContactNo.touched && f.ContactNo.invalid && IsInvalidMobile===false"
+            class="invalid-feedback">
+            Contact no is required
+          </mat-error>
+          <mat-error *ngIf="IsInvalidMobile === true">
+            Please enter valid contact number!
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>PAN <span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="PAN" name="PANNo" formControlName="PANNo" (keypress)="PANNoValidation($event)"
+              (focusout)="copyPastPanNumbeAllow()" maxlength="10">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.PANNo.errors" class="invalid-feedback">
+            <span *ngIf="f.PANNo.errors.required"> Pan no is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.PANNo.touched && f.PANNo.invalid && IsInvalidPan ===false"
+            class="invalid-feedback">
+            Pan no is required
+          </mat-error>
+          <mat-error *ngIf="IsInvalidPan === true">
+            Please enter valid PAN number!
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>GST No <span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="GST" name="GSTNo" formControlName="GSTNo" maxlength="15"
+              (keypress)="GstValidation($event)" (focusout)="copyPastGSTNoNumbeAllow()">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.GSTNo.errors" class="invalid-feedback">
+            <span *ngIf="f.GSTNo.errors.required"> GST no is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.GSTNo.touched && f.GSTNo.invalid && IsInvalidGSTNo === true"
+            class="invalid-feedback">
+            GST no is required
+          </mat-error>
+          <mat-error *ngIf="IsInvalidGSTNo === false">
+            Please enter valid GST no!
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>City <span class="text-danger"> * </span></mat-label>
+            <input type="text" placeholder="City" matInput formControlName="City" [matAutocomplete]="autoCity"
+              (focusout)="cityValidation()">
+            <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displayFnCity">
+              <mat-option *ngFor="let option of cityArray | async" [value]="option">
+                {{ option.CityName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.City.errors" class="invalid-feedback">
+            <span *ngIf="f.City.errors.required"> Please select city </span>
+          </mat-error>
+          <!-- <mat-error *ngIf="submitted === false && f.City.touched && f.City.invalid" class="invalid-feedback">
+                        Please select city
+                    </mat-error> -->
+          <mat-error *ngIf="InvalidCity ===true" class="invalid-feedback">
+            Please select valid city
+          </mat-error>
+        </div>
+        <!-- <div class="col">
+          <mat-form-field>
+            <mat-label>Location</mat-label>
+            <mat-select name="Location" formControlName="Location">
+              <mat-option *ngFor="let location of LocationList" [value]="location.pkId">
+                {{location.MasterName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Pin Code</mat-label>
+            <input matInput placeholder="Pin Code" name="Pin" formControlName="Pin" maxlength="6"
+              (keypress)="mobileNoValidation($event)">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Address</mat-label>
+            <textarea matInput placeholder="Address" name="Address" formControlName="Address"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>DL No <span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="DL No" name="DLNo" formControlName="DLNo" maxlength="30">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.DLNo.errors" class="invalid-feedback">
+            <span *ngIf="f.DLNo.errors.required">Dl no is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.DLNo.touched && f.DLNo.invalid" class="invalid-feedback">
+            Dl no is required
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>DL Expiry Date <span class="text-danger"> * </span></mat-label>
+            <input matInput [matDatepicker]="picker" name="DLExpiryDate" formControlName="DLExpiryDate" [min]="minDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.DLExpiryDate.errors" class="invalid-feedback">
+            <span *ngIf="f.DLExpiryDate.errors.required"> Please select dl expiry date </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.DLExpiryDate.touched && f.DLExpiryDate.invalid"
+            class="invalid-feedback">
+            Please select dl expiry date
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Food Lic No <span class="text-danger"> * </span></mat-label>
+            <input matInput placeholder="Food Lic No" name="FoodLicNo" formControlName="FoodLicNo" maxlength="25">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.FoodLicNo.errors" class="invalid-feedback">
+            <span *ngIf="f.FoodLicNo.errors.required"> Food lic no is required</span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.FoodLicNo.touched && f.FoodLicNo.invalid" class="invalid-feedback">
+            Food lic no is required
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Food Lic Expiry Date <span class="text-danger"> * </span></mat-label>
+            <input matInput [matDatepicker]="picker2" name="FoodLicExpiry" formControlName="FoodLicExpiry"
+              [min]="minDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.FoodLicExpiry.errors" class="invalid-feedback">
+            <span *ngIf="f.FoodLicExpiry.errors.required"> Please select food lic expiry date </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.FoodLicExpiry.touched && f.FoodLicExpiry.invalid"
+            class="invalid-feedback">
+            Please select food lic expiry date
+          </mat-error>
+        </div>
+      </div>
+      <form class="vForm" [formGroup]="BankForm" (ngSubmit)="AddBankToList()" autocomplete="off">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Bank <span class="text-danger"> * </span></mat-label>
+              <input type="text" placeholder="Bank Name" name="BankName" matInput formControlName="BankName"
+                [matAutocomplete]="autoBank" (focusout)="bankValidation()">
+              <mat-autocomplete #autoBank="matAutocomplete" [displayWith]="displayFnBank">
+                <mat-option *ngFor="let b of BankListArray | async" [value]="b">
+                  {{ b.MasterName }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-error *ngIf="submittedBnk && b.BankName.errors" class="invalid-feedback">
+              <span *ngIf="b.BankName.errors.required"> Bank name is required </span>
+            </mat-error>
+            <mat-error *ngIf="InvalidBankName && !b.BankName.errors?.required" class="invalid-feedback">
+              Please select valid bank
+            </mat-error>
+            <mat-error *ngIf="submittedBnk === false && b.BankName.touched && b.BankName.invalid"
+              class="invalid-feedback">
+              Bank name is required
+            </mat-error>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Account Number <span class="text-danger"> * </span> </mat-label>
+              <input matInput placeholder="Account Number" name="BankAccountNo" formControlName="BankAccountNo"
+                (focusout)="onAcountNoChange()" (keypress)="AcctNoValidation($event)" maxlength="21">
+            </mat-form-field>
+            <mat-error *ngIf="submittedBnk && b.BankAccountNo.errors" class="invalid-feedback">
+              <span *ngIf="b.BankAccountNo.errors.required"> Account Number is required </span>
+            </mat-error>
+            <mat-error *ngIf="submittedBnk === false && b.BankAccountNo.touched && b.BankAccountNo.invalid"
+              class="invalid-feedback">
+              Account Number is required
+            </mat-error>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> IFSC Code </mat-label>
+              <input matInput placeholder="IFSC Code" name="BankAccount" formControlName="IFSCCode"
+                (keypress)="IFSCValidation($event)" maxlength="11">
+            </mat-form-field>
+            <button mat-raised-button class="add-bank-buttton" color="primary" type="submit">Add
+              Bank</button>
+            <mat-error *ngIf="submitted === false && b.IFSCCode.touched && b.IFSCCode.invalid" class="invalid-feedback">
+              IFSC Code is required
+            </mat-error>
+          </div>
+        </div>
+      </form>
+      <div class="card">
+        <div class="card-header">
+          <!-- <h2>Bank List</h2> -->
+        </div>
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+          <ng-container matColumnDef="SrNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sr.No. </th>
+            <td mat-cell *matCellDef="let row;let SrNo = index;">
+              {{ ( SrNo + 1 ) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="BankName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Bank Name </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.BankName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="AccountNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Account Number
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.AccountNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="IFSCCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> IFSC Number </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.IFSCCode }}
+            </td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+            <td mat-cell *matCellDef="let row, index as i">
+              <a style="cursor: pointer;" title="Change Status" (click)="RemoveBank(i)"><i class="far fa-trash-alt">
+                </i></a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="ColumnsForBank"></tr>
+          <tr mat-row class="example-element-row" *matRowDef="let row; columns: ColumnsForBank;"></tr>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <button mat-raised-button class="cancel-buttton" (click)="redirecttolist()" type="button">Cancel</button>
+          <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5">
+</mat-progress-spinner>

@@ -1,0 +1,162 @@
+<div class="card">
+  <div class="card-header">
+    <h2> {{ Title }} </h2>
+  </div>
+  <div class="card-body">
+    <form class="vForm" [formGroup]="companyForm" (ngSubmit)="SaveCompany()" autocomplete="off">
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Company Code <span class="text-danger"> * </span> </mat-label>
+            <input matInput type="text" placeholder="Company code" name="CompanyCode" formControlName="CompanyCode"
+              [ngClass]="{ 'is-invalid': submitted && f.CompanyCode.errors }">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.CompanyCode.errors" class="invalid-feedback">
+            <span *ngIf="f.CompanyCode.errors.required"> Company code is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.CompanyCode.touched && f.CompanyCode.invalid"
+            class="invalid-feedback">
+            Company code is required
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Company Name <span class="text-danger"> * </span> </mat-label>
+            <input matInput placeholder="Company Name" name="CompanyName" formControlName="CompanyName">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.CompanyName.errors" class="invalid-feedback">
+            <span *ngIf="f.CompanyName.errors.required"> Company name is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.CompanyName.touched && f.CompanyName.invalid"
+            class="invalid-feedback">
+            Company name is required
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Email <span class="text-danger"> * </span> </mat-label>
+            <input matInput type="email" placeholder="abc@gmail.com" name="Email" formControlName="Email"
+              (ngModelChange)="emailValidation();" style="text-transform:lowercase">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+            <span *ngIf="f.Email.errors.required"> Email is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.Email.touched && f.Email.invalid" class="invalid-feedback">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="IsEmailFlag === false"> Email must be a valid email address </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Contact No <span class="text-danger"> * </span> </mat-label>
+            <input matInput placeholder="Contact No" name="ContactNo" formControlName="ContactNo"
+              (keypress)="mobileNoValidation($event)" (focusout)="CopyPasteMblNotSpelcharAllow()" maxlength="22">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.ContactNo.errors" class="invalid-feedback">
+            <span *ngIf="f.ContactNo.errors.required"> Contact number is required </span>
+          </mat-error>
+          <mat-error
+            *ngIf="submitted === false && f.ContactNo.touched && f.ContactNo.invalid && IsInvalidMobile === false"
+            class="invalid-feedback">
+            Contact number is required
+          </mat-error>
+          <mat-error *ngIf="IsInvalidMobile === true">
+            Please enter valid contact number!
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> PAN <span class="text-danger"> * </span> </mat-label>
+            <input matInput placeholder="PAN" name="PANNo" formControlName="PANNo" (keypress)="PANNoValidation($event)"
+              (focusout)="copyPastPanNumbeAllow()" maxlength="10">
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.PANNo.errors" class="invalid-feedback">
+            <span *ngIf="f.PANNo.errors.required"> PAN is required </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.PANNo.touched && f.PANNo.invalid && IsInvalidPan === false"
+            class="invalid-feedback">
+            PAN is required
+          </mat-error>
+          <mat-error *ngIf="IsInvalidPan === true">
+            Please enter valid PAN number!
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> GST No </mat-label>
+            <input matInput placeholder="GST" name="GSTNo" formControlName="GSTNo"
+              [ngClass]="{ 'is-invalid': submitted && f.GSTNo.errors }" (keypress)="GstValidation($event)"
+              (focusout)="copyPastGSTNoNumbeAllow()" maxlength="15">
+          </mat-form-field>
+          <mat-error *ngIf="IsInvalidGSTNo === false">
+            Please enter valid GST No.
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Address </mat-label>
+            <textarea matInput placeholder="Address" name="Address" formControlName="Address"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col">
+
+          <!-- <mat-form-field>
+            <mat-label> City <span class="text-danger"> * </span> </mat-label>
+            <mat-select name="City" formControlName="City">
+              <mat-option *ngFor="let City of CityList" [value]="City.CityCode">
+                {{City.CityName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+
+          <!-- autocomplete code city start-->
+          <mat-form-field class="example-full-width">
+            <mat-label>City <span class="text-danger"> * </span> </mat-label>
+            <input type="text" placeholder="City" matInput name="City" formControlName="City"
+              [matAutocomplete]="autoCity" (focusout)="CityValidation()">
+            <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displayFnCity">
+              <mat-option *ngFor="let option of filteredOptionsCity | async" [value]="option">
+                {{ option.CityName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <!-- autocomplete code city end-->
+
+          <mat-error *ngIf="submitted && f.City.errors" class="invalid-feedback">
+            <span *ngIf="f.City.errors.required"> Please select city </span>
+          </mat-error>
+          <!-- <mat-error *ngIf="submitted === false && f.City.touched && f.City.invalid" class="invalid-feedback">
+            Please select city
+          </mat-error> -->
+          <mat-error *ngIf="InvalidCity" class="invalid-feedback">
+            Please select valid city
+          </mat-error>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Pin Code </mat-label>
+            <input matInput placeholder="Pin Code" name="Pin" formControlName="Pin"
+              (keypress)="numberValidation($event)" maxlength="6" (keypress)="numberValidation($event)">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <section class="example-section">
+            <mat-checkbox class="example-margin" formControlName="PickList">
+              Pick List Available</mat-checkbox>
+          </section>
+        </div>
+        <div class="col"> </div>
+        <div class="col">
+          <button mat-raised-button class="cancel-buttton" type="submit" (click)="redirect()">Cancel</button>
+          <button mat-raised-button color="primary" type="submit">{{ pageState }}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

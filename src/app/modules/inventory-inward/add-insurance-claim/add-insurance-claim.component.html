@@ -1,0 +1,172 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ AddInsuranceMsg }} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="ClaimForm" (ngSubmit)="SaveInsuranceData()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>LRNo <span class="text-danger">*</span></mat-label>
+                        <input matInput type="text" placeholder="LR No" name="LRNo" formControlName="LRNo"
+                            [matAutocomplete]="autoLRNo" (focusout)="LRNoValidation()">
+                        <mat-autocomplete #autoLRNo="matAutocomplete" [displayWith]="displayFnLRNo">
+                            <mat-option *ngFor="let pkId of filteredOptionsLR | async" [value]="pkId">
+                                {{ pkId.LRNo }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- <mat-error *ngIf="submitted && f.LRNo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.LRNo.errors.required"> Please Select Invoice No </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.LRNo.touched && f.LRNo.invalid" class="invalid-feedback">
+                        Please Select LR No
+                    </mat-error>
+                    <mat-error *ngIf="InvalidLRNo" class="invalid-feedback">
+                        Please Select Valid LR No
+                    </mat-error> -->
+                </div>
+                <div class="col" *ngIf="State.state === 'RaiseClaim' || State.state === 'UpdateClaim'">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Claim No. <span class="text-danger"> * </span> </mat-label>
+                        <input matInput placeholder="Claim No." name="ClaimNo" formControlName="ClaimNo">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ClaimNo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.ClaimNo.errors.required"> Claim No is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.ClaimNo.touched && f.ClaimNo.invalid"
+                        class="invalid-feedback">
+                        Claim No is required
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="State.state === 'RaiseClaim' || State.state === 'UpdateClaim'">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Claim Date <span class="text-danger"> * </span></mat-label>
+                        <input matInput [matDatepicker]="picker" name="ClaimDate" formControlName="ClaimDate"
+                            [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ClaimDate.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.ClaimDate.errors.required"> Claim Date is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.ClaimDate.touched && f.ClaimDate.invalid"
+                        class="invalid-feedback">
+                        Claim Date is required
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="State.state === 'RaiseSAN' || State.state === 'UpdateSAN'">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> SAN No. <span class="text-danger"> * </span> </mat-label>
+                        <input matInput placeholder="SAN No." name="SANNo" formControlName="SANNo">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.SANNo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.SANNo.errors.required"> SAN No. is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.SANNo.touched && f.SANNo.invalid"
+                        class="invalid-feedback">
+                        SAN No. is required
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="State.state === 'RaiseSAN' || State.state === 'UpdateSAN'">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>SAN Date <span class="text-danger"> * </span></mat-label>
+                        <input matInput [matDatepicker]="picker" name="SANDate" formControlName="SANDate"
+                            [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.SANDate.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.SANDate.errors.required"> SAN Date is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.SANDate.touched && f.SANDate.invalid"
+                        class="invalid-feedback">
+                        SAN Date is required
+                    </mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" *ngIf="State.state === 'RaiseClaim' || State.state === 'UpdateClaim'">
+                    <mat-form-field>
+                        <mat-label>Claim Amount <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Claim Amount" name="ClaimAmount" formControlName="ClaimAmount" (keypress)="numberValidation($event)" (focusout)="CheckSanAndClaim()">
+                    </mat-form-field>
+
+                    <mat-error *ngIf="submitted && f.ClaimAmount.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.ClaimAmount.errors.required"> Claim Amount is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.ClaimAmount.touched && f.ClaimAmount.invalid"
+                        class="invalid-feedback">
+                        Claim Amount is required
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="State.state === 'RaiseSAN' || State.state === 'UpdateSAN'">
+                    <mat-form-field>
+                        <mat-label>SAN Amount <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="SAN Amount" name="SANAmount" formControlName="SANAmount" (keypress)="numberValidation($event)" (focusout)="CheckSanAndClaim()">
+                    </mat-form-field>
+
+                    <mat-error *ngIf="submitted && f.SANAmount.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.SANAmount.errors.required"> SAN Amount is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.SANAmount.touched && f.SANAmount.invalid"
+                        class="invalid-feedback">
+                        SAN Amount is required
+                    </mat-error>
+                </div>
+                <div class="col" *ngIf="State.state === 'RaiseClaim' || State.state === 'UpdateClaim'">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Claim Type <span class="text-danger">*</span></mat-label>
+                        <input type="text" placeholder="Claim Type" matInput name="ClaimType"
+                            formControlName="ClaimType" [matAutocomplete]="autoClaimType"
+                            (focusout)="ClaimTypeValidation()">
+                        <mat-autocomplete #autoClaimType="matAutocomplete" [displayWith]="displayFnautoClaimType">
+                            <mat-option *ngFor="let cType of filteredOptionsClaimType | async" [value]="cType">
+                                {{ cType.MasterName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.ClaimType.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.ClaimType.errors.required">Please Select Claim Type</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.ClaimType.touched && f.ClaimType.invalid"
+                        class="invalid-feedback">
+                        Please Select Claim Type
+                    </mat-error>
+                    <mat-error *ngIf="InvalidClaimType" class="invalid-feedback">
+                        Please Select Valid Claim Type
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width" style="width: 200px;">
+                        <mat-label for="exampleFormControlTextarea1">Remark</mat-label>
+                        <textarea matInput placeholder="Add Remark" matInput name="Remark" formControlName="Remark"
+                            cols="6" rows="2"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col" *ngIf="State.state === 'RaiseSAN' || State.state === 'UpdateSAN'"></div>
+            </div>
+            <div class="row">
+                <div class="col" *ngIf="State.state === 'RaiseClaim' || State.state === 'UpdateClaim'">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Email Send Date </mat-label>
+                        <input matInput [matDatepicker]="picker1" name="EmailSendDate" formControlName="EmailSendDate"
+                            [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" type="button" (click)="redirect()"> {{btnCancelText
+                        }}
+                    </button> &nbsp;&nbsp;
+                    <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

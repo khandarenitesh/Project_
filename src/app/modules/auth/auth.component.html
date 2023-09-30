@@ -1,0 +1,70 @@
+<!-- <div
+  class="
+    d-flex
+    flex-column flex-column-fluid
+    bgi-position-y-bottom
+    position-x-center
+    bgi-no-repeat bgi-size-contain bgi-attachment-fixed full-width
+  "
+  style="background-image: url('./assets/media/Logistics 2.jpg'); background-size: auto;"
+> -->
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-6">
+    <img src="./assets/media/Logistics-2.jpg" id="left-img" alt="Transport">
+  </div>
+  <div class="col-xl-6 col-lg-6 col-md-6">
+    <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
+      <a routerLink="/" class="mb-12" style="font-size: xx-large; color: black;"><img alt="Logo"
+          src="./assets/media/logo_cnf.png" class="h-45px" />&nbsp;&nbsp;Tirupati Logistics</a>
+
+      <div class="w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  <!--begin::Content-->
+  <!-- <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
+    <a routerLink="/" class="mb-12" style="font-size: xx-large; color: black;"
+      ><img alt="Logo" src="./assets/media/lotus-logo.jpg" class="h-45px"
+    />&nbsp;&nbsp;Tirupati Logistics</a> -->
+
+  <!--begin::Content body-->
+  <!-- <div class="w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
+      <router-outlet></router-outlet>
+    </div> -->
+  <!--end::Content body-->
+</div>
+<!--end::Content-->
+
+<!-- begin::Footer text-muted -->
+<!-- <div class="d-flex flex-center flex-column-auto pb-lg-8" style="margin-left:75% !important">
+    <div class="d-flex align-items-center fw-bold fs-6">
+      <a class="menu-link text-muted text-hover-primary px-2 cursor-pointer">About</a>
+      <a class="menu-link text-muted text-hover-primary px-2 cursor-pointer" (click)="RedirectPrivacyPage()"> Policy Privacy </a>
+      <a class="menu-link text-muted text-hover-primary px-2 cursor-pointer">Contact Us</a>
+    </div>
+  </div> -->
+<!-- end::Footer -->
+
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-between pb-lg-2">
+  <!-- begin::Copyright  -->
+  <div class="text-dark order-2 order-md-1">
+    <!-- <span class="text-muted fw-bold me-2">{{ currentDateStr }} &copy;</span>
+    <a class="text-gray-800 text-hover-primary cursor-pointer"> Aadyam Infotech Pvt.Ltd. </a> -->
+  </div>
+  <!-- end::Copyright  -->
+
+  <!-- begin::Nav  -->
+  <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1 text-justify text-center text-nowrap mt-0">
+    <li class="menu-item">
+      <a class="menu-link ps-0 pe-2 cursor-pointer" href="https://www.aadyaminfotech.com/AboutUs.html"> About </a>
+    </li>
+    <li class="menu-item">
+      <a class="menu-link pe-0 pe-2 cursor-pointer" (click)="RedirectPrivacyPage()"> Privacy Policy </a>
+    </li>
+    <!-- <li class="menu-item">
+      <a class="menu-link pe-0 cursor-pointer"> Contact us </a>
+    </li> -->
+  </ul>
+  <!-- end::Nav  -->
+</div>

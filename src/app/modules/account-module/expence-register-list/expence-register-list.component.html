@@ -1,0 +1,323 @@
+<!-- Vendor Master List -->
+<div class="card">
+
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-4">
+        <h2> List View </h2>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="searchField" style="margin-right: 2%;">
+          <span class="GlobalSearch" matPrefix>
+            <mat-icon>search</mat-icon> &nbsp;
+          </span>
+          <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+        </mat-form-field>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" (click)="redirect()">Add</button>
+  </div>
+  <div class="card-body">
+    <div class="col-md-12">
+      <div class="Scroll">
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+          <ng-container matColumnDef="SrNo">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+            <td mat-cell *matCellDef="let row;let SrNo = index;">
+              {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="BillFromName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Vendor Name </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.BillFromName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ExpInvNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No.
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.ExpInvNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="InvDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Date
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.InvDate | date:"dd-MM-yyyy" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="CompId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Company </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.CompanyName }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="IsReimbursable">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Reimbursable
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.IsReimbursable }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="TaxableAmt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Taxable Amt </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.TaxableAmt }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="TotalAmt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Total Amt </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.TotalAmt }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Balance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Balance Amt </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.Balance }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="ExpInvStatusText">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Status </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.ExpInvStatusText }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+            <td mat-cell *matCellDef="let row">
+              <a *ngIf="row.ExpInvStatus == 0" style="cursor: pointer;" class="cancel-buttton" (click)="SetData(row)"
+                title="Edit"><i class="fa fa-edit" title="Edit"></i></a>
+              <a *ngIf="row.ExpInvStatus == 0" style="cursor: pointer;" title="Delete" (click)="DeleteUpdateSatus(row,'Delete')">
+                <i class="far fa-trash-alt"></i>
+              </a>
+              <a *ngIf="row.ExpInvStatus == 1" class="butons" title="Add Payment" (click)="ResolveConcern(row)">Reasolve Concern</a>
+              <a *ngIf="row.ExpInvStatus == 2" (click)="DeleteUpdateSatus(row,'Status')" class="butons"
+                title="Ready for Payment">Ready for Payment</a>
+              <a *ngIf="row.ExpInvStatus == 3" class="butons" title="Add Payment"
+                (click)="ViewPopup(row, PaymentPopup)">Add Payment</a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+      <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+
+      <div *ngIf="!DataSource.data.length && !isLoading">
+        <h6 class="noRecordData commonFontSize"> No Record Found </h6>
+      </div>
+
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- Add Apument Popup -->
+<ng-template id="PickListModel" #PaymentPopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Payment</h4>
+    <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a>
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <form class="vForm" [formGroup]="PaymentForm" (ngSubmit)="SavePayment()" autocomplete="off">
+        <div class="row">
+
+          <!-- Date -->
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Date <span class="text-danger">*</span></mat-label>
+              <input matInput [matDatepicker]="picker" name="Date" formControlName="Date" [max]="maxDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="submited && f.Date.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Date.errors.required"> Date is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submited === false && f.Date.touched && f.Date.invalid" class="invalid-feedback">
+              Date is required
+            </mat-error>
+          </div>
+
+          <!-- TDS Less -->
+          <div class="col">
+            <mat-form-field>
+              <mat-label> TDS <span class="text-danger"> * </span> </mat-label>
+              <input matInput type="text" placeholder="TDS" name="TDS" formControlName="TDS"
+                (keypress)="numberValidation($event)" />
+            </mat-form-field>
+            <mat-error *ngIf="submited && f.TDS.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.TDS.errors.required"> TDS is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submited === false && f.TDS.touched && f.TDS.invalid" class="invalid-feedback">
+              TDS is required
+            </mat-error>
+          </div>
+
+          <!-- Payment Received -->
+          <div class="col">
+            <mat-form-field>
+              <mat-label> Payment Amount <span class="text-danger"> * </span> </mat-label>
+              <input matInput type="text" placeholder="Payment Amount" name="Payment" formControlName="Payment"
+                maxlength="15" (keypress)="numberValidation($event)" />
+            </mat-form-field>
+            <mat-error *ngIf="submited && f.Payment.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Payment.errors.required"> Payment Amt is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submited === false && f.Payment.touched && f.Payment.invalid" class="invalid-feedback">
+              Payment Amt is required
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Payment Mode -->
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Payment Mode <span class="text-danger"> * </span> </mat-label>
+              <input type="text" placeholder="Payment Mode" matInput name="Mode" (focusout)="PaymentModeValidation()"
+                formControlName="Mode" [matAutocomplete]="autoPaymentMode">
+              <mat-autocomplete #autoPaymentMode="matAutocomplete" [displayWith]="displayFnPaymentMode">
+                <mat-option *ngFor="let option of PaymentModeArray | async" [value]="option">
+                  {{ option.MasterName }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-error *ngIf="submited && f.Mode.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Mode.errors.required"> Please select payment mode </mat-error>
+            </mat-error>
+            <mat-error *ngIf="InvalidPaymentMode" class="invalid-feedback">
+              Please select valid payment mode
+            </mat-error>
+          </div>
+
+          <!-- Chq / UTR No. -->
+          <div class="col">
+            <mat-form-field>
+              <mat-label> Chq / UTR No. </mat-label>
+              <input matInput type="text" placeholder="Payment Amount" name="UTRNo" formControlName="UTRNo"
+                maxlength="20" />
+            </mat-form-field>
+            <mat-error *ngIf="submited && f.UTRNo.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.UTRNo.errors.required"> Chq / UTR No. is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submited === false && f.UTRNo.touched && f.UTRNo.invalid" class="invalid-feedback">
+              Chq / UTR No. is required
+            </mat-error>
+          </div>
+
+          <!-- Remark -->
+          <div class="col">
+            <mat-form-field>
+              <mat-label> Remark </mat-label>
+              <textarea matInput class="form-control" placeholder="Remark" formControlName="Remark" name="Remark"
+                cols="10" rows="2">
+                        </textarea>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col">
+            <button mat-raised-button class="cancel-buttton" (click)="d('Cross click')" type="button"
+              title="Cancel">Cancel</button>
+            <button mat-raised-button class="cancel-buttton" color="primary" type="submit"> Save </button>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-md-12">
+          <table mat-table [dataSource]="PaymentList" #Sort="matSort" matSort>
+
+            <ng-container matColumnDef="SrNo">
+              <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+              <td mat-cell *matCellDef="let row;let SrNo = index;">
+                {{ SrNo + 1 }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ExpInvNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No.
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.ExpInvNo }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PaymentDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Date
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.PaymentDate | date:'dd-MM-yyyy' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PaymentModeText">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Mode
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.PaymentModeText }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="TDS">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> TDS </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.TDS }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="PaymentAmt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Amount
+              </th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.PaymentAmt }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Actions">
+              <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+              <td mat-cell *matCellDef="let row">
+                <a style="cursor: pointer;" title="Delete" (click)="DeletePayment(row)"><i class="far fa-trash-alt">
+                  </i></a>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedCol"></tr>
+            <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedCol;"></tr>
+          </table>
+
+          <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+            strokeWidth="5"></mat-progress-spinner>
+
+          <div *ngIf="!PaymentList.data.length && !isLoading">
+            <h6 class="noRecordData commonFontSize"> No Record Found </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

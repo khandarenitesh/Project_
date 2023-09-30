@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+
+  //Iterative javascript program to reserse an array
+  /* Function to reverse arr[] from start to end */
+
+  function reverseArray(arr, start,end){
+      while(start < end){
+        var temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+      }
+  }
+
+  /*Utility function to print an array */
+
+  function printArray(arr,size) {
+    for(var i= 0 ;i< size; i++) {
+      console.log(arr[i]);
+    }
+  }
+
+  /* Driver function to test above functinos*/
+  var arr =[1,2,3,4,5,6];
+  var n=6;
+  //To print origical array
+  printArray(arr,n);
+
+  reverseArray(arr,0,n-1);
+  console.log('Reversed array is');
+
+  //To print the reverse array
+  printArray(arr,n);
+</script>
+</body>
+</html>

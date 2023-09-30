@@ -1,0 +1,144 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{Title}} </h2>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xl-6 col-lg-8">
+                    <mat-label> Select File <span class="text-danger"> * </span></mat-label>&nbsp;&nbsp;
+                    <input #fileInput type="file" accept="image/*">
+                    <mat-hint>Accepts only jpeg png or .pdf</mat-hint>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  &nbsp;&nbsp;
+  
+  <!-- Transit table List -->
+  <div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ ListTitle }}</h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Serach -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+  
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12" #TABLE>
+                <div class="Scroll">
+                    <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+  
+                        <ng-container matColumnDef="Action">
+                            <th mat-header-cell *matHeaderCellDef="let i = index;" class="commonHeaderCSS">
+                                <input type="checkbox"  [(ngModel)]="ChecValueFlag" (change)="AllselectndUnselectCheckBox($event)" /> Select
+                            </th>
+                            <td mat-cell *matCellDef="let row; let i = index;">
+                                <input type="checkbox" style="cursor: pointer;" id="{{ 'check' + row.CNId }}"
+                                    (change)="getCheckboxesData(row, row.CNId)">
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="CrDrNoteNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Credit Note
+                                No.
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.CrDrNoteNo }}
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="CRDRCreationDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Credit Note
+                                Date
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.CRDRCreationDate | date: 'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="CrDrAmt">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Credit Amount
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.CrDrAmt }}
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="StockistNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Stockist No.
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.StockistNo }}
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="StockistName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Stockist Name
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.StockistName }}
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="CityName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.CityName }}
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="SalesOrderNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sales Order
+                                No.
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.SalesOrderNo }}
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="SalesOrderDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sales Order
+                                Date
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.SalesOrderDate | date: 'dd/MM/yyyy'}}
+                            </td>
+                        </ng-container>
+  
+                        <tr mat-header-row *matHeaderRowDef="uploadimg"></tr>
+                        <tr mat-row class="example-element-row" *matRowDef="let row; columns: uploadimg;"
+                            [ngClass]="{'highlightPriority': row.OnPriority === 1 }"></tr>
+                    </table>
+                </div>
+                <div *ngIf="!DataSource.data.length && !isLoading">
+                    <h6 class="noRecordData"> No Record Found </h6>
+                </div>
+                <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+            </div>
+        </div> &nbsp;&nbsp;
+        <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+                <button mat-raised-button class="cancel-buttton" (click)="clearFile()"> Cancel
+                </button> &nbsp;&nbsp;
+                <button mat-raised-button color="primary" type="submit" (click)="SaveUploadCertificate()"> Save
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>

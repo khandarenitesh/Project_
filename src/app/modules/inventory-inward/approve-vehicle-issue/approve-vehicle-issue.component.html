@@ -1,0 +1,242 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col text-center">
+        <h4>{{ TodayLRCnt }}</h4>
+        <span> Today's Imported LR </span>
+      </div>
+      <div class="col text-center">
+        <a (click)="ShowLRList('TotalTodaysMapCnrnRaiseCnt')" title="Total Map Concern">
+          <h4>{{ TotalTodaysMapCnrnRaiseCnt }}</h4>
+        </a>
+        <span> Total Map Concern </span>
+      </div>
+      <div class="col text-center">
+        <a (click)="ShowLRList('MapConcernRaised')" title="Pending Map Concern ">
+          <h4>{{ TodayMapConcernRaisedCnt }}</h4>
+        </a>
+        <span> Pending Map Concern</span>
+      </div>
+      <div class="col text-center">
+        <a (click)="ShowLRList('MapConcernResolved')" title="Map Concern Resolved">
+          <h4>{{ TodayMapConcernResolvedCnt }}</h4>
+        </a>
+        <span> Map Concern Resolved </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Resolve Vehicle Issue </h2>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="searchField" style="margin-right: 2%;">
+          <span class="GlobalSearch" matPrefix>
+            <mat-icon>search</mat-icon> &nbsp;
+          </span>
+          <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="col-md-12">
+      <div class="Scroll">
+        <!--  Table  -->
+        <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+          <ng-container matColumnDef="SrNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sr. No. </th>
+            <td mat-cell *matCellDef="let row;let SrNo = index;">
+              {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="LRNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR No. </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.LRNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="TransporterNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Transporter No
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.TransporterNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="TransporterName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Transporter Name
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.TransporterName }}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="LRDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> LR Date </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.LRDate | date: 'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="VehicleNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Vehicle No. </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.VehicleNo }}
+            </td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Actions </th>
+            <td mat-cell *matCellDef="let row">
+              <!-- <a (click)="ApproveVehicle(row)" style="cursor: pointer;" class="rmargin" title="Resolve" *ngIf="!row.ResolvedBy">Resolve</a> -->
+              <a (click)="OpenModelapporve(ResolveVehiclePopup, row)" style="cursor: pointer;" class="rmargin"
+                title="Resolve" *ngIf="!row.ResolvedBy">Resolve</a>
+
+              <span *ngIf="row.IsClaim === 0 && row.IsSAN !== 1 ">
+                <a (click)="GetDataClaim(row)" style="cursor: pointer;" class="rmargin" title="Raise Claim">Raise
+                  Claim</a>
+              </span>
+              <span *ngIf="row.IsSAN === 0 && row.IsClaim !== 1">
+                <a (click)="GetDataSAN(row)" style="cursor: pointer;" class="rmargin" title="Rasie SAN">Raise SAN</a>
+              </span>
+              <span>
+                <a style="cursor: pointer;" title="View images" (click)="OpenModelForShowimages(ShowImagesPopup, row)">
+                  <i class="fa fa-eye fa-duotone "></i></a>
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="ApproveVehicleforApi"></tr>
+          <tr mat-row class="example-element-row" *matRowDef="let row; columns: ApproveVehicleforApi;"></tr>
+        </table>
+      </div>
+      <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+      <div *ngIf="!DataSource.data.length && !isLoading">
+        <h6 class="noRecordData"> No Record Found </h6>
+      </div>
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+    </div>
+  </div>
+</div>
+
+<ng-template id="ResolveVehiclePopup" #ResolveVehiclePopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Resolve Vehicle</h4>
+    <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click');ClearData()">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a>
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <form class="form" #resolveVehicleForm="ngForm">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>LR No. Of Cases Quantity</mat-label>
+              <input matInput placeholder="LR No.Of Cases Quantity" name="LRNoOfCasesQuantity"
+                [(ngModel)]="approvevehiclemodel.NoOfCasesQty" #LRNoOfCasesQuantity="ngModel" required />
+            </mat-form-field>
+            <div class="text-danger"
+              *ngIf="(LRNoOfCasesQuantity.touched || resolveVehicleForm.submitted) && LRNoOfCasesQuantity.errors?.required">
+              LR No of cases quantity is required </div>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Actual No. Of Cases Quantity</mat-label>
+              <input matInput placeholder="Actual No. Of Cases Quantity" name="ActualNoOfCasesQuantity"
+                [(ngModel)]="approvevehiclemodel.ActualNoOfCasesQty" #ActualNoOfCasesQuantity="ngModel" required />
+            </mat-form-field>
+            <div class="text-danger"
+              *ngIf="(ActualNoOfCasesQuantity.touched || resolveVehicleForm.submitted) && ActualNoOfCasesQuantity.errors?.required">
+              Actual No of cases quantity is required </div>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width text-area">
+              <mat-label>Resolve Vehicle Remark</mat-label>
+              <textarea matInput placeholder="Resolve Vehicle Remark" name="ResolveRemark" rows="3"
+                [(ngModel)]="approvevehiclemodel.ResolveVehicleRemark"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button class="cancel-buttton" color="primary" [disabled]="resolveVehicleForm.invalid"
+      (click)="ApproveVehicle()">Submit</button>
+    <button mat-raised-button class="cancel-buttton" (click)="d('Cross click');ClearData()">Cancel</button>
+  </div>
+</ng-template>
+
+
+<ng-template id="ShowImagesPopup" #ShowImagesPopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title1">Vehicle Checklist images</h4>
+    <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click');ClearImages()">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a>
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-6" *ngIf="approvevehiclemodel.Img1">
+          <a target="_blank" href="{{approvevehiclemodel.Img1}}">
+            <img src="{{approvevehiclemodel.Img1}}" />
+          </a>
+          <h1 class="textcenter">Image 1</h1>
+        </div>
+        <div class="col-6" *ngIf="approvevehiclemodel.Img2">
+          <a target="_blank" href="{{approvevehiclemodel.Img2}}">
+            <img src="{{approvevehiclemodel.Img2}}" />
+          </a>
+          <h1 class="textcenter">
+            Image 2
+          </h1>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-6" *ngIf="approvevehiclemodel.Img3">
+          <a target="_blank" href="{{approvevehiclemodel.Img3}}">
+            <img src="{{approvevehiclemodel.Img3}}" />
+          </a>
+          <h1 class="textcenter">
+            Image 3
+          </h1>
+        </div>
+        <div class="col-6" *ngIf="approvevehiclemodel.Img4">
+          <a target="_blank" href="{{approvevehiclemodel.Img4}}">
+            <img src="{{approvevehiclemodel.Img4}}" />
+          </a>
+          <h1 class="textcenter">
+            Image 4
+          </h1>
+        </div>
+      </div>
+      <div class="row"
+        *ngIf="!approvevehiclemodel.Img1 && !approvevehiclemodel.Img2 && !approvevehiclemodel.Img3 && !approvevehiclemodel.Img4">
+        <div class="col NoImagesFound">
+          No Images Found
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+  </div>
+</ng-template>

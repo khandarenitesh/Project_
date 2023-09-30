@@ -1,0 +1,117 @@
+<div class="card">
+    <div class="card-header">
+        <h2> Add First Physical Check </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="PhysicalCheckorm" (ngSubmit)="SavePhysicalCheck()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <!--      <mat-form-field class="example-full-width">
+                      <mat-label> GatePassNo <span class="text-danger"> * </span> </mat-label>
+                      <input type="text" placeholder="GatePassNo" matInput name="GatePassNo" formControlName="GatePassNo" [matAutocomplete]="autoGatePassNo">
+                      <mat-autocomplete #autoGatePassNo="matAutocomplete" [displayWith]="displayFnGatePassNo">
+                          <mat-option *ngFor="let option of GatePassNoArray | async" [value]="option">
+                              {{ option.GatePassNo }}
+                          </mat-option>
+                      </mat-autocomplete>
+                  </mat-form-field>
+                  <mat-error *ngIf="submitted && f.GatePassNo.errors" class="invalid-feedback">
+                      <span *ngIf="f.GatePassNo.errors.required"> Please select Gate Pass No </span>
+                  </mat-error>
+                  <mat-error *ngIf="submitted === false && f.GatePassNo.touched && f.GatePassNo.invalid" class="invalid-feedback">
+                      Please select Gate Pass No
+                  </mat-error>   -->
+                </div>
+
+                <div class=""></div>
+
+                <div class="col">
+                    <!-- <mat-form-field class="example-full-width">
+                    <mat-label> Stockist Name <span class="text-danger"> * </span> </mat-label>
+                    <input type="text" placeholder="Stockist Name" matInput name="StockistName" formControlName="StockistName" [matAutocomplete]="autoStockistName">
+                    <mat-autocomplete #autoStockistName="matAutocomplete" [displayWith]="displayFnStockistName">
+                        <mat-option *ngFor="let option of StockistNameArray | async" [value]="option">
+                            {{ option.StockistName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-error *ngIf="submitted && f.CategoryName.errors" class="invalid-feedback">
+                    <span *ngIf="f.StockistName.errors.required"> Please select Stockist Name </span>
+                </mat-error>
+                <mat-error *ngIf="submitted === false && f.StockistName.touched && f.StockistName.invalid" class="invalid-feedback">
+                    Please select Stockist Name
+                </mat-error> -->
+                </div>
+
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>LRNo <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="LRNo" name="LRNo" formControlName="LRNo">
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.LRNo.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.LRNo.errors.required"> LR No is required</mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="submitted === false && f.LRNo.touched && f.LRNo.invalid" class="invalid-feedback">
+                        LR No is required
+                    </mat-error>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <!-- <mat-form-field class="example-full-width">
+                  <mat-label> Return Category <span class="text-danger"> * </span> </mat-label>
+                  <input type="text" placeholder="Return Category" matInput name="ReturnCategory" formControlName="ReturnCategory" [matAutocomplete]="autoReturnCategory">
+                  <mat-autocomplete #autoReturnCategory="matAutocomplete" [displayWith]="displayFnReturnCategory">
+                      <mat-option *ngFor="let option of StockistReturnCategory | async" [value]="option">
+                          {{ option.ReturnCategory }}
+                      </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="submitted && f.Re turnCategory.errors" class="invalid-feedback">
+                  <span *ngIf="f.ReturnCategory.errors.required"> Please select Return Category</span>
+              </mat-error>
+              <mat-error *ngIf="submitted === false && f.ReturnCategory.touched && f.ReturnCategory.invalid" class="invalid-feedback">
+                  Please select Return Category
+              </mat-error> -->
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>ClaimNo <span class="text-danger">*</span></mat-label>
+                            <input matInput placeholder="ClaimNo" name="ClaimNo" formControlName="ClaimNo">
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.ClaimNo.errors" class="invalid-feedback">
+                            <mat-error *ngIf="f.ClaimNo.errors.required"> Claim No is required</mat-error>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.ClaimNo.touched && f.ClaimNo.invalid" class="invalid-feedback">
+                            Claim No is required
+                        </mat-error>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Claim Date <span class="text-danger"> * </span></mat-label>
+                            <input matInput [matDatepicker]="picker" name="ClaimDate" formControlName="ClaimDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error *ngIf="submitted && f.ClaimDate.errors" class="invalid-feedback">
+                            <mat-error *ngIf="f.ClaimDate.errors.required"> Claim Date is required</mat-error>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.ClaimDate.touched && f.ClaimDate.invalid" class="invalid-feedback">
+                            Claim Date is required
+                        </mat-error>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" (click)="ClearForm()" type="button">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+&nbsp;&nbsp;

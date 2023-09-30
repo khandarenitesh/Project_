@@ -1,0 +1,107 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{Title}} </h2>
+        <button title="Download Template file" mat-raised-button (click)="DownloadTemplate()">
+            <i class="fa fa-2px fa-download green-color"></i>
+            Download Template
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xl-12 col-lg-4">
+                    <mat-label> Select File <span class="text-danger">*</span></mat-label> &nbsp;&nbsp;
+                    <input #fileInput type="file" (change)="onChange()" accept="xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                    <mat-hint> Accepts only xls or .xlsx </mat-hint>
+                    <button mat-raised-button class="matbutton" color="primary" type="submit" (click)="onUpload()"><i class="fa fa-upload white-color"></i>Upload</button>
+                    <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+                        <mat-progress-spinner color="primary" mode="indeterminate" diameter="40" strokeWidth="5">
+                        </mat-progress-spinner>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+&nbsp;&nbsp;
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ ListTitle }}</h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Search -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+            <mat-icon>search</mat-icon> &nbsp;
+          </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <table mat-table [dataSource]="DataSource" #Sort="matSort" matSort>
+
+                <ng-container matColumnDef="SrNo">
+                    <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                    <td mat-cell *matCellDef="let row;let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StockistName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.StockistName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="DepositeDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Deposite Date </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.DepositeDate | date: 'dd/MM/yyyy' }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="BankName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Bank Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.BankName }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="AccountNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Account No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.AccountNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ChequeNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Cheque No. </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.ChequeNo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Amount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Amount </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.Amount }}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="importDepositedCheque"></tr>
+                <tr mat-row class="example-element-row" *matRowDef="let row; columns: importDepositedCheque;"></tr>
+            </table>
+            <!-- <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner> -->
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+        </div>
+    </div>
+</div>

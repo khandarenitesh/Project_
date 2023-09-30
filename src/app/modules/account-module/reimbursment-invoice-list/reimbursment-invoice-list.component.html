@@ -1,0 +1,341 @@
+<div class="card">
+
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>{{ ReimbursmentInvoiceListTitle }}</h2>
+      </div>
+      <div class="col-md-4">
+        <!-- Serach -->
+        <mat-form-field class="searchField" style="margin-right: 2%;">
+          <span class="GlobalSearch" matPrefix>
+            <mat-icon>search</mat-icon> &nbsp;
+          </span>
+          <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="redirect()"> Add </button>
+
+  </div>
+
+  <!-- Reimbursment Invoice List -->
+  <div class="card-body">
+    <div class="col-md-12"> <!-- #TABLE-->
+      <div class="Scroll">
+        <table matTableExporter mat-table [dataSource]="DataSourceReimbursmentInv" #Sort="matSort" matSort
+          #exporter="matTableExporter">
+
+          <!-- SrNo  -->
+          <ng-container matColumnDef="SrNo">
+            <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+            <td mat-cell *matCellDef="let row; let SrNo = index;">
+              {{ (SrNo + 1) + (paginator.pageIndex * paginator.pageSize ) }}
+            </td>
+          </ng-container>
+
+          <!-- InvNo -->
+          <ng-container matColumnDef="InvNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.InvNo }}
+            </td>
+          </ng-container>
+
+          <!-- InvDate -->
+          <ng-container matColumnDef="InvDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice Date </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.InvDate | date: 'dd/MM/yyyy'}}
+            </td>
+          </ng-container>
+
+          <!-- CompanyName -->
+          <ng-container matColumnDef="CompanyName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Company Name </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.CompanyName }}
+            </td>
+          </ng-container>
+
+          <!-- TaxableAmt -->
+          <ng-container matColumnDef="TaxableAmt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Taxable Amount </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.TaxableAmt }}
+            </td>
+          </ng-container>
+
+          <!-- TotalAmt -->
+          <ng-container matColumnDef="TotalAmt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Total Amount </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.TotalAmt }}
+            </td>
+          </ng-container>
+
+          <!-- PaymentAmt -->
+          <ng-container matColumnDef="PaymentAmt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Received Payment </th>
+            <td mat-cell *matCellDef="let row">
+              {{ (row.PaymentAmt > 0 ? row.PaymentAmt : "") }}
+            </td>
+          </ng-container>
+
+          <!-- Actions -->
+          <ng-container matColumnDef="RIActions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Actions </th>
+            <td mat-cell *matCellDef="let row">
+
+              <a *ngIf="row.PaymentAmt === 0 || row.PaymentAmt === null || row.PaymentAmt === undefined ||row.PaymentAmt === ''"
+                (click)="EditDataForReimbInv(row)" style="cursor: pointer;" title="Edit">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a *ngIf="row.PaymentAmt === 0 || row.PaymentAmt === null || row.PaymentAmt === undefined ||row.PaymentAmt === ''"
+                (click)="DeleteDataForReimbInv(row)" style="cursor: pointer;" title="Delete">
+                <i class="far fa-trash-alt" title="Delete"></i>
+              </a>
+              <a (click)="AddEditPayment(AddEditPaymentDetailsPopup, row)"
+                style="cursor: pointer; color: blue; text-decoration: underline;" title="Add Payment">
+                Add Payment
+              </a>
+
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="reimbursmentInvDetails"></tr>
+          <tr mat-row class="example-element-row" *matRowDef="let row; columns: reimbursmentInvDetails;"></tr>
+        </table>
+      </div>
+      <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+        strokeWidth="5"></mat-progress-spinner>
+      <div *ngIf="!DataSourceReimbursmentInv.data.length && !isLoading">
+        <h6 class="noRecordData"> No Record Found </h6>
+      </div>
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,100]"></mat-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Payment Details Popup -->
+<ng-template id="AddEditPaymentDetails" #AddEditPaymentDetailsPopup let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ PaymentDetailsTitle }}</h4>
+    <a class="" style="float: right; cursor: pointer;" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">
+        <i class="fa fa-times SBModalclose"></i>
+      </span>
+    </a>
+  </div>
+  <div class="modal-body cons-info">
+    <div class="card-body">
+      <!-- Add/Edit Payment Details -->
+      <form class="vForm" [formGroup]="paymentDtsAddEditForm" autocomplete="off">
+
+        <div class="row">
+          <!-- Payment Date -->
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Payment Date <span class="text-danger">*</span></mat-label>
+              <input matInput [matDatepicker]="picker" name="PaymentDate" formControlName="PaymentDate" [max]="maxDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.PaymentDate.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.PaymentDate.errors.required"> Payment Date is required </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.PaymentDate.touched && f.PaymentDate.invalid"
+              class="invalid-feedback">
+              Payment Date is required
+            </mat-error>
+          </div>
+
+          <!-- TDS Less -->
+          <div class="col">
+            <mat-form-field>
+              <mat-label> TDS</mat-label>
+              <input matInput type="text" placeholder="TDS" name="TDSLess" formControlName="TDSLess"
+                (keypress)="NumValidation($event)" />
+            </mat-form-field>
+            <!-- <mat-error *ngIf="submitted && f.TDSLess.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.TDSLess.errors.required"> Please select TDS </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.TDSLess.touched && f.TDSLess.invalid" class="invalid-feedback">
+              Please select TDS
+            </mat-error> -->
+          </div>
+
+          <!-- Payment Received -->
+          <div class="col">
+            <mat-form-field>
+              <mat-label> Payment Amount <span class="text-danger"> * </span> </mat-label>
+              <input matInput type="text" placeholder="Payment Amount" name="PaymentReceived"
+                formControlName="PaymentReceived" (keypress)="NumValidation($event)" />
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.PaymentReceived.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.PaymentReceived.errors.required"> Payment amount is
+                required</mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.PaymentReceived.touched && f.PaymentReceived.invalid"
+              class="invalid-feedback">
+              Payment amount is required
+            </mat-error>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Payment Mode -->
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label> Payment Mode <span class="text-danger"> * </span> </mat-label>
+              <input type="text" placeholder="Payment Mode" matInput name="PaymentMode"
+                (focusout)="PaymentModeValidation()" formControlName="PaymentMode" [matAutocomplete]="autoPaymentMode">
+              <mat-autocomplete #autoPaymentMode="matAutocomplete" [displayWith]="displayFnPaymentMode">
+                <mat-option *ngFor="let option of PaymentModeArray | async" [value]="option">
+                  {{ option.MasterName }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.PaymentMode.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.PaymentMode.errors.required"> Please select payment mode </mat-error>
+            </mat-error>
+            <mat-error *ngIf="InvalidPaymentMode" class="invalid-feedback">
+              Please select valid payment mode
+            </mat-error>
+          </div>
+
+          <!-- UTR No  -->
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Chq./UTR No <span class="text-danger"> * </span> </mat-label>
+              <input matInput type="text" placeholder="Chq./UTR No" name="UTRNo" formControlName="UTRNo">
+            </mat-form-field>
+            <mat-error *ngIf="submitted && f.UTRNo.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.UTRNo.errors.required"> Please enter Chq./UTR No  </mat-error>
+            </mat-error>
+            <mat-error *ngIf="submitted === false && f.UTRNo.touched && f.UTRNo.invalid" class="invalid-feedback">
+              Please enter Chq./UTR No
+            </mat-error>
+          </div>
+          <!-- Remark -->
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label for="exampleFormControlTextarea1"> Remark </mat-label>
+              <textarea matInput class="form-control" placeholder="Remark" name="PaymentDetailsRemark"
+                [(ngModel)]="PaymentDetailsRemark" [ngModelOptions]="{standalone: true}" #PaymentDtsRemark="ngModel"
+                cols="10" rows="2">
+                            </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col">
+            <button mat-raised-button class="cancel-buttton" color="primary" type="submit"
+              title="{{ paymentDtsPageState }}" (click)="SavePaymentDetails()">
+              {{ paymentDtsPageState }}
+            </button> &nbsp;&nbsp;&nbsp;
+            <button mat-raised-button class="cancel-buttton" (click)="ClearForm()" type="button"
+              title="Cancel">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+      <!-- Payment List -->
+      <h2>{{ paymentListMsg }}</h2>
+      <div class="card-body">
+        <div class="col-md-12"> <!-- #TABLE-->
+          <div class="Scroll">
+            <table matTableExporter mat-table [dataSource]="DataSourceForPaymentList" customPaginator #SortPaymentList="matSort" matSort
+              #exporter="matTableExporter">
+
+              <!-- SrNo  -->
+              <ng-container matColumnDef="SrNo">
+                <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                <td mat-cell *matCellDef="let row; let SrNo = index;">
+                  {{ (SrNo + 1) + (paginatorPaymentList.pageIndex * paginatorPaymentList.pageSize ) }}
+                </td>
+              </ng-container>
+
+              <!-- InvNo -->
+              <ng-container matColumnDef="InvNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Invoice No. </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.InvNo }}
+                </td>
+              </ng-container>
+
+              <!-- PaymentDate -->
+              <ng-container matColumnDef="PaymentDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Payment Date </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.PaymentDate | date: 'dd/MM/yyyy'}}
+                </td>
+              </ng-container>
+
+              <!-- TDS -->
+              <ng-container matColumnDef="TDS">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> TDS </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.TDS }}
+                </td>
+              </ng-container>
+
+              <!-- PaymentAmt -->
+              <ng-container matColumnDef="PaymentAmt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Payment Amt </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.PaymentAmt }}
+                </td>
+              </ng-container>
+
+              <!-- PaymentMode -->
+              <ng-container matColumnDef="PaymentMode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Payment Mode </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.PaymentMode }}
+                </td>
+              </ng-container>
+
+              <!-- UTRNo -->
+              <ng-container matColumnDef="UTRNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Chq./UTR No. </th>
+                <td mat-cell *matCellDef="let row">
+                  <label *ngIf="row.UTRNo === null"> - </label>
+                  <label *ngIf="row.UTRNo !== null">{{ row.UTRNo }}</label>
+                </td>
+              </ng-container>
+
+              <!-- Action -->
+              <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Actions </th>
+                <td mat-cell *matCellDef="let row">
+                  <a (click)="DeleteDataForPayment(row)" style="cursor: pointer;" title="Delete">
+                    <i class="far fa-trash-alt" title="Delete"></i>
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="paymentList"></tr>
+              <tr mat-row class="example-element-row" *matRowDef="let row; columns: paymentList;"></tr>
+            </table>
+          </div>
+          <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+            strokeWidth="5"></mat-progress-spinner>
+          <div *ngIf="!DataSourceForPaymentList.data.length && !isLoading">
+            <h6 class="noRecordData"> No Record Found </h6>
+          </div>
+
+          <mat-paginator #paginatorPaymentList customPaginator (paginatorLoaded)="DataSourceForPaymentList.paginator=$event" 
+                         class="mt-3" [pageSize]="10" [pageSizeOptions]="[20,30,40,100]">
+          </mat-paginator>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

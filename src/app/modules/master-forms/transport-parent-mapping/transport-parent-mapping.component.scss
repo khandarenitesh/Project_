@@ -1,0 +1,90 @@
+.mat-focused {
+    color: black;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+    float: right;
+}
+
+.submit-buttton {
+    margin-right: 5%;
+    float: right;
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095E8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 7%;
+    padding-right: 13px;
+}
+
+.mat-column-TransporterNo {
+    flex: 0px 0px 6% !important;
+    width: 16%;
+    padding-right: 13px;
+}
+
+.mat-column-TransporterName {
+    flex: 0px 0px 10% !important;
+    width: 18%;
+    padding-right: 13px;
+}
+
+.mat-column-TransporterMobNo {
+    flex: 0px 0px 10% !important;
+    width: 18%;
+    padding-right: 13px;
+}
+
+.mat-column-TransporterEmail {
+    flex: 0px 0px 10% !important;
+    width: 18%;
+    padding-right: 14px;
+}
+
+.mat-column-CityName {
+    flex: 0px 0px 10% !important;
+    width: 18%;
+    padding-right: 14px;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+i {
+    margin-right: 15%;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

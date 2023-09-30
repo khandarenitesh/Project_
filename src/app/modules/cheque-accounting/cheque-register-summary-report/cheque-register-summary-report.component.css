@@ -1,0 +1,105 @@
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 9%;
+}
+
+.mat-column-StockistNo {
+  flex: 0px 0px 6% !important;
+  width: 10%;
+}
+
+.mat-column-StockistName {
+  flex: 0px 0px 10% !important;
+  width: 14%;
+}
+
+.mat-column-BankName {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-IFSCCode {
+  flex: 0px 0px 10% !important;
+  width: 12%;
+}
+
+.mat-column-AccountNo {
+  flex: 0px 0px 10% !important;
+  width: 12%;
+}
+
+.mat-column-BlankChqs {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.mat-column-UtilisedChqs {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.mat-column-PrepareChqs {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.mat-column-DiscardedChqs {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.mat-column-DepositedChqs {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.mat-column-ReturnedChqs {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+}
+
+.mat-column-SettledChqs {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+i {
+  margin-right: 15%;
+}
+
+.green-color {
+  color: green;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+::ng-deep .cdk-global-overlay-wrapper,
+::ng-deep .cdk-overlay-container {
+  z-index: 9999 !important;
+}/*# sourceMappingURL=cheque-register-summary-report.component.css.map */

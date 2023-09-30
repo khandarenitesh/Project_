@@ -1,0 +1,235 @@
+canvas {
+  display: none;
+}
+
+.actionBtn {
+  font-size: 4em;
+  cursor: pointer;
+}
+
+.ml-10 {
+  margin-left: 10% !important;
+}
+
+ul.links {
+  padding-bottom: 20px;
+}
+
+.preview {
+  max-width: 200px;
+}
+
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.Sort {
+  overflow-x: auto;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 7%;
+  padding-right: 12px;
+}
+
+.mat-column-StockistNo {
+  flex: 0px 0px 6% !important;
+  width: 8%;
+  padding-right: 12px;
+}
+
+.mat-column-StockistName {
+  flex: 0px 0px 10% !important;
+  width: 11%;
+  padding-right: 12px;
+}
+
+.mat-column-LR_ClaimNo {
+  flex: 0px 0px 10% !important;
+  width: 09%;
+  padding-right: 12px;
+}
+
+.mat-column-BatchNo {
+  flex: 0px 0px 10% !important;
+  width: 09%;
+  padding-right: 12px;
+}
+
+.mat-column-ProductName {
+  flex: 0px 0px 10% !important;
+  width: 10%;
+  padding-right: 12px;
+}
+
+.mat-column-ReturnType {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+  padding-right: 12px;
+}
+
+.mat-column-EXP_Date {
+  flex: 0px 0px 10% !important;
+  width: 8%;
+  padding-right: 12px;
+}
+
+.mat-column-Code {
+  flex: 0px 0px 10% !important;
+  width: 6%;
+  padding-right: 12px;
+}
+
+.mat-column-Quantity {
+  flex: 0px 0px 8% !important;
+  width: 7%;
+  padding-right: 12px;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+::ng-deep {
+  .cdk-global-overlay-wrapper,
+  .cdk-overlay-container {
+    z-index: 9999 !important;
+  }
+}
+
+.card-header1 {
+  margin-top: 10px !important;
+  justify-content: space-between !important;
+  align-items: stretch !important;
+  flex-wrap: wrap !important;
+  max-height: 49px !important;
+  padding: 0 2.25rem !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid #eff2f5 !important;
+}
+
+.card-header2 {
+  margin-top: 0px !important;
+  justify-content: space-between !important;
+  align-items: stretch !important;
+  flex-wrap: wrap !important;
+  max-height: 49px !important;
+  padding: 0 2.25rem !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid #eff2f5 !important;
+}
+
+.mat-form-field1 {
+  display: block !important;
+  position: relative !important;
+  flex: auto !important;
+  min-width: 0 !important;
+  width: 300px !important;
+}
+
+.modal-header {
+  display: flex !important;
+  flex-shrink: 0 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0.75rem 1.75rem !important;
+  border-bottom: 1px solid #eff2f5 !important;
+  border-top-left-radius: 0.475rem !important;
+  border-top-right-radius: 0.475rem !important;
+}
+
+.container {
+  position: relative;
+}
+
+.ImageNew {
+  width: 85%;
+  height: 95%;
+}
+
+.camera-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.video {
+  max-width: 50%;
+  max-height: 50%;
+}
+
+.ml {
+  margin-left: 6px;
+}
+
+.label1 {
+  display: inline-block;
+  padding: 10px 5px;
+  font-size: 16px;
+  user-select: none;
+  text-transform: uppercase;
+  letter-spacing: -0.1px;
+  font-family: Lato;
+  color: #666;
+  font-weight: 700;
+}
+
+/* motion-detection.component.css */
+
+.camera-feed {
+  position: relative;
+}
+
+.motion-status {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.green-color {
+  color: green;
+  margin: 0% 5% 0% 0%;
+}
+.clicked-icon {
+  color: red !important;
+  transform: scale(1.2) !important;
+  // transition: all 0.2s;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px !important;
+  margin-top: 4px !important;
+}
+
+tr.mat-header-row {
+    height: 35px !important;
+}

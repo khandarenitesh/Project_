@@ -1,0 +1,96 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ ListTitle }} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="CompanyVendorForm" (ngSubmit)="SaveCompanyVendor()" autocomplete="off">
+            <div class="row">
+                <!-- Company  -->
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Company <span class="text-danger">*</span></mat-label>
+                        <input type="text" placeholder="Company" matInput (ngModelChange)="OnChangeComapny()"
+                            name="Company" (focusout)="companyValidation()" formControlName="Company"
+                            [matAutocomplete]="autoCompanyName">
+                        <mat-autocomplete #autoCompanyName="matAutocomplete" [displayWith]="displayFnCompanyName">
+                            <mat-option *ngFor="let campny of CompanyNameArray | async" [value]="campny">
+                                {{ campny.CompanyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Company.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Company.errors.required"> Please select company </mat-error>
+                    </mat-error>
+                    <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+                        Please select valid Company
+                    </mat-error>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button type="button" (click)="clearForm()"> {{ btnCancelText }} </button> &nbsp;&nbsp;
+                    <button mat-raised-button color="primary" type="submit" [disabled]="IsFlag == false"> {{ pageState }} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2> List View </h2>
+            </div>
+            <div class="col-md-4">
+                <!-- Serach -->
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table mat-table [dataSource]="DataSource" matSort>
+
+            <!-- Checkbox -->
+            <ng-container matColumnDef="Select">
+                <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Select </th>
+                <td mat-cell *matCellDef="let row">
+                    <input type="checkbox" name="Checked" [(ngModel)]="row.Checked" (change)="getCheckboxesData()">
+                </td>
+            </ng-container>
+
+            <!-- Vendor Name -->
+            <ng-container matColumnDef="VendorName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Vendor Name</th>
+                <td mat-cell *matCellDef="let row;"> {{row.VendorName}} </td>
+            </ng-container>
+
+            <!-- Email -->
+            <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Email</th>
+                <td mat-cell *matCellDef="let row;"> {{row.Email}} </td>
+            </ng-container>
+
+            <!-- Contact Number -->
+            <ng-container matColumnDef="ContactNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Contact Number</th>
+                <td mat-cell *matCellDef="let row;"> {{row.ContactNumber}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayed"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayed;"></tr>
+        </table>
+        <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner>
+        <div *ngIf="!DataSource.data.length && !isLoading">
+          <h6 class="noRecordData"> No Record Found </h6>
+        </div>
+        <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[10,15, 20, 30, 50]"></mat-paginator>
+    </div>
+</div>

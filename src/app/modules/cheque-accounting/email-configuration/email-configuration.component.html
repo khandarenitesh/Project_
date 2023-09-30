@@ -1,0 +1,184 @@
+<div class="card">
+    <div class="card-header">
+        <h2> {{ Title }} </h2>
+    </div>
+    <div class="card-body">
+        <form class="vForm" [formGroup]="EmailForm" (ngSubmit)="SaveEmailConfiguration()">
+            <div class="row" style="line-height: 0px;">
+                <div class="col">
+                    <!-- <mat-form-field>
+            <mat-label> Branch <span class="text-danger"> * </span> </mat-label>
+            <mat-select name="Branch" formControlName="Branch">
+              <mat-option *ngFor="let br of BranchList" [value]="br.BranchId">
+                {{ br.BranchName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Branch <span class="text-danger"> * </span> </mat-label>
+                        <input type="text" placeholder="Branch" matInput name="Branch" formControlName="Branch" [matAutocomplete]="auto" (focusout)="branchvalidation()">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayBranch">
+                            <mat-option *ngFor="let br of filteredBranch | async" [value]="br">
+                                {{ br.BranchName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Branch.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Branch.errors.required"> Please select branch </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.Branch.touched && f.Branch.invalid" class="invalid-feedback">
+                        Branch is required
+                    </mat-error> -->
+                    <mat-error *ngIf="InvalidBranch" class="invalid-feedback">
+                        Please select valid branch
+                    </mat-error>
+                </div>
+                
+                <div class="col">
+                    <!-- <mat-form-field>
+            <mat-label> Company <span class="text-danger"> * </span> </mat-label>
+            <mat-select name="Company" formControlName="Company">
+              <mat-option *ngFor="let company of CompanyList" [value]="company.CompanyId">
+                {{ company.CompanyName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Company <span class="text-danger"> * </span></mat-label>
+                        <input type="text" placeholder="Company" matInput name="Company" formControlName="Company" [matAutocomplete]="autoComp" (focusout)="companyvalidation()">
+                        <mat-autocomplete #autoComp="matAutocomplete" [displayWith]="displayCompany">
+                            <mat-option *ngFor="let comp of filteredCompany | async" [value]="comp">
+                                {{ comp.CompanyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Company.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Company.errors.required"> Please select company </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.Company.touched && f.Company.invalid" class="invalid-feedback">
+                        Company is required
+                    </mat-error> -->
+                    <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+                        Please select valid company
+                    </mat-error>
+                </div>
+                <div class="col">
+                    <!-- <mat-form-field>
+            <mat-label>Purpose Of Email <span class="text-danger"> * </span> </mat-label>
+            <mat-select name="Purpose" formControlName="Purpose" (selectionChange)="OnsubmitStage()">
+              <mat-option *ngFor="let purpose of EmailPurposeList" [value]="purpose.PersonId">
+                {{ purpose.PersonName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="submitted && f.Purpose.errors" class="invalid-feedback">
+              <mat-error *ngIf="f.Purpose.errors.required"> Please select purpose </mat-error>
+            </mat-error>
+          </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Purpose Of Email <span class="text-danger"> * </span></mat-label>
+                        <input type="text" placeholder="Purpose Of Email" matInput name="Purpose" formControlName="Purpose" [matAutocomplete]="autoPurpose" (ngModelChange)="OnsubmitStage()" (focusout)="emailvalidation()">
+                        <mat-autocomplete #autoPurpose="matAutocomplete" [displayWith]="displayPurpose">
+                            <mat-option *ngFor="let Purpose of filteredPurpose | async" [value]="Purpose">
+                                {{ Purpose.Name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="submitted && f.Purpose.errors" class="invalid-feedback">
+                        <mat-error *ngIf="f.Purpose.errors.required"> Please select purpose </mat-error>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="submitted === false && f.Purpose.touched && f.Purpose.invalid" class="invalid-feedback">
+                        Purpose is required
+                    </mat-error> -->
+                    <mat-error *ngIf="InvalidPurpose" class="invalid-feedback">
+                        Please select valid purpose
+                    </mat-error>
+                </div>
+            </div>
+            &nbsp;&nbsp;
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>CC Person <span class="text-danger"> * </span> </mat-label>
+                        <mat-select name="CCPerson" formControlName="CCPerson" #select multiple>
+                            <mat-option *ngFor="let objCC of EmailForList" [value]="objCC">
+                                {{ objCC.PersonName }} ({{ objCC.Email }})
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="submitted && f.CCPerson.errors" class="invalid-feedback">
+                            <mat-error *ngIf="f.CCPerson.errors.required"> Please select CC person </mat-error>
+                        </mat-error>
+                        <mat-error *ngIf="submitted === false && f.CCPerson.touched && f.CCPerson.invalid" class="invalid-feedback">
+                            CC person is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button mat-raised-button type="button" (click)="ClearForm()"> Cancel
+                    </button> &nbsp;&nbsp;
+                    <button mat-button mat-raised-button color="primary" class="save-button" type="submit"> Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+&nbsp;&nbsp;
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-5">
+                <h2> List View </h2>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()" placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <mat-table #table [dataSource]="DataSource" #Sort="matSort" matSort>
+                <ng-container matColumnDef="SrNo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Sr. No.
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row;let SrNo = index;">
+                        {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.PersonName }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Email </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.Email}} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                </mat-row>
+            </mat-table>
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40" strokeWidth="5"></mat-progress-spinner>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h5 class="noRecordData"> No Record Found </h5>
+            </div>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+::ng-deep {
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 9999!important;
+    }
+}
+
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095e8;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 2%!important;
+    width: 5%;
+    padding-right: 12px;
+}
+
+.mat-column-InvNo {
+    flex: 0px 0px 8%!important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-InvDate {
+    flex: 0px 0px 10%!important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-CompanyName {
+    flex: 0px 0px 11%!important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-TaxableAmt {
+    flex: 0px 0px 7%!important;
+    width: 8%;
+    padding-right: 12px;
+}
+
+.mat-column-TotalAmt {
+    flex: 0px 0px 8%!important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-PaymentAmt {
+    flex: 0px 0px 7%!important;
+    width: 11%;
+}
+
+.mat-column-RIActions {
+    flex: 0px 0px 6%!important;
+    width: 15%;
+    padding-right: 12px;
+}
+
+.mat-column-PaymentDate {
+    flex: 0px 0px 10%!important;
+    width: 11%;
+    padding-right: 12px;
+}
+
+.mat-column-TDS {
+    flex: 0px 0px 11%!important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-PaymentMode {
+    flex: 0px 0px 8%!important;
+    width: 10%;
+    padding-right: 12px;
+}
+.mat-column-UTRNo {
+    flex: 0px 0px 8%!important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 6%!important;
+    width: 10%;
+    padding-right: 12px;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+.text-area {
+    display: block;
+    position: relative;
+    text-align: left;
+}
+
+i {
+    margin-right: 15%;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

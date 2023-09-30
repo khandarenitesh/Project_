@@ -1,0 +1,182 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Cheque Status Report</h2>
+    </div>
+    <div class="card-body">
+        <form class="vform" [formGroup]="ChequeStatusReportForm" (ngSubmit)="SaveChequeReport()" autocomplete="off">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="picker" [formControl]="FromDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" [min]="FromDate.value" [formControl]="ToDate"
+                            [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <button mat-raised-button class="cancel-buttton" type="button" (click)="clear()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit"> Fetch Data </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8">
+                <h2> {{Title}} </h2>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="searchField" style="margin-right: 2%;">
+                    <span class="GlobalSearch" matPrefix>
+                        <mat-icon>search</mat-icon> &nbsp;
+                    </span>
+                    <input matInput name="searchModel" [(ngModel)]="searchModel" (keyup)="applyFilter()"
+                        placeholder="Search">
+                </mat-form-field>
+            </div>
+        </div>
+        <button title="Export to Excel" mat-raised-button
+            (click)="exporter.exportTable('xlsx', {fileName:'chequeSummaryForMonthlyWeeklyReport', sheet: 'sheet1'})">
+            <i class="fa fa-2x fa-file-excel green-color"></i> Export
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="col-md-12"> <!-- #TABLE-->
+            <!--  Table  -->
+            <div class="Scroll">
+                <table matTableExporter mat-table [dataSource]="DataSource" #Sort="matSort" matSort
+                    #exporter="matTableExporter">
+                    <ng-container matColumnDef="SrNo">
+                        <th mat-header-cell *matHeaderCellDef class="commonHeaderCSS"> Sr. No. </th>
+                        <td mat-cell *matCellDef="let row;let SrNo = index;">
+                            {{ ( SrNo + 1 ) + ( paginator.pageIndex * paginator.pageSize ) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Months">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Months </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.MonthStr }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Stockist
+                            Name </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StockistNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Customer code
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.StockistNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="CityName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> City</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.CityName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BankName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Bank
+                            Name</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.BankName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="StckCityName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Branch Name</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.CityName }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="AccountNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Account No</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.AccountNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ChqNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Cheque No</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.ChqNo }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ChqRcptDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Chq Rcpt Date
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.ChqReceivedDate | date: 'dd/MM/yyyy' }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="InvNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"
+                            style="padding-left: 37px;"> Invoice No</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ (row.InvNo === null) ? '-' : (row.InvNo) }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DueDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"> Due Date </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ ((row.DueDate | date: 'dd/MM/yyyy') === '01/01/1900') ? '-' : (row.DueDate | date:
+                            'dd/MM/yyyy') }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ChqAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS"
+                            style="padding-left: 18px;">Amount </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ (row.ChqAmount === 0.0) ? '-' : (row.ChqAmount)}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ChqRemark">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="commonHeaderCSS">Remarks </th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ (row.ChqRemark === ",,") ? '-' : (row.ChqRemark)}}
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="ChequeSmmaryReportColumns"></tr>
+                    <tr mat-row class="example-element-row" *matRowDef="let row; columns: ChequeSmmaryReportColumns;">
+                    </tr>
+                </table>
+            </div>
+
+            <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+                strokeWidth="5"></mat-progress-spinner>
+
+            <div *ngIf="!DataSource.data.length && !isLoading">
+                <h6 class="noRecordData"> No Record Found </h6>
+            </div>
+
+            <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+        </div>
+    </div>
+</div>

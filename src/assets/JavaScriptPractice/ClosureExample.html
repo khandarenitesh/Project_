@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Closure is javascript features that allows inner functions to access the outer scope of a function</title>
+</head>
+
+<body>
+  <script>
+    let x = 1;
+
+    const ParentFunction = () => {
+      let myValue = 2;
+      console.log('function scope ', myValue);
+      console.log('global scope', x);
+
+      const ChildFunction = () => {
+        console.log('parentFun', myValue += 1);
+        console.log('GlobalVariable', x += 5);
+      }
+
+      return ChildFunction;
+    }
+    // const result = ParentFunction();
+    // console.log(result);
+    // result();
+    // result();
+
+    //IIFE (immediately invoked function expression):
+
+    const privateCounter = (()=>{
+      let count = 0;
+      console.log(`initial value: ${count}`);
+      return () => { count += 1;
+      console.log(count);
+      }
+    })
+
+    privateCounter();
+    privateCounter();
+    privateCounter();
+    privateCounter();
+  </script>
+</body>
+
+</html>

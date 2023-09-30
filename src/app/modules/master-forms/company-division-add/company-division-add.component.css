@@ -1,0 +1,69 @@
+.cancel-buttton {
+  margin-right: 5%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-SrNo {
+  flex: 0px 0px 10% !important;
+  width: 15%;
+}
+
+.mat-column-DivisionCode {
+  flex: 0px 0px 6% !important;
+  width: 15%;
+}
+
+.mat-column-DivisionName {
+  flex: 0px 0px 10% !important;
+  width: 15%;
+}
+
+.mat-column-Floor {
+  flex: 0px 0px 10% !important;
+  width: 11%;
+}
+
+.mat-column-ColdStorage {
+  flex: 0px 0px 10% !important;
+  width: 11%;
+}
+
+.mat-column-Status {
+  flex: 0px 0px 10% !important;
+  width: 11%;
+}
+
+.mat-column-Actions {
+  flex: 0px 0px 10% !important;
+  width: 15%;
+}
+
+.selectionList {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.align-items-center {
+  padding-top: 5px;
+}
+
+i {
+  margin-right: 5%;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}/*# sourceMappingURL=company-division-add.component.css.map */

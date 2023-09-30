@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merging Arrays </title>
+</head>
+
+<body>
+  <script>
+    const numbers = [1, 2, 3, 4, 5];
+    document.write("<br>", numbers);
+    document.write("<br> <br>", ...numbers);
+
+    const num1Arr = [1, 2, 3];
+    const num2Arr = [4, 5, 6];
+    const resultStored = [...num1Arr, ...num2Arr];
+    document.write("<br> <br>", ...resultStored);
+
+    const mergedArray = num1Arr.concat(num2Arr);
+    document.write("<br> merged 1 array is -  <br>", ...mergedArray);
+
+    const mergedArray2 = numbers.concat(num1Arr, num2Arr, resultStored);
+    document.write("<br> merged 2 array is <br>", ...mergedArray2);
+
+
+
+    let numArr1 = [1, 2, 3];
+    let numArr2 = [4, 5, 6];
+
+    let numArr = mergeArray(numArr1, numArr2)
+
+    console.log(numArr)     //[ 1, 2, 3, 4, 5, 6 ]
+
+    function mergeArray(first, second) {
+      for (let i = 0; i < second.length; i++) {
+        //You can run custom logic here
+        //We are pushing into the existing array. You can also create a new array
+        first.push(second[i]);
+      }
+      return numArr1;
+    }
+
+
+
+  </script>
+</body>
+
+</html>

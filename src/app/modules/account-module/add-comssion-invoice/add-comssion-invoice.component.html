@@ -1,0 +1,176 @@
+<!-- Commsion Invoice Add -->
+<div class="card">
+  <div class="card-header">
+    <h2> {{ CommInvoiceMsg }} </h2>
+  </div>
+
+  <div class="card-body">
+    <form class="vForm" [formGroup]="ComInvoiceForm" (ngSubmit)="SaveCommInvoice()" autocomplete="off">
+      <!-- 1st Row -->
+      <div class="row">
+        <!-- Invoice Number -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Invoice Number <span class="text-danger"> * </span> </mat-label>
+            <input matInput type="text" placeholder="Invoice Number" name="InvoiceNumber"
+              formControlName="InvoiceNumber" />
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.InvoiceNumber.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.InvoiceNumber.errors.required"> Invoice number is required </mat-error>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.InvoiceNumber.touched && f.InvoiceNumber.invalid"
+            class="invalid-feedback">
+            Invoice number is required
+          </mat-error>
+        </div>
+        <!-- Invoice Date -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Invoice Date <span class="text-danger"> * </span></mat-label>
+            <input matInput [matDatepicker]="picker" name="InvoiceDate" formControlName="InvoiceDate" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.InvoiceDate.errors" class="invalid-feedback">
+            <span *ngIf="f.InvoiceDate.errors.required"> Please select Invoice Date </span>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.InvoiceDate.touched && f.InvoiceDate.invalid"
+            class="invalid-feedback">
+            Please select Invoice Date
+          </mat-error>
+        </div>
+        <!-- Invoice Type -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Invoice Type <span class="text-danger"> * </span></mat-label>
+            <input type="text" placeholder="Invoice Type" matInput name="InvType" formControlName="InvType"
+              [matAutocomplete]="autoInvType" (focusout)="InvTypeValidation()">
+            <mat-autocomplete #autoInvType="matAutocomplete" [displayWith]="displayFnInvType">
+              <mat-option *ngFor="let option of filteredOptInvType | async" [value]="option">
+                {{ option.MasterName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.InvType.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.InvType.errors.required"> Please select Invoice Type </mat-error>
+          </mat-error>
+          <mat-error *ngIf="InvalidInvType" class="invalid-feedback">
+            Please select valid Invoice Type
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.InvType.touched && f.InvType.invalid" class="invalid-feedback">
+            Please select Invoice Type
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Company Name -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Company <span class="text-danger"> * </span> </mat-label>
+            <input type="text" placeholder="Company Name" matInput name="CompanyName" formControlName="CompanyName"
+              [matAutocomplete]="autoCompanyName" (focusout)="companyValidation()" (ngModelChange)="OnChangeCompany()">
+            <mat-autocomplete #autoCompanyName="matAutocomplete" [displayWith]="displayFnCompanyName">
+              <mat-option *ngFor="let campny of CompanyNameArray | async" [value]="campny">
+                {{ campny.CompanyName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.CompanyName.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.CompanyName.errors.required"> Please select company </mat-error>
+          </mat-error>
+          <mat-error *ngIf="InvalidCompany" class="invalid-feedback">
+            Please select valid Company
+          </mat-error>
+        </div>
+        <!--Company City  -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Company City <span class="text-danger"> * </span> </mat-label>
+            <input type="text" placeholder="Company City" matInput name="CompanyCity" formControlName="CompanyCity">
+          </mat-form-field>
+        </div>
+        <!-- Company Address -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Company Address </mat-label>
+            <textarea matInput placeholder="CompanyAddress" name="CompanyAddress" formControlName="CompanyAddress">
+            </textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <!--Description -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Description </mat-label>
+            <textarea matInput placeholder="Description" name="Description" formControlName="Description">
+            </textarea>
+          </mat-form-field>
+        </div>
+        <!-- Tax Type -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label> Tax Type <span class="text-danger">*</span></mat-label>
+            <input type="text" placeholder="Tax Type" matInput name="TaxType" formControlName="TaxType"
+              [matAutocomplete]="autoTaxType" (focusout)="TaxTypeValidation()" (ngModelChange)="SetGSTValue($event)">
+            <mat-autocomplete #autoTaxType="matAutocomplete" [displayWith]="displayFnTaxType">
+              <mat-option *ngFor="let TaxType of GSTTypeFilterList | async" [value]="TaxType">
+                {{ TaxType.GSTType }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <!-- Taxable Amount -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Taxable Amount <span class="text-danger"> * </span> </mat-label>
+            <input matInput type="text" placeholder="Taxable Amount" name="TaxableAmount"
+              formControlName="TaxableAmount" (blur)="TaxCal()" (keypress)="numberValidation($event)"
+              maxlength="15" pattern="\d*" />
+          </mat-form-field>
+          <mat-error *ngIf="submitted && f.TaxableAmount.errors" class="invalid-feedback">
+            <mat-error *ngIf="f.TaxableAmount.errors.required"> Taxable Amount is required </mat-error>
+          </mat-error>
+          <mat-error *ngIf="submitted === false && f.TaxableAmount.touched && f.TaxableAmount.invalid"
+            class="invalid-feedback">
+            Taxable Amount is required
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <!-- CGST -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> CGST {{ CGSTValue }} % </mat-label>
+            <input matInput type="text" name="CGST" formControlName="CGST" />
+          </mat-form-field>
+        </div>
+        <!-- SGST -->
+        <div class="col">
+          <mat-form-field>
+            <mat-label> SGST {{ SGSTValue }} % </mat-label>
+            <input matInput type="text" name="SGST" formControlName="SGST" />
+          </mat-form-field>
+        </div>
+        <!-- Total Amount -->
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Total Amount <span class="text-danger"> * </span> </mat-label>
+            <input matInput type="text" placeholder="TotalAmt" name="TotalAmt" formControlName="TotalAmt" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Save and Cancel-->
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col">
+          <button mat-raised-button class="cancel-buttton" type="submit" (click)="redirect()"> {{
+            btnCancelText }}
+          </button> &nbsp;&nbsp;
+          <button mat-raised-button color="primary" type="submit"> {{ pageState }} </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

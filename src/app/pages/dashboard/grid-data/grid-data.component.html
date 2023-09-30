@@ -1,0 +1,30 @@
+<!-- <div class="card">
+  <div class="card-body">
+    <div class="card-header">
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="example-container">
+          <mat-table mat-table #table [dataSource]="DataSource" style="width: 175% !important;">
+            <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+              <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+              <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="DynamicalydisplayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: DynamicalydisplayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+        <mat-progress-spinner *ngIf="isLoading" class="spin" color="primary" mode="indeterminate" diameter="40"
+          strokeWidth="5"></mat-progress-spinner>
+
+        <div *ngIf="!DataSource.data.length && !isLoading">
+          <h6 class="noRecordData"> No Record Found </h6>
+        </div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[20,30,40,50]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<app-observable-practice></app-observable-practice>

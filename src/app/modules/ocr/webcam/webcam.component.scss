@@ -1,0 +1,41 @@
+.button {
+  color: white;
+  background-color: rgb(151, 54, 207);
+  padding: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+ul.links {
+  padding-bottom: 10px;
+}
+.actionBtn {
+  font-size: 4em;
+  cursor: pointer;
+}
+
+.snapshot {
+  text-align: center;
+  img {
+    max-width: 800px;
+    max-height: 800px;
+  }
+}
+
+// ul.links {
+//   padding-bottom: 20px;
+// }
+
+.row {
+  display: flex;
+}
+
+.row > div {
+  flex: 1;
+}

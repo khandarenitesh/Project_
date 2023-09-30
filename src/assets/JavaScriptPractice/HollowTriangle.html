@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hollow Triangle</title>
+</head>
+<body>
+  <script>
+    let i,j,n=5,result="";
+    for(i=0;i<=n;i++){
+      for(j=0;j<n;j++){
+        if(i===n){
+          result +="*";
+        }else{
+          if(j==0 || j===i){
+            result +="*"
+          }else{
+            result +=" ";
+          }
+        }
+      }
+      result +="\n";
+    }
+    console.log(result);
+
+
+  </script>
+</body>
+</html>

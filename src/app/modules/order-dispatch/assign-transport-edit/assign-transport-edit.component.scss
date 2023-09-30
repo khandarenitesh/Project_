@@ -1,0 +1,118 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.Scroll {
+    overflow-x: auto;
+}
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 5%;
+    padding-right: 10px;
+}
+
+.mat-column-InvNo {
+    flex: 0px 0px 7% !important;
+    width: 15%;
+    padding-right: 10px;
+}
+
+.mat-column-InvCreatedDate {
+    flex: 0px 0px 8% !important;
+    width: 6%;
+    padding-right: 13px;
+}
+
+.mat-column-StockistNo {
+    flex: 0px 0px 8% !important;
+    width: 5%;
+    padding-right: 13px;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 10% !important;
+    width: 11%;
+    padding-right: 13px;
+}
+
+.mat-column-SoldTo_City {
+    flex: 0px 0px 8% !important;
+    width: 6%;
+    padding-right: 13px;
+}
+
+.mat-column-TransporterName {
+    flex: 0px 0px 10% !important;
+    width: 9%;
+    padding-right: 13px;
+}
+
+.mat-column-PersonName {
+    flex: 0px 0px 8% !important;
+    width: 10%;
+    padding-right: 13px;
+    text-align: center;
+}
+
+.mat-column-TransportModeId {
+    flex: 0px 0px 8% !important;
+    width: 7%;
+    padding-right: 13px;
+}
+
+.mat-column-IsStockTransfer {
+    flex: 0px 0px 8% !important;
+    width: 4%;
+    text-align: center;
+}
+
+.mat-column-IsStockTransfer {
+    flex: 0px 0px 8% !important;
+    width: 5%;
+    text-align: center;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 8% !important;
+    width: 4%;
+    text-align: center;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+i {
+    margin-right: 15%;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: underline !important;
+    color: #3f51b5 !important;
+}
+
+.cancel-buttton {
+    margin-right: 5%;
+}
+
+::ng-deep {
+
+    .cdk-global-overlay-wrapper,
+    .cdk-overlay-container {
+        z-index: 9999 !important;
+    }
+}
+
+.highlightPriority {
+    td {
+        color: rgba(215, 82, 150, 255);
+    }
+}

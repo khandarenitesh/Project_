@@ -1,0 +1,101 @@
+table {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+.Scroll {
+    overflow-x: auto;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #0095E8;
+}
+
+
+.mat-column-SrNo {
+    flex: 0px 0px 10% !important;
+    width: 6%;
+    padding-right: 13px;
+}
+
+.mat-column-StockistNo {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+    padding-right: 13px;
+}
+
+.mat-column-StockistName {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 13px;
+}
+
+.mat-column-Emailid {
+    flex: 0px 0px 10% !important;
+    width: 11%;
+    padding-right: 13px;
+}
+
+.mat-column-MobNo {
+    flex: 0px 0px 10% !important;
+    width: 8%;
+    padding-right: 13px;
+}
+
+.mat-column-TransporterName {
+    flex: 0px 0px 10% !important;
+    width: 10%;
+    padding-right: 13px;
+}
+
+.mat-column-TransporterNo {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 13px;
+}
+
+.mat-column-TransitDays {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 13px;
+}
+
+.mat-column-MasterName {
+    flex: 0px 0px 8% !important;
+    width: 8%;
+    padding-right: 13px;
+}
+
+.mat-column-Actions {
+    flex: 0px 0px 10% !important;
+    width: 6%;
+    text-align: center;
+    padding-right: 13px;
+}
+
+.selectionList {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.align-items-center {
+    padding-top: 5px;
+}
+
+i {
+    margin-right: 15%;
+}
+
+.spin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
